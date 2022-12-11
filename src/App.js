@@ -146,7 +146,8 @@ function generateNodes(baseNode, sourceNodes, destinationNodes) {
       data: {label: baseNode.name},
       position: { x: 0, y: 0 },
       targetPosition: 'left',
-      sourcePosition: 'right'
+      sourcePosition: 'right',
+      width: 1000
     },
     sourceNodes: [],
     destinationNodes: []
@@ -164,7 +165,8 @@ function generateNodes(baseNode, sourceNodes, destinationNodes) {
       data: {label: sourceNode.name},
       position: { x: -400, y: currentY },
       targetPosition: 'right',
-      sourcePosition: 'right'
+      sourcePosition: 'right',
+      width: 1000
     })
     currentId++
     currentY += 100;
@@ -181,7 +183,8 @@ function generateNodes(baseNode, sourceNodes, destinationNodes) {
       data: {label: destinationNode.name},
       position: { x: 400, y: currentY },
       targetPosition: 'left',
-      sourcePosition: 'left'
+      sourcePosition: 'left',
+      width: 1000
     })
     currentId++
     currentY += 100;
@@ -282,10 +285,24 @@ function Flow() {
 
     };
 
+    const updateEdges = (event) => {
+
+      let nodeIds = event.target.parentNode.attributes[3].nodeValue.match(/\d+/g);
+      let sourceId = nodeIds[0];
+      let destinationId = nodeIds[1];
+
+    };
+
     let allNodes = document.querySelectorAll('.react-flow__node');
 
     for (let i=0; i < allNodes.length; i++) {
       allNodes[i].onclick = updateNodes;
+    }
+
+    let allEdges = document.querySelectorAll('.react-flow__edge');
+
+    for (let i=0; i < allEdges.length; i++) {
+      allEdges[i].onclick = updateEdges;
     }
 
   }, [nodes, setNodes, setEdges]);
