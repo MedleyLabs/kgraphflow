@@ -1,6 +1,5 @@
-# React Flow Example App - Create React App
-
-This app was bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app).
+# kgraphflow
+Visualization tools for knowledge graphs
 
 ## Demo video
 
