@@ -3,7 +3,7 @@ Visualization tools for knowledge graphs
 
 ## Demo video
 
-[![Demo video]()](https://vimeo.com/779866705)
+[![Demo video](./public/kgraphflow-home.png)](https://vimeo.com/779866705)
 
 ## Installation
 
