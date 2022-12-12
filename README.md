@@ -30,7 +30,3 @@ npm test
 ```sh
 npm run build
 ```
-
-## Create React App Docs
-
-Please refer to the [Create React App docs](https://facebook.github.io/create-react-app/docs/getting-started) for more information.
