@@ -1,37 +1,123 @@
-import { useEffect, useCallback } from 'react';
+import {useEffect, useCallback, useState} from 'react';
 import ReactFlow, {
-  MiniMap,
   Controls,
   Background,
   ReactFlowProvider,
   useNodesState,
   useEdgesState,
   useReactFlow,
-  addEdge
+  addEdge,
 } from 'reactflow';
 
+import Sidebar from "./Sidebar";
+
 import 'reactflow/dist/style.css';
+import './sidebar.css'
 
 const kGraph = {
 
   nodes: [
-    {id: 1, name: 'Amygdala'},
-    {id: 2, name: 'Olfactory bulb'},
-    {id: 3, name: 'Prefrontal cortex'},
-    {id: 4, name: 'Lateral parabrachial nucleus'},
-    {id: 5, name: 'Hypothalamus'},
-    {id: 6, name: 'Nucleus accumbens'},
-    {id: 7, name: 'Thalamus'},
-    {id: 8, name: 'Insular cortex'},
-    {id: 9, name: 'Anterior cingulate cortex'},
-    {id: 10, name: 'Hippocampus'},
-    {id: 11, name: 'Primary somatosensory cortex'},
-    {id: 12, name: 'Secondary somatosensory cortex'},
-    {id: 13, name: 'Spinal trigeminal nucleus'},
-    {id: 14, name: 'Solitary nucleus'},
-    {id: 15, name: 'Spinal cord'},
-    {id: 16, name: 'Primary visual cortex'},
-    {id: 17, name: 'Primary auditory cortex'},
+    { id: 1,
+      name: 'Amygdala',
+      locationDescription: 'The amygdala is one of two almond-shaped clusters of nuclei located deep and medially within the temporal lobes.',
+      functionDescription: 'The amygdala performs a primary role in the processing of memory, decision making, and emotional responses (including fear, anxiety, and aggression).',
+    },
+    {
+      id: 2,
+      name: 'Olfactory bulb',
+      locationDescription: '',
+      functionDescription: '',
+    },
+    {
+      id: 3,
+      name: 'Prefrontal cortex',
+      locationDescription: 'The prefrontal cortex is the front part of the frontal lobe of the cerebral cortex.',
+      functionDescription: 'The basic activity of the prefrontal cortex is considered to be orchestration of thoughts and actions in accordance with internal goals.',
+    },
+    {
+      id: 4,
+      name: 'Lateral parabrachial nucleus',
+      locationDescription: '',
+      functionDescription: '',
+    },
+    {
+      id: 5,
+      name: 'Hypothalamus',
+      locationDescription: '',
+      functionDescription: '',
+    },
+    {
+      id: 6,
+      name: 'Nucleus accumbens',
+      locationDescription: '',
+      functionDescription: '',
+    },
+    {
+      id: 7,
+      name: 'Thalamus',
+      locationDescription: 'The thalamus is a paired structure of gray matter located in the forebrain.',
+      functionDescription: 'The thalamus has several functions, such as the relaying of sensory signals, including motor signals to the cerebral cortex and the regulation of consciousness, sleep, and alertness.',
+    },
+    {
+      id: 8,
+      name: 'Insular cortex',
+      locationDescription: '',
+      functionDescription: '',
+    },
+    {
+      id: 9,
+      name: 'Anterior cingulate cortex',
+      locationDescription: '',
+      functionDescription: '',
+    },
+    {
+      id: 10,
+      name: 'Hippocampus',
+      locationDescription: '',
+      functionDescription: '',
+    },
+    {
+      id: 11,
+      name: 'Primary somatosensory cortex',
+      locationDescription: '',
+      functionDescription: '',
+    },
+    {
+      id: 12,
+      name: 'Secondary somatosensory cortex',
+      locationDescription: '',
+      functionDescription: '',
+    },
+    {
+      id: 13,
+      name: 'Spinal trigeminal nucleus',
+      locationDescription: '',
+      functionDescription: '',
+    },
+    {
+      id: 14,
+      name: 'Solitary nucleus',
+      locationDescription: '',
+      functionDescription: '',
+    },
+    {
+      id: 15,
+      name: 'Spinal cord',
+      locationDescription: '',
+      functionDescription: '',
+    },
+    {
+      id: 16,
+      name: 'Primary visual cortex',
+      locationDescription: '',
+      functionDescription: '',
+    },
+    {
+      id: 17,
+      name: 'Primary auditory cortex',
+      locationDescription: '',
+      functionDescription: '',
+    },
   ],
 
   edges: [
@@ -61,10 +147,11 @@ const kGraph = {
     {id: 24, sourceId: 17, destinationId: 7},
     {id: 25, sourceId: 7, destinationId: 16},
     {id: 26, sourceId: 7, destinationId: 17},
-  ]
+  ],
+
 };
 
-function getNode(nodeId) {
+function getKGraphNode(nodeId) {
 
   let result = null;
 
@@ -138,7 +225,9 @@ function getDestinationNodes(nodeId) {
   return destinationNodes
 }
 
-function generateNodes(baseNode, sourceNodes, destinationNodes) {
+function generateNodesDict(baseNode, sourceNodes, destinationNodes) {
+
+  const defaultNodeWidth = 220;
 
   let nodes = {
     baseNode: {
@@ -147,7 +236,7 @@ function generateNodes(baseNode, sourceNodes, destinationNodes) {
       position: { x: 0, y: 0 },
       targetPosition: 'left',
       sourcePosition: 'right',
-      width: 1000
+      style: {width: defaultNodeWidth, borderColor: 'black'}
     },
     sourceNodes: [],
     destinationNodes: []
@@ -166,7 +255,7 @@ function generateNodes(baseNode, sourceNodes, destinationNodes) {
       position: { x: -400, y: currentY },
       targetPosition: 'right',
       sourcePosition: 'right',
-      width: 1000
+      style: {width: defaultNodeWidth, borderColor: 'black'}
     })
     currentId++
     currentY += 100;
@@ -184,7 +273,7 @@ function generateNodes(baseNode, sourceNodes, destinationNodes) {
       position: { x: 400, y: currentY },
       targetPosition: 'left',
       sourcePosition: 'left',
-      width: 1000
+      style: {width: defaultNodeWidth, borderColor: 'black'}
     })
     currentId++
     currentY += 100;
@@ -193,40 +282,40 @@ function generateNodes(baseNode, sourceNodes, destinationNodes) {
   return nodes
 }
 
-function transformNodes(nodes) {
+function generateNodes(nodesDict) {
 
-  let transformedNodes = [];
+  let nodes = [];
 
-  transformedNodes.push(nodes.baseNode)
+  nodes.push(nodesDict.baseNode)
 
-  for (let sourceNode of nodes.sourceNodes) {
-    transformedNodes.push(sourceNode)
+  for (let sourceNode of nodesDict.sourceNodes) {
+    nodes.push(sourceNode)
   }
 
-  for (let destinationNode of nodes.destinationNodes) {
-    transformedNodes.push(destinationNode)
+  for (let destinationNode of nodesDict.destinationNodes) {
+    nodes.push(destinationNode)
   }
 
-  return transformedNodes
+  return nodes
 }
 
-function generateEdges(transformedNodes) {
+function generateEdges(nodesDict) {
 
   let edges = [];
 
-   for (let sourceNode of transformedNodes.sourceNodes) {
+   for (let sourceNode of nodesDict.sourceNodes) {
     edges.push({
-      id: `e${sourceNode.id}-${baseNode.id}`,
+      id: `e${sourceNode.id}-${nodesDict.baseNode.id}`,
       source: sourceNode.id.toString(),
-      target: baseNode.id.toString(),
+      target: nodesDict.baseNode.id.toString(),
       animated: true
     })
   }
 
-  for (let destinationNode of transformedNodes.destinationNodes) {
+  for (let destinationNode of nodesDict.destinationNodes) {
     edges.push({
-      id: `e${baseNode.id}-${destinationNode.id}`,
-      source: baseNode.id.toString(),
+      id: `e${nodesDict.baseNode.id}-${destinationNode.id}`,
+      source: nodesDict.baseNode.id.toString(),
       target: destinationNode.id.toString(),
       animated: true
     })
@@ -236,16 +325,20 @@ function generateEdges(transformedNodes) {
 
 }
 
-let baseNodeId = 1;
-let baseNode = getNode(baseNodeId);
-let sourceNodes = getSourceNodes(baseNodeId);
-let destinationNodes = getDestinationNodes(baseNodeId);
-
-const rawNodes = generateNodes(baseNode, sourceNodes, destinationNodes);
-const initialNodes = transformNodes(rawNodes);
-const initialEdges = generateEdges(rawNodes);
-
 function Flow() {
+
+  const defaultBaseNodeId = 1;
+  const defaultZoom = 0.9;
+  const defaultXOffset = 100;
+
+  const [baseNode, setBaseNode] = useState(getKGraphNode(defaultBaseNodeId));
+  const [sourceNodes, setSourceNodes] = useState(getSourceNodes(defaultBaseNodeId));
+  const [destinationNodes, setDestinationNodes] = useState(getDestinationNodes(defaultBaseNodeId));
+
+  const nodesDict = generateNodesDict(baseNode, sourceNodes, destinationNodes);
+  const initialNodes = generateNodes(nodesDict);
+  const initialEdges = generateEdges(nodesDict);
+
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
@@ -254,7 +347,7 @@ function Flow() {
   const { setCenter } = useReactFlow();
 
   useEffect(() => {
-    setCenter(0, 0, {'zoom': 1});
+    setCenter(defaultXOffset, 0, {'zoom': defaultZoom});
   }, [setCenter]);
 
   useEffect(() => {
@@ -270,26 +363,56 @@ function Flow() {
         }
       }
 
-      let baseNode = getNode(baseNodeId);
+      let baseNode = getKGraphNode(baseNodeId);
       let sourceNodes = getSourceNodes(baseNodeId);
       let destinationNodes = getDestinationNodes(baseNodeId);
 
-      const rawNodes = generateNodes(baseNode, sourceNodes, destinationNodes);
-      const initialNodes = transformNodes(rawNodes);
-      const initialEdges = generateEdges(rawNodes);
+      const nodesDict = generateNodesDict(baseNode, sourceNodes, destinationNodes);
+      const initialNodes = generateNodes(nodesDict);
+      const initialEdges = generateEdges(nodesDict);
 
+      setBaseNode(baseNode);
       setNodes(initialNodes);
+      setSourceNodes(sourceNodes);
+      setDestinationNodes(destinationNodes);
       setEdges(initialEdges);
 
-      setCenter(0, 0, {'zoom': 1});
+      setCenter(defaultXOffset, 0, {zoom: defaultZoom})
 
     };
 
-    const updateEdges = (event) => {
+    const examineEdge = (event) => {
 
       let nodeIds = event.target.parentNode.attributes[3].nodeValue.match(/\d+/g);
       let sourceId = nodeIds[0];
       let destinationId = nodeIds[1];
+
+      for (let node of nodes) {
+        node.style.borderColor = 'black';
+      }
+
+      let nodesCopy = JSON.parse(JSON.stringify(nodes));
+
+      for (let node of nodesCopy) {
+        if (node.id === sourceId) {
+          node.style.borderColor = 'red';
+          break
+        }
+      }
+
+      for (let node of nodesCopy) {
+        if (node.id === destinationId) {
+          node.style.borderColor = 'red';
+          node.name = 'AOHJAIOSA'
+          break
+        }
+      }
+
+      console.log('nodes', nodesCopy)
+
+      setNodes(nodesCopy);
+
+      setCenter(defaultXOffset, 0, {zoom: defaultZoom})
 
     };
 
@@ -302,31 +425,39 @@ function Flow() {
     let allEdges = document.querySelectorAll('.react-flow__edge');
 
     for (let i=0; i < allEdges.length; i++) {
-      allEdges[i].onclick = updateEdges;
+      allEdges[i].onclick = examineEdge;
     }
 
   }, [nodes, setNodes, setEdges]);
 
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
-    >
-      <MiniMap />
-      <Controls />
-      <Background />
-    </ReactFlow>
+    <div className="reactflow-wrapper">
+      <Sidebar
+        header={baseNode.name}
+        locationDescription={baseNode.locationDescription}
+        functionDescription={baseNode.functionDescription}
+      />
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+      >
+        <Controls />
+        <Background />
+      </ReactFlow>
+    </div>
   );
 }
 
 function FlowWithProvider(props) {
   return (
-    <ReactFlowProvider>
-      <Flow {...props} />
-    </ReactFlowProvider>
+    <div className="dndflow">
+      <ReactFlowProvider>
+          <Flow {...props} />
+      </ReactFlowProvider>
+    </div>
   );
 }
 
