@@ -16,7 +16,7 @@ function Flow() {
 
   const defaultBaseEntityId = 1;
   const defaultZoom = 0.9;
-  const defaultXOffset = 100;
+  const defaultXOffset = 0;
   const defaultYOffset = 0;
 
   const [baseEntity, setBaseEntity] = useState(getEntity(defaultBaseEntityId));
