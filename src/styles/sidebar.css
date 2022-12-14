@@ -53,3 +53,8 @@
   font-style: italic;
   margin-bottom: 30px;
 }
+
+a {
+  color: dodgerblue;
+  text-decoration: none;
+}
