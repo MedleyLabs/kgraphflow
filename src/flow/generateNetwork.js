@@ -4,16 +4,17 @@ import generateEdges from './generateEdges.js';
 function generateNetwork(baseEntity, inputEntities, outputEntities) {
 
   const defaultNodeWidth = 220;
+  const defaultBaseNodeWidth = 400;
 
   let baseNode = {
       id: '1',
       entityId: baseEntity.id,
       name: baseEntity.name,
       data: {label: baseEntity.name},
-      position: { x: 0, y: 0 },
+      position: { x: -defaultBaseNodeWidth/2, y: 0 },
       targetPosition: 'left',
       sourcePosition: 'right',
-      style: {width: defaultNodeWidth, borderColor: 'black'},
+      style: {width: defaultBaseNodeWidth, borderColor: 'black'},
       content: baseEntity.content,
   };
 
@@ -32,7 +33,7 @@ function generateNetwork(baseEntity, inputEntities, outputEntities) {
       entityId: inputEntity.id,
       name: inputEntity.name,
       data: {label: inputEntity.name},
-      position: { x: -400, y: currentY },
+      position: { x: -defaultBaseNodeWidth/2 - defaultNodeWidth - 200, y: currentY },
       targetPosition: 'right',
       sourcePosition: 'right',
       style: {width: defaultNodeWidth, borderColor: 'black'},
@@ -53,7 +54,7 @@ function generateNetwork(baseEntity, inputEntities, outputEntities) {
       entityId: outputEntity.id,
       name: outputEntity.name,
       data: {label: outputEntity.name},
-      position: { x: 400, y: currentY },
+      position: { x: defaultBaseNodeWidth/2 + 200, y: currentY },
       targetPosition: 'left',
       sourcePosition: 'left',
       style: {width: defaultNodeWidth, borderColor: 'black'},
