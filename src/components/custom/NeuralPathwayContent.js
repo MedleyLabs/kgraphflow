@@ -1,7 +1,7 @@
 import React from 'react';
-import SidebarSection from './SidebarSection.js';
+import SidebarSection from '../SidebarSection.js';
 
-function EdgeContent(props) {
+function NeuralPathwayContent(props) {
 
   return (
     <>
@@ -15,4 +15,4 @@ function EdgeContent(props) {
   );
 }
 
-export default EdgeContent;
+export default NeuralPathwayContent;

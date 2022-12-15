@@ -1,15 +1,19 @@
 import {useCallback, useEffect, useState} from 'react';
 import ReactFlow, {addEdge, Background, Controls, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
+
 import getEntity from '../kgraph/getEntity.js';
+import getEntityByName from '../kgraph/getEntityByName.js';
 import getInputEntities from '../kgraph/getInputEntities.js';
 import getOutputEntities from '../kgraph/getOutputEntities.js';
-import NodeContent from './NodeContent.js';
+
 import generateNetwork from '../flow/generateNetwork.js';
 import getNode from '../flow/getNode.js';
 import getEdge from '../flow/getEdge.js';
-import EdgeContent from './EdgeContent.js';
+
 import Sidebar from './Sidebar.js';
-import getEntityByName from '../kgraph/getEntityByName.js';
+import NeuralRegionContent from './custom/NeuralRegionContent';
+import NeuralPathwayContent from './custom/NeuralPathwayContent.js';
+
 import extractDigits from '../util/extractDigits.js';
 
 function Flow() {
@@ -22,7 +26,7 @@ function Flow() {
   const [baseEntity, setBaseEntity] = useState(getEntity(defaultBaseEntityId));
   const [inputEntities, setInputEntities] = useState(getInputEntities(defaultBaseEntityId));
   const [outputEntities, setOutputEntities] = useState(getOutputEntities(defaultBaseEntityId));
-  const [sidebarContent, setSidebarContent] = useState(<NodeContent header={baseEntity.name} content={baseEntity.content}/>);
+  const [sidebarContent, setSidebarContent] = useState(<NeuralRegionContent header={baseEntity.name} content={baseEntity.content}/>);
 
   const [initialNodes, initialEdges] = generateNetwork(baseEntity, inputEntities, outputEntities);
 
@@ -54,7 +58,7 @@ function Flow() {
       setNodes(newNodes);
       setEdges(newEdges);
 
-      setSidebarContent(<NodeContent header={newBaseEntity.name} content={newBaseEntity.content}/>);
+      setSidebarContent(<NeuralRegionContent header={newBaseEntity.name} content={newBaseEntity.content}/>);
 
       setCenter(defaultXOffset, defaultYOffset, {zoom: defaultZoom});
 
@@ -78,7 +82,7 @@ function Flow() {
       setNodes(JSON.parse(JSON.stringify(nodes)));
 
       setSidebarContent(
-        <EdgeContent
+        <NeuralPathwayContent
           sourceName={sourceNode.name}
           targetName={targetNode.name}
           description={edge.description}

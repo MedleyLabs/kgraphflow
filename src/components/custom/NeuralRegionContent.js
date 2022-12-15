@@ -1,7 +1,7 @@
 import React from 'react';
-import SidebarSection from './SidebarSection.js';
+import SidebarSection from '../SidebarSection.js';
 
-function NodeContent(props) {
+function NeuralRegionContent(props) {
 
   return (
     <>
@@ -19,4 +19,4 @@ function NodeContent(props) {
   );
 }
 
-export default NodeContent;
+export default NeuralRegionContent;
