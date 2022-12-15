@@ -1,10 +1,10 @@
-function getElementById(objList, objId) {
+function getElementById(elements, elementId) {
 
   let result = null;
 
-  for (let obj of objList) {
-    if (obj.id == objId) {
-      result = obj;
+  for (let element of elements) {
+    if (element.id == elementId) {
+      result = element;
       break;
     }
   }
