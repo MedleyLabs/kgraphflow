@@ -1,7 +1,7 @@
-import getElement from '../util/getElement.js';
+import getElementById from '../util/getElementById.js';
 
 function getNode(nodes, nodeId) {
-  return getElement(nodes, nodeId);
+  return getElementById(nodes, nodeId);
 }
 
 export default getNode;

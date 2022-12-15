@@ -1,8 +1,8 @@
 import kGraph from './kGraph.js';
-import getElement from '../util/getElement.js';
+import getElementById from '../util/getElementById.js';
 
 function getEntity(entityId) {
-  return getElement(kGraph.entities, entityId);
+  return getElementById(kGraph.entities, entityId);
 }
 
 export default getEntity;
