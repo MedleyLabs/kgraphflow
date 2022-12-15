@@ -1,4 +1,4 @@
-import kGraph from './kGraph.js';
+import kGraph from '../data/kGraph.js';
 import getElementById from '../util/getElementById.js';
 
 function getEntity(entityId) {

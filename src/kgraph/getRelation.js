@@ -1,4 +1,4 @@
-import kGraph from './kGraph.js';
+import kGraph from '../data/kGraph.js';
 
 function getRelation(sourceEntityId, targetEntityId) {
 

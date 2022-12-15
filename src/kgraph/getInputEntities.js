@@ -1,4 +1,4 @@
-import kGraph from './kGraph.js';
+import kGraph from '../data/kGraph.js';
 import getEntity from './getEntity.js';
 import alphabetize from '../util/alphabetize.js';
 
