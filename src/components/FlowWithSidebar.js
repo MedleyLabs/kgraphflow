@@ -1,6 +1,7 @@
-import ReactFlow, {Background, Controls} from 'reactflow';
+import ReactFlow, {Background, Controls, ControlButton} from 'reactflow';
 
 import Sidebar from './Sidebar.js';
+import ExtendedControls from './ExtendedControls.js';
 
 function FlowWithSidebar(props) {
 
@@ -14,7 +15,10 @@ function FlowWithSidebar(props) {
         onEdgesChange={props.onEdgesChange}
         onConnect={props.onConnect}
       >
-        <Controls />
+        <ExtendedControls
+          searchCallback={() => {console.log('Search!')}}
+          settingsCallback={() => {console.log('Settings!')}}
+        />
         <Background />
       </ReactFlow>
     </div>
