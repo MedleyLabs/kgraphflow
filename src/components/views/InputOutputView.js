@@ -14,7 +14,7 @@ import NeuralRegionContent from '../custom/NeuralRegionContent';
 import NeuralPathwayContent from '../custom/NeuralPathwayContent.js';
 
 import extractDigits from '../../util/extractDigits.js';
-import FlowWithSidebar from "../FlowWithSidebar";
+import FlowWithSidebar from '../FlowWithSidebar.js';
 
 function InputOutputView() {
 
@@ -105,7 +105,7 @@ function InputOutputView() {
       allEdges[i].onclick = examineEdge;
     }
 
-  }, [nodes, setNodes, setEdges]);
+  }, [nodes]);
 
   return (
     <FlowWithSidebar

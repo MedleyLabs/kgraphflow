@@ -6,7 +6,7 @@ function FlowWithSidebar(props) {
 
   return (
     <div className='reactflow-wrapper'>
-      <Sidebar content={props.sidebarContent || 'Please define the sidebarContent prop!'}/>
+      <Sidebar content={props.sidebarContent || 'Please define the sidebarContent prop!'} />
       <ReactFlow
         nodes={props.nodes}
         edges={props.edges}
