@@ -1,6 +1,6 @@
 import {useState} from 'react';
 
-import InputOutputView from './views/InputOutput.js';
+import InputOutputView from './views/InputOutputView.js';
 
 const views = {
   inputOutput: <InputOutputView />,
