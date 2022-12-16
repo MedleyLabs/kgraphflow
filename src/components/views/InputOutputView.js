@@ -16,7 +16,7 @@ import NeuralPathwayContent from '../custom/NeuralPathwayContent.js';
 
 import extractDigits from '../../util/extractDigits.js';
 
-function InputOutput() {
+function InputOutputView() {
 
   const defaultBaseEntityId = 1;
   const defaultZoom = 0.9;
@@ -124,4 +124,4 @@ function InputOutput() {
   );
 }
 
-export default InputOutput;
+export default InputOutputView;

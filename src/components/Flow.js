@@ -1,9 +1,9 @@
 import {useState} from 'react';
 
-import InputOutput from './views/InputOutput.js';
+import InputOutputView from './views/InputOutput.js';
 
 const views = {
-  inputOutput: <InputOutput />,
+  inputOutput: <InputOutputView />,
 }
 
 function Flow() {
