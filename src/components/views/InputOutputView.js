@@ -1,5 +1,10 @@
 import {useCallback, useEffect, useState} from 'react';
-import {addEdge, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
+import ReactFlow, {addEdge, Background, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
+
+import Sidebar from '../Sidebar.js';
+import ExtendedControls from '../ExtendedControls.js';
+import NeuralRegionContent from '../custom/NeuralRegionContent';
+import NeuralPathwayContent from '../custom/NeuralPathwayContent.js';
 
 import getEntity from '../../kgraph/getEntity.js';
 import getEntityByName from '../../kgraph/getEntityByName.js';
@@ -10,11 +15,7 @@ import generateNetwork from '../../flow/generateNetwork.js';
 import getNode from '../../flow/getNode.js';
 import getEdge from '../../flow/getEdge.js';
 
-import NeuralRegionContent from '../custom/NeuralRegionContent';
-import NeuralPathwayContent from '../custom/NeuralPathwayContent.js';
-
 import extractDigits from '../../util/extractDigits.js';
-import FlowWithSidebar from '../FlowWithSidebar.js';
 
 function InputOutputView() {
 
@@ -108,14 +109,23 @@ function InputOutputView() {
   }, [nodes]);
 
   return (
-    <FlowWithSidebar
-      sidebarContent={sidebarContent}
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
-    />
+    <div className='reactflow-wrapper'>
+      <Sidebar content={sidebarContent || 'Please define the sidebarContent prop!'} />
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+      >
+        <ExtendedControls
+          filterCallback={() => {console.log('Filter!')}}
+          searchCallback={() => {console.log('Search!')}}
+          settingsCallback={() => {console.log('Settings!')}}
+        />
+        <Background />
+      </ReactFlow>
+    </div>
   );
 }
 
