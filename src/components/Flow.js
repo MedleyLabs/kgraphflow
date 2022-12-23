@@ -1,17 +1,29 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 import InputOutputView from './views/InputOutputView.js';
-
-const views = {
-  inputOutput: <InputOutputView />,
-}
+import WalkthroughView from './views/WalkthroughView.js';
 
 function Flow() {
 
-  const defaultViewType = 'inputOutput';
-  const initialView = views[defaultViewType];
+  const defaultViewType = 'guidedTourView';
 
-  const [view, setView] = useState(initialView);
+  const [viewType, setViewType] = useState(defaultViewType);
+  const [view, setView] = useState(null);
+
+  useEffect(() => {
+
+    console.log('SO CLOSE', viewType)
+
+    const views = {
+      inputOutputView: <InputOutputView viewType={viewType} setViewTypeCallback={setViewType} />,
+      guidedTourView: <WalkthroughView viewType={viewType} setViewTypeCallback={setViewType} />,
+    }
+
+    const currentView = views[viewType];
+
+    setView(currentView);
+
+  }, [viewType])
 
   return (
     <div className='reactflow-wrapper'>

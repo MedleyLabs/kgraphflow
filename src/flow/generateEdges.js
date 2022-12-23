@@ -6,6 +6,8 @@ function generateEdges(baseNode, sourceNodes, targetNodes) {
 
   for (let sourceNode of sourceNodes) {
 
+    // TODO Make edges available here
+    // TODO Change to getEdge
     let relation = getRelation(sourceNode.entityId, baseNode.entityId);
 
     edges.push({
@@ -19,6 +21,7 @@ function generateEdges(baseNode, sourceNodes, targetNodes) {
 
   for (let targetNode of targetNodes) {
 
+    // TODO Refactor to use getEdge for module separability
     let relation = getRelation(baseNode.entityId, targetNode.entityId);
 
     edges.push({

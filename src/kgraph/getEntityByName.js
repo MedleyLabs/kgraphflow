@@ -1,10 +1,10 @@
-import kGraph from '../data/kGraph.js';
+import KGraphNeuro from '../data/kGraphNeuro.js';
 
 function getEntityByName(entityName) {
 
   let result = null;
 
-  for (let entity of kGraph.entities) {
+  for (let entity of KGraphNeuro.entities) {
     if (entity.name === entityName) {
         result = entity;
         break;

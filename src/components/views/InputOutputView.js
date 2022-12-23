@@ -17,7 +17,9 @@ import getEdge from '../../flow/getEdge.js';
 
 import extractDigits from '../../util/extractDigits.js';
 
-function InputOutputView() {
+import '../../styles/sidebar.css';
+
+function InputOutputView(props) {
 
   const defaultBaseEntityId = 1;
   const defaultZoom = 0.9;
@@ -37,6 +39,27 @@ function InputOutputView() {
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
 
   const { setCenter } = useReactFlow();
+
+  const updateNodes = (name) => {
+
+    let newBaseEntity = getEntityByName(name);
+    let newInputEntities = getInputEntities(newBaseEntity.id);
+    let newOutputEntities = getOutputEntities(newBaseEntity.id);
+
+    setBaseEntity(newBaseEntity);
+    setInputEntities(newInputEntities);
+    setOutputEntities(newOutputEntities);
+
+    const [newNodes, newEdges] = generateNetwork(newBaseEntity, newInputEntities, newOutputEntities);
+
+    setNodes(newNodes);
+    setEdges(newEdges);
+
+    setSidebarContent(<NeuralRegionContent header={newBaseEntity.name} content={newBaseEntity.content}/>);
+
+    setCenter(defaultXOffset, defaultYOffset, {zoom: defaultZoom});
+
+  };
 
   useEffect(() => {
     setCenter(defaultXOffset, defaultYOffset, {'zoom': defaultZoom});
@@ -75,10 +98,14 @@ function InputOutputView() {
 
       for (let node of nodes) {
         node.style.borderColor = 'black';
+        node.style.borderWidth = '1px';
       }
 
-      sourceNode.style.borderColor = 'red';
-      targetNode.style.borderColor = 'red';
+      sourceNode.style.borderColor = '#4285F4';
+      sourceNode.style.borderWidth = '2px';
+      targetNode.style.borderColor = '#4285F4';
+      targetNode.style.borderWidth = '2px';
+
 
       setNodes(JSON.parse(JSON.stringify(nodes)));
 
@@ -119,9 +146,10 @@ function InputOutputView() {
         onConnect={onConnect}
       >
         <ExtendedControls
-          filterCallback={() => {console.log('Filter!')}}
-          searchCallback={() => {console.log('Search!')}}
-          settingsCallback={() => {console.log('Settings!')}}
+          // filterCallback={() => {console.log('Filter!')}}
+          // searchCallback={() => {updateNodes('Prefrontal Cortex')}}
+          viewType={props.viewType}
+          settingsCallback={props.setViewTypeCallback}
         />
         <Background />
       </ReactFlow>

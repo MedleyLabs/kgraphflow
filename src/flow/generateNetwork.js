@@ -4,7 +4,8 @@ import generateEdges from './generateEdges.js';
 function generateNetwork(baseEntity, inputEntities, outputEntities) {
 
   const defaultNodeWidth = 220;
-  const defaultBaseNodeWidth = 400;
+  const defaultBaseNodeWidth = 220;
+  const defaultEdgeWidth = 220;
 
   let baseNode = {
       id: '1',
@@ -33,7 +34,7 @@ function generateNetwork(baseEntity, inputEntities, outputEntities) {
       entityId: inputEntity.id,
       name: inputEntity.name,
       data: {label: inputEntity.name},
-      position: { x: -defaultBaseNodeWidth/2 - defaultNodeWidth - 200, y: currentY },
+      position: { x: -defaultBaseNodeWidth/2 - defaultNodeWidth - defaultEdgeWidth, y: currentY },
       targetPosition: 'right',
       sourcePosition: 'right',
       style: {width: defaultNodeWidth, borderColor: 'black'},
@@ -54,7 +55,7 @@ function generateNetwork(baseEntity, inputEntities, outputEntities) {
       entityId: outputEntity.id,
       name: outputEntity.name,
       data: {label: outputEntity.name},
-      position: { x: defaultBaseNodeWidth/2 + 200, y: currentY },
+      position: { x: defaultBaseNodeWidth/2 + defaultEdgeWidth, y: currentY },
       targetPosition: 'left',
       sourcePosition: 'left',
       style: {width: defaultNodeWidth, borderColor: 'black'},
@@ -66,6 +67,42 @@ function generateNetwork(baseEntity, inputEntities, outputEntities) {
 
     let nodes = generateNodes(baseNode, sourceNodes, targetNodes);
     let edges = generateEdges(baseNode, sourceNodes, targetNodes);
+
+    // nodes.push({
+    //   id: '100',
+    //   entityId: 23,
+    //   name: 'NAcc Core',
+    //   data: {label: 'NAcc Core'},
+    //   parentNode: '1',
+    //   extent: 'parent',
+    //   targetPosition: 'left',
+    //   sourcePosition: 'right',
+    //   position: { x: 90, y: 50 },
+    //   style: {width: defaultNodeWidth, borderColor: 'black'},
+    //   content: '',
+    // })
+    //
+    // nodes.push({
+    //   id: '101',
+    //   entityId: 24,
+    //   name: 'NAcc Shell',
+    //   data: {label: 'NAcc Shell'},
+    //   parentNode: '1',
+    //   extent: 'parent',
+    //   targetPosition: 'left',
+    //   sourcePosition: 'right',
+    //   position: { x: 90, y: 100 },
+    //   style: {width: defaultNodeWidth, borderColor: 'black'},
+    //   content: '',
+    // })
+    //
+    // edges.push({
+    //   id: `e1-100`,
+    //   source: '1',
+    //   target: '100',
+    //   animated: true,
+    //   description: 'TBD',
+    // })
 
     return [nodes, edges];
 }
