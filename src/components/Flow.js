@@ -12,8 +12,6 @@ function Flow() {
 
   useEffect(() => {
 
-    console.log('SO CLOSE', viewType)
-
     const views = {
       inputOutputView: <InputOutputView viewType={viewType} setViewTypeCallback={setViewType} />,
       guidedTourView: <WalkthroughView viewType={viewType} setViewTypeCallback={setViewType} />,

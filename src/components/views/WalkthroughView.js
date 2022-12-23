@@ -10,6 +10,7 @@ import extractDigits from '../../util/extractDigits.js';
 import '../../styles/sidebar.css';
 
 import {initialNodes, initialEdges, walkthroughSteps} from '../../data/ChronicOrofacialPain.js';
+import SidebarFlow from "../SidebarFlow";
 
 function WalkthroughView(props) {
 
@@ -31,6 +32,10 @@ function WalkthroughView(props) {
     setStepNumber(newStepNumber);
   };
 
+  const finishCallback = () => {
+    setStepNumber(0);
+  };
+
   const [sidebarContent, setSidebarContent] = useState(
     <GuidedTourContent
       stepNumber={stepNumber}
@@ -50,8 +55,6 @@ function WalkthroughView(props) {
   }, [setCenter]);
 
   useEffect(() => {
-
-    console.log('stepNumber', stepNumber)
 
     let allNodes = document.querySelectorAll('.react-flow__node');
 
@@ -89,37 +92,31 @@ function WalkthroughView(props) {
 
     const currentStep = stepNumber > 0 ? walkthroughSteps[stepNumber-1] : null
 
-    console.log('OIAJIOFA', stepNumber)
-
     setSidebarContent(
       <GuidedTourContent
         stepNumber={stepNumber}
+        totalSteps={walkthroughSteps.length}
         title={currentStep ? currentStep.title : 'Overview'}
         description={currentStep ? currentStep.description : 'Chronic orofacial pain is thought to originate from a thalamocortical dysrhythmia. <a href="">[1]</a><a href="">[2]</a><a href="">[3]</a>\\n\\nNociceptive neurons of the spinal trigeminal nucleus exhibit infra-slow calcium bursting, likely due to activation of local glial cells. <a href="">[4]</a><a href="">[5]</a>'}
         backCallback={backCallback}
         nextCallback={nextCallback}
+        finishCallback={finishCallback}
       />
     )
 
   }, [stepNumber]);
 
   return (
-    <div className='reactflow-wrapper'>
-      <Sidebar content={sidebarContent} />
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-      >
-        <ExtendedControls
-          viewType={props.viewType}
-          settingsCallback={props.setViewTypeCallback}
-        />
-        <Background />
-      </ReactFlow>
-    </div>
+    <SidebarFlow
+      nodes={nodes}
+      edges={edges}
+      sidebarContent={sidebarContent}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      viewType={props.viewType}
+      setViewTypeCallback={props.setViewTypeCallback}
+    />
   );
 }
 

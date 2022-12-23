@@ -1,8 +1,6 @@
 import {useCallback, useEffect, useState} from 'react';
-import ReactFlow, {addEdge, Background, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
+import {addEdge, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
 
-import Sidebar from '../Sidebar.js';
-import ExtendedControls from '../ExtendedControls.js';
 import NeuralRegionContent from '../custom/NeuralRegionContent';
 import NeuralPathwayContent from '../custom/NeuralPathwayContent.js';
 
@@ -18,6 +16,7 @@ import getEdge from '../../flow/getEdge.js';
 import extractDigits from '../../util/extractDigits.js';
 
 import '../../styles/sidebar.css';
+import SidebarFlow from "../SidebarFlow";
 
 function InputOutputView(props) {
 
@@ -136,24 +135,16 @@ function InputOutputView(props) {
   }, [nodes]);
 
   return (
-    <div className='reactflow-wrapper'>
-      <Sidebar content={sidebarContent || 'Please define the sidebarContent prop!'} />
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-      >
-        <ExtendedControls
-          // filterCallback={() => {console.log('Filter!')}}
-          // searchCallback={() => {updateNodes('Prefrontal Cortex')}}
-          viewType={props.viewType}
-          settingsCallback={props.setViewTypeCallback}
-        />
-        <Background />
-      </ReactFlow>
-    </div>
+    <SidebarFlow
+      nodes={nodes}
+      edges={edges}
+      sidebarContent={sidebarContent}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      viewType={props.viewType}
+      setViewTypeCallback={props.setViewTypeCallback}
+    />
   );
 }
 
