@@ -1,32 +1,54 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState} from "react";
 
-import InputOutputView from './views/InputOutputView.js';
-import WalkthroughView from './views/WalkthroughView.js';
+import FlowBuilderView from './views/FlowBuilderView.js';
+import FlowExplorerView from './views/FlowExplorerView.js';
+import FlowVisualizerView from './views/FlowVisualizerView.js';
+import SettingsModal from './SettingsModal.js';
+
+import '../styles/sidebar.css';
+import SettingsIcon from './Settings-Icon.png'
 
 function Flow() {
 
-  const defaultViewType = 'guidedTourView';
+  const defaultViewType = 'flowExplorerView';
 
-  const [viewType, setViewType] = useState(defaultViewType);
-  const [view, setView] = useState(null);
+  const views = {
+    flowExplorerView: <FlowExplorerView />,
+    flowBuilderView: <FlowBuilderView />,
+    flowVisualizerView: <FlowVisualizerView />,
+  }
+
+  const [viewName, setViewName] = useState(defaultViewType);
+  const [view, setView] = useState(views[defaultViewType]);
+  const [settingsIsActive, setSettingsIsActive] = useState(false);
 
   useEffect(() => {
+    setView(views[viewName])
+  }, [viewName])
 
-    const views = {
-      inputOutputView: <InputOutputView viewType={viewType} setViewTypeCallback={setViewType} />,
-      guidedTourView: <WalkthroughView viewType={viewType} setViewTypeCallback={setViewType} />,
-    }
-
-    const currentView = views[viewType];
-
-    setView(currentView);
-
-  }, [viewType])
+  const openSettings = () => {
+    setSettingsIsActive(!settingsIsActive);
+  }
 
   return (
-    <div className='reactflow-wrapper'>
-      { view }
-    </div>
+      <>
+        { settingsIsActive
+            ? <SettingsModal
+                callback={(viewName) => {
+                  setViewName(viewName);
+                  setSettingsIsActive(false);
+                }}
+                doneCallback={() => {
+                  setSettingsIsActive(false);
+                }}
+                setViewName={setViewName}
+                viewType={viewName}
+              />
+            : null
+        }
+        <img src={SettingsIcon} alt='Settings' className='settings-icon' onClick={() => openSettings()}/>
+        { view }
+      </>
   );
 }
 

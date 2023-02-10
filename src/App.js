@@ -1,4 +1,14 @@
+import {ReactFlowProvider} from 'reactflow';
 import 'reactflow/dist/style.css';
-import FlowWithProvider from './components/FlowWithProvider.js';
 
-export default FlowWithProvider;
+import Flow from './components/Flow.js';
+
+function App(props) {
+    return (
+        <ReactFlowProvider className='react-flow-with-provider'>
+            <Flow {...props} />
+        </ReactFlowProvider>
+    );
+}
+
+export default App;

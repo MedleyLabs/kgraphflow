@@ -14,32 +14,21 @@
   height: 100%;
 }
 
+.react-flow__node {
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  /*border-width: 1px !important;*/
+  /*border-color: #8a8a8b !important;*/
+}
+
 .sidebar {
   border-right: 1px solid #eee;
   padding: 50px;
   font-size: 16px;
   background: #fcfcfc;
   width: 35%;
-}
-
-.sidebar-header {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 30px;
-}
-
-.sidebar-section {
-  margin-bottom: 40px;
-}
-
-.section-title {
-  font-size: 1.1em;
-  font-weight: bold;
-  margin-bottom: 1em;
-}
-
-.section-description {
-  font-size: 1em;
+  font-family: 'Nunito', sans-serif;
+  overflow-y: scroll;
 }
 
 .content-header {
@@ -57,4 +46,113 @@
 a {
   color: dodgerblue;
   text-decoration: none;
+}
+
+.autocomplete {
+  width: 100%;
+  /*padding: 12px;*/
+}
+
+.autocomplete-searchbar {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.autocomplete-input {
+  font-family: 'Nunito', sans-serif;
+  /*font-size: 14px;*/
+  height: 30px;
+  width: 100%;
+  padding: 2px 12px 2px 12px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.autocomplete-input:focus {
+  border: 1px solid dodgerblue;
+  /*border-radius: 5px 5px 0 0;*/
+  outline: 1px solid dodgerblue;
+}
+
+.autocomplete-img {
+  padding-top: 8px;
+  width: 18px;
+  height: 18px;
+  object-fit: cover;
+  background: transparent;
+  border: none;
+  outline: none;
+  margin-left: -33px;
+}
+
+.suggestions {
+  position: relative;
+  height: 100%;
+  width: calc(100%);
+  margin-top: 0;
+  padding: 6.5px;
+  /*padding-left: 0px;*/
+  border: 1px solid gray;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+}
+
+.suggestion {
+  list-style: none;
+  padding: 2px;
+}
+
+.suggestion-active {
+  list-style: none;
+  padding: 2px;
+  /*text-decoration-line: underline;*/
+  /*text-decoration-color: dodgerblue;*/
+  /*text-decoration-thickness: 2px;*/
+}
+
+.suggestion-active span {
+  list-style: none;
+  border-bottom: 2px solid dodgerblue;
+  text-decoration: none;
+  /*background: #e0e0e0;*/
+}
+
+.settings-icon {
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 1000;
+}
+
+/*.parent-name {*/
+/*  font-family: 'Montserrat', sans-serif;*/
+/*  font-size: 12px;*/
+/*  position: absolute;*/
+/*  top: 285px;*/
+/*  left: 1000px;*/
+/*}*/
+
+.react-flow__node {
+  border: 1px solid gray;
+  border-radius: 3px;
+  box-shadow: none !important;
+}
+
+.react-flow__handle {
+  opacity: 0;
+}
+
+.react-flow__handle-bottom {
+  opacity: 0;
+}
+
+.toggle-symbol {
+  font-size: 14px;
+}
+
+.sidebar-link:hover {
+  color: dodgerblue;
 }

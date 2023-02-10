@@ -10,7 +10,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: 'The amygdala is one of two almond-shaped clusters of nuclei located deep and medially within the temporal lobes.',
-        physiology: 'The amygdala performs a primary role in the processing of memory, decision making, and emotional responses (including fear, anxiety, and aggression).',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -23,7 +22,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -36,7 +34,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: 'The prefrontal cortex is the front part of the frontal lobe of the cerebral cortex.',
-        physiology: 'The basic activity of the prefrontal cortex is considered to be orchestration of thoughts and actions in accordance with internal goals.',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -49,7 +46,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -62,7 +58,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -75,7 +70,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: 'The nucleus accumbens is a region in the basal forebrain rostral to the preoptic area of the hypothalamus.',
-        physiology: 'The nucleus accumbens plays an important role in processing rewarding stimuli, reinforcing stimuli (e.g., food and water), and those which are both rewarding and reinforcing (addictive drugs, sex, and exercise).',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -88,7 +82,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: 'The thalamus is a paired structure of gray matter located in the forebrain.',
-        physiology: 'The thalamus has several functions, such as the relaying of sensory signals, including motor signals to the cerebral cortex and the regulation of consciousness, sleep, and alertness.',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -101,7 +94,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -114,7 +106,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -127,7 +118,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -140,7 +130,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -153,7 +142,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -166,7 +154,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -179,7 +166,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -192,7 +178,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -205,7 +190,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -218,7 +202,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -231,7 +214,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -244,7 +226,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -257,7 +238,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -270,7 +250,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -283,7 +262,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -296,7 +274,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -309,7 +286,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -322,7 +298,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -335,7 +310,6 @@ const KGraphNeuro = {
       type: 'Neural region',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -351,7 +325,6 @@ const KGraphNeuro = {
       type: 'Cell',
       content: {
         location: '',
-        physiology: '',
         cytoarchitecture: '',
         geneExpression: '',
         receptorExpression: '',
@@ -364,8 +337,8 @@ const KGraphNeuro = {
 
     // Peer relations //////////////////////////////////////////////////////////
 
-    {id: 1, sourceId: 2, targetId: 1, type: 'peer', description: '', tags: [] },
-    {id: 2, sourceId: 3, targetId: 1, type: 'peer', description: 'The prefrontal cortex regulates the encoding of threat-related behaviors with regards to the amygdala.' },
+    {id: 1, sourceId: 2, targetId: 1, type: 'peer', description: '' },
+    {id: 2, sourceId: 3, targetId: 1, type: 'peer', description: '' },
     {id: 3, sourceId: 4, targetId: 1, type: 'peer', description: '' },
     {id: 4, sourceId: 1, targetId: 3, type: 'peer', description: '' },
     {id: 5, sourceId: 1, targetId: 4, type: 'peer', description: '' },
