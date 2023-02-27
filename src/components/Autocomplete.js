@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import searchIcon from './search.png';
+import searchIcon from '../assets/search-icon.png';
 
-const AutoComplete = ({ data, setNewNodeName }) => {
+const AutoComplete = ({ data, onEnterCallback, placeholder='Search' }) => {
 
   const [suggestions, setSuggestions] = useState(['Ventral posteromedial nucleus', 'Ventral tegmentum']);
   const [suggestionIndex, setSuggestionIndex] = useState(0);
@@ -49,7 +49,7 @@ const AutoComplete = ({ data, setNewNodeName }) => {
     else if (e.keyCode === 13) {
       setSuggestionIndex(0);
       setSuggestionsActive(false);
-      setNewNodeName(suggestions[suggestionIndex]);
+      onEnterCallback(suggestions[suggestionIndex]);
       setValue('');
     }
   };
@@ -78,7 +78,7 @@ const AutoComplete = ({ data, setNewNodeName }) => {
         <input
             className='autocomplete-input'
             type="text"
-            placeholder='Search'
+            placeholder={placeholder}
             value={value}
             onChange={handleChange}
             onKeyDown={handleKeyDown}

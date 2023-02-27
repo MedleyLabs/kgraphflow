@@ -43,14 +43,14 @@ function NeuralRegionContent(props) {
             <div className='content-header'>🧠 Neural Region</div>
             <div className='content-body'>{props.header || 'TBD'}</div>
             <div className='sidebar-body'>
-                <SidebarSection title='Parents' description={props.content.parents.length > 0 ? mapToLinks(props.content.parents) : 'None specified'}/>
-                <SidebarSection title='Children' description={props.content.children.length > 0 ? mapToLinks(props.content.children): 'None specified'}/>
-                <SidebarSection title='Arterial Supply' description={props.content.arterialSupply.length > 0 ? props.content.arterialSupply : 'None specified'}/>
+                <SidebarSection title='Parents' description={props.content.parents.length > 0 ? mapToLinks(props.content.parents) : 'None specified'} defaultIsOpen={true}/>
+                <SidebarSection title='Children' description={props.content.children.length > 0 ? mapToLinks(props.content.children): 'None specified'} defaultIsOpen={true}/>
+                <SidebarSection title='Arterial Supply' description={props.content.arterialSupply.length > 0 ? mapToLinks(props.content.arterialSupply) : 'None specified'} defaultIsOpen={true}/>
                 {/*<SidebarSection title='⌖ Location' description={props.content && props.content.location || 'TBD' } />*/}
-                <SidebarSection title='Cell Types' description={props.content && props.content.cytoarchitecture || 'TBD'}/>
-                <SidebarSection title='Gene Expression' description={props.content && props.content.geneExpression || 'TBD'}/>
-                <SidebarSection title='Receptor Expression' description={props.content && props.content.receptorExpression || 'TBD'}/>
-                <SidebarSection title='Neurotransmitter Expression' description={props.content && props.neurotransmitterExpression || 'TBD'}/>
+                <SidebarSection title='Cell Types' description={props.content && props.content.cytoarchitecture || 'TBD'} defaultIsOpen={true}/>
+                <SidebarSection title='Gene Expression' description={props.content && props.content.geneExpression || 'TBD'} defaultIsOpen={true}/>
+                <SidebarSection title='Receptor Expression' description={props.content && props.content.receptorExpression || 'TBD'} defaultIsOpen={true}/>
+                <SidebarSection title='Neurotransmitter Expression' description={props.content && props.neurotransmitterExpression || 'TBD'} defaultIsOpen={true}/>
             </div>
         </>
     );

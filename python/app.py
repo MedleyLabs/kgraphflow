@@ -1,3 +1,6 @@
+import os
+import wget
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from owlready2 import (
@@ -8,6 +11,11 @@ from owlready2 import (
 
 app = Flask(__name__)
 CORS(app)
+
+if not os.path.exists('fma.owl'):
+    print('Downloading .owl file for FMA...')
+    url = 'https://data.bioontology.org/ontologies/FMA/submissions/29/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb'
+    wget.download(url)
 
 onto = get_ontology('file://fma.owl').load()
 obo = get_namespace('http://purl.org/sig/ont/fma/')
@@ -72,9 +80,7 @@ def parse_data(entity_name):
 @app.route('/get_data', methods=['POST'])
 def get_data():
     entity_name = request.json.get('entity_name')
-#     print('ENTITY NAME', entity_name)
     data = parse_data(entity_name)
-#     print('DATA', data)
     response = jsonify(data)
     return response
 

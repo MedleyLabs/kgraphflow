@@ -3,29 +3,23 @@ import styled from 'styled-components';
 
 import InfoAvailableIcon from './InfoAvailableIcon.js';
 
-import rightTriangleIcon from './right-triangle-icon.png';
-import downTriangleIcon from './down-triangle-icon.png';
+import rightTriangleIcon from '../assets/triange-right-sharp.png';
+import downTriangleIcon from '../assets/triangle-down-sharp.png';
 
 
 const Section = styled.div`
-  margin-bottom: 40px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 6px;
 `
 
 const SectionHeader = styled.div`
-  margin-bottom: 1em;
-  border-bottom: 1px solid lightgray;
-  padding-bottom: 5px;
+  display: flex;
+  flex-direction: row;
 `
 
-const SectionTitle = styled.span`
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.1em;
-  font-weight: bold;
-`
-
-const SectionBody = styled.div`
-  font-family: 'Nunito', sans-serif;
-  font-size: 1em;
+const SectionColumn = styled.div`
+  flex: 1;
 `
 
 const ToggleIcon = styled.img`
@@ -35,9 +29,21 @@ const ToggleIcon = styled.img`
   transform: translateY(1px);
 `
 
+const SectionTitle = styled.span`
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1em;
+  font-weight: bold;
+`
+
+const SectionBody = styled.div`
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95em;
+`
+
+
 function SidebarSection(props) {
 
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(props.defaultIsOpen);
 
     const toggleCallback = () => {
         setIsOpen(!isOpen)
@@ -46,21 +52,26 @@ function SidebarSection(props) {
     return (
         <Section>
             <SectionHeader onClick={toggleCallback}>
-                <ToggleIcon src={isOpen ? downTriangleIcon : rightTriangleIcon}/>
-                <SectionTitle>{props.title}</SectionTitle>
-                {!isOpen && props.description !== 'TBD' && props.description !== 'None specified'
-                    ? <InfoAvailableIcon style={{transform: "translate(0, 1px)"}}/>
-                    : null
-                }
+                <SectionColumn style={{flex: "0 0 auto"}}>
+                    <ToggleIcon src={isOpen ? downTriangleIcon : rightTriangleIcon}/>
+                </SectionColumn>
+                <SectionColumn style={{}}>
+                    <SectionTitle>{props.title}</SectionTitle>
+                    {!isOpen && props.description !== 'TBD' && props.description !== 'None specified' && !props.suppressIcon
+                        ? <InfoAvailableIcon style={{transform: "translate(0, 1px)"}}/>
+                        : null
+                    }
+                    <SectionBody style={isOpen ? {marginTop: '1em'} : {}}>
+                        {isOpen
+                            ? typeof(props.description) === "string"
+                                ? <div dangerouslySetInnerHTML={{__html: props.description.replaceAll("\\n", "<br/>")}}/>
+                                : <div>{props.description}</div>
+                            : null
+                        }
+                    </SectionBody>
+                    {props.footer}
+                </SectionColumn>
             </SectionHeader>
-            <SectionBody>
-                {isOpen
-                    ? typeof(props.description) === "string"
-                        ? <div dangerouslySetInnerHTML={{__html: props.description.replaceAll("\\n", "<br/>")}}/>
-                        : <div>{props.description}</div>
-                    : null
-                }
-            </SectionBody>
         </Section>
     );
 }

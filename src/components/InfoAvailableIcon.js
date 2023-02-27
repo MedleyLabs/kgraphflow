@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import infoAvailableIcon from './info-available-icon.png'
+import infoAvailableIcon from '../assets/info-available-icon.png'
 
 const Icon = styled.img`
   color: dodgerblue;

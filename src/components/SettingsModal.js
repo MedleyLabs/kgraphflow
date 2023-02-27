@@ -18,13 +18,13 @@ const ModalPane = styled.div`
   background-color: white;
   border: 1px solid #eee;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  width: 320px;
   height: 200px;
   padding: 20px;
   z-index: 10000 !important;
   opacity: 1;
-  top: 10px;
-  right: 50px;
+  top: 4px;
+  right: 10px;
 `
 
 const ModalHeading = styled.h2`

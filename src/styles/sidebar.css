@@ -37,6 +37,11 @@
   margin-bottom: 10px;
 }
 
+.content-h2 {
+  font-size: 1.3em;
+  margin-bottom: 20px;
+}
+
 .content-body {
   font-size: 1.1em;
   font-style: italic;
@@ -118,15 +123,6 @@ a {
   /*background: #e0e0e0;*/
 }
 
-.settings-icon {
-  height: 30px;
-  width: 30px;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  z-index: 1000;
-}
-
 /*.parent-name {*/
 /*  font-family: 'Montserrat', sans-serif;*/
 /*  font-size: 12px;*/
@@ -149,10 +145,10 @@ a {
   opacity: 0;
 }
 
-.toggle-symbol {
-  font-size: 14px;
+.sidebar-link:hover {
+  color: dodgerblue;
 }
 
-.sidebar-link:hover {
+.highlight:hover {
   color: dodgerblue;
 }

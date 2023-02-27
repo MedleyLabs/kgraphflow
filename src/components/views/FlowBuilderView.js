@@ -57,7 +57,7 @@ function FlowBuilderView(props) {
                 <div className='sidebar-body'>
                     <AutoComplete
                         data={autocompleteData}
-                        setNewNodeName={setNewNodeName}
+                        onEnterCallback={setNewNodeName}
                     />
                 </div>
             </>
@@ -73,7 +73,7 @@ function FlowBuilderView(props) {
             id: (nodes.length + 1).toString(),
             name: newNodeName,
             data: {label: newNodeName},
-            position: {x: -500, y: -300},
+            position: {x: -defaultBaseNodeWidth/2, y: -100},
             // position: { x: -defaultBaseNodeWidth/2, y: -100 + 100 * nodes.length },
             // targetPosition: 'left',
             // sourcePosition: 'right',
@@ -83,6 +83,31 @@ function FlowBuilderView(props) {
         setNodes((nds) => nds.concat(newNode))
 
     }, [newNodeName])
+
+    useEffect(() => {
+
+        const handleCallback = (event) => {
+            let position = event.target.dataset.handlepos;
+
+            if (position === 'bottom') {
+
+            } else if (position === 'top') {
+
+            } else {
+                console.error('Invalid handle position for builder view!');
+            }
+
+
+        }
+
+        let handles = document.querySelectorAll('.react-flow__handle');
+
+        for (let handle of handles) {
+            console.log('HANDLE', handle)
+            handle.onclick = handleCallback;
+        }
+
+    }, [nodes])
 
     return (
         <div className='reactflow-wrapper'>
