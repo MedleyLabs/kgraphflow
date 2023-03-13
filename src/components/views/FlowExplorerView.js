@@ -165,7 +165,7 @@ function FlowExplorerView(props) {
         const updateNodes = async (entityName) => {
 
             try {
-                const response = await fetch('http://localhost:5000/get_data', {
+                const response = await fetch('http://localhost:5000/fma/get_data', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
