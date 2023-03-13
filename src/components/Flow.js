@@ -10,7 +10,7 @@ import ProfilePicture from './ProfilePicture.js';
 import SettingsModal from './SettingsModal.js';
 
 import headshot from '../assets/headshot.jpg'
-import logo from '../assets/biologic-human-logo.png'
+import logo from '../assets/molecular-human-logo.png'
 import settingsIcon from '../assets/settings-icon.png'
 
 import '../styles/sidebar.css';
