@@ -1,26 +1,27 @@
-import {useCallback, useEffect, useMemo, useState} from 'react';
+import {useEffect, useState} from 'react';
 import styled from 'styled-components';
-
-import AutoComplete from '../Autocomplete.js';
 
 import {theories} from "../../data/theoriesData";
 import searchIcon from "../../assets/search-icon.png";
-import upvote from '../../assets/triangle-up-rounded.svg';
-import downvote from '../../assets/triangle-down-rounded.svg';
-
 import UpvoteIcon from "../UpvoteIcon";
 import DownvoteIcon from '../DownvoteIcon';
 
 const Table = styled.div`
   font-family: 'Nunito', sans-serif;
-  width: 1050px;
+  width: 1200px;
   margin: auto;
   margin-top: 200px;
 `
 
-const TableTitle = styled.h3`
-  font-family: 'Montserrat', sans-serif;
-  margin-bottom: 30px;
+const TableHeader = styled.span`
+  color: #aeb2b3;
+  margin-right: 20px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+
+  :hover {
+    color: dodgerblue;
+  }
 `
 
 const TableRow = styled.div`
@@ -51,6 +52,7 @@ const HeaderRow = styled.div`
 `
 
 const SearchBar = styled.input`
+  font-family: 'Nunito', sans-serif;
   margin-left: 5px;
   border: 0;
   outline: 0;
@@ -58,22 +60,10 @@ const SearchBar = styled.input`
   color: #6a7072;
 `
 
-const Entry = ({name, authors, lastUpdated}) => {
-
-    return (
-        <TableRow>
-            <TableColumn style={{width: 500}}
-                         className={name !== 'Theory name' ? "highlight" : null}>{name}</TableColumn>
-            <TableColumn style={{width: 350}}>{authors}</TableColumn>
-            <TableColumn style={{width: 200}}>{lastUpdated}</TableColumn>
-        </TableRow>
-    );
-}
-
 function FlowFinderView(props) {
 
     const onEnterCallback = (event) => {
-        let scene = theories.find(item => event === item.name);
+        // let scene = theories.find(item => event === item.name);
         props.setViewName('flowVisualizerView');
     }
 
@@ -100,12 +90,14 @@ function FlowFinderView(props) {
             <Table>
                 {/*<TableTitle>Most recent</TableTitle>*/}
                 <div style={{marginBottom: 20, color: 'gray'}} className="highlight">
-                    <img style={{height: 12, width: 12}} src={searchIcon}/>
+                    <TableHeader>Filter</TableHeader>
+                    <TableHeader>Sort</TableHeader>
+                    <img style={{height: 12, width: 12}} src={searchIcon} alt="Search icon"/>
                     <SearchBar type="text" id="name" name="name" placeholder="Search by keywords" onChange={handleSearch}/>
                 </div>
                 <HeaderRow>
                     <TableRow>
-                        <TableColumn style={{width: 500}}>Theory name<UpvoteIcon/><DownvoteIcon/></TableColumn>
+                        <TableColumn style={{width: 600}}>Theory name<UpvoteIcon/><DownvoteIcon/></TableColumn>
                         <TableColumn style={{width: 350}}>Authors<UpvoteIcon/><DownvoteIcon/></TableColumn>
                         <TableColumn style={{width: 200}}>Last updated<UpvoteIcon/><DownvoteIcon
                             fill="dodgerblue"/></TableColumn>
@@ -114,7 +106,7 @@ function FlowFinderView(props) {
                 {data.map((item) => {
                     return (
                         <TableRow>
-                            <TableColumn style={{width: 500}} className={item.name !== 'Theory name' ? "highlight" : null} onClick={onEnterCallback}>{item.name}</TableColumn>
+                            <TableColumn style={{width: 600}} className={item.name !== 'Theory name' ? "highlight" : null} onClick={onEnterCallback}>{item.name}</TableColumn>
                             <TableColumn style={{width: 350}}>{item.authors.map(author => <Highlighted>{author}</Highlighted>)}</TableColumn>
                             <TableColumn style={{width: 200}}>{item.lastUpdated}</TableColumn>
                         </TableRow>
@@ -125,7 +117,6 @@ function FlowFinderView(props) {
                     <span style={{marginLeft: 20}} className="highlight">+ Start a new theory</span>
                 </TableRow>
             </Table>
-            }
         </>
     );
 }
