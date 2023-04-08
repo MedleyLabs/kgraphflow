@@ -52,7 +52,7 @@ const Explorer = styled.span`
 
 function Flow() {
 
-    const defaultViewType = 'flowTourView';
+    const defaultViewType = 'flowExplorerView';
 
     const [viewName, setViewName] = useState(defaultViewType);
 
