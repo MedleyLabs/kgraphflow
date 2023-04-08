@@ -14,6 +14,9 @@ import Sidebar from '../Sidebar.js';
 import NeuralRegionContent from '../custom/NeuralRegionContent';
 import NeuralPathwayContent from '../custom/NeuralPathwayContent.js';
 
+import TaxonomyWheel from "taxonomy-wheel";
+import taxonomy from "../../data/taxonomyData";
+
 const findNode = (nodes, nodeId) => {
     if (typeof (nodeId) !== "string") {
         nodeId = nodeId.toString();
@@ -98,6 +101,7 @@ function FlowExplorerView(props) {
                 'arterialSupply': viewData.arterial_supply,
                 'children': viewData.children.map(child => child.name),
                 'parents': viewData.parents,
+                'cellTypes': <TaxonomyWheel data={taxonomy} maxDepth={3} radius={150}/>
             }}
             setBaseEntity={setBaseEntity}
         />);
@@ -117,6 +121,7 @@ function FlowExplorerView(props) {
                 'arterialSupply': data.arterial_supply,
                 'children': data.children.map(child => child.name),
                 'parents': data.parents,
+                'cellTypes': <TaxonomyWheel data={taxonomy} maxDepth={3} radius={150}/>
             }}
             setBaseEntity={setBaseEntity}
         />);
@@ -189,6 +194,13 @@ function FlowExplorerView(props) {
                         'arterialSupply': data.arterial_supply,
                         'children': data.children.map(child => child.name),
                         'parents': data.parents,
+                        'cellTypes': (
+                            <>
+                                Source: <a href="https://knowledge.brain-map.org/celltypes/CCN201912131" target="_blank">BICCN Human Primary Motor Cortex Mini-Atlas</a>
+                                <br/><br/>
+                                <TaxonomyWheel data={taxonomy} maxDepth={4} radius={150}/>
+                            </>
+                        ),
                     }}
                     setBaseEntity={setBaseEntity}
                 />);
@@ -213,8 +225,7 @@ function FlowExplorerView(props) {
         };
 
         const unhighlightNodes = (event) => {
-            let nodeId = event.target.dataset.id;
-            unhighlightNodeBorders(nodeId)
+            unhighlightNodeBorders()
         }
 
         for (let node of currentNodes) {
@@ -226,11 +237,13 @@ function FlowExplorerView(props) {
                     setViewData(child);
                     jumpNode(child);
                 }
+                node.onmouseenter = highlightNodes;
+                node.onmouseleave = unhighlightNodes;
             } else {
                 node.onclick = navigateToNode;
+                node.onmouseenter = highlightNodes;
+                node.onmouseleave = unhighlightNodes;
             }
-            node.onmouseenter = highlightNodes;
-            node.onmouseleave = unhighlightNodes;
         }
 
         fitView();

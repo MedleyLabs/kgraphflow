@@ -8,7 +8,9 @@ import downTriangleIcon from '../assets/triangle-down-sharp.png';
 
 
 const Section = styled.div`
-  margin-bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
   border-bottom: 1px solid lightgray;
   padding-bottom: 6px;
 `
@@ -49,11 +51,13 @@ function SidebarSection(props) {
         setIsOpen(!isOpen)
     }
 
+    if (!props.description) return null;
+
     return (
-        <Section>
-            <SectionHeader onClick={toggleCallback}>
+        <Section style={isOpen ? props.style : {}}>
+            <SectionHeader>
                 <SectionColumn style={{flex: "0 0 auto"}}>
-                    <ToggleIcon src={isOpen ? downTriangleIcon : rightTriangleIcon}/>
+                    <ToggleIcon src={isOpen ? downTriangleIcon : rightTriangleIcon} onClick={toggleCallback}/>
                 </SectionColumn>
                 <SectionColumn style={{}}>
                     <SectionTitle>{props.title}</SectionTitle>

@@ -10,7 +10,7 @@ const Table = styled.div`
   font-family: 'Nunito', sans-serif;
   width: 1200px;
   margin: auto;
-  margin-top: 200px;
+  margin-top: 150px;
 `
 
 const TableHeader = styled.span`
@@ -60,6 +60,29 @@ const SearchBar = styled.input`
   color: #6a7072;
 `
 
+const Padding = styled.div`
+  padding: 10px; 
+`
+
+const StarMargin = styled.span`
+  position: relative;
+  top: -1px;
+`
+
+const FillableStar = ({number}) => {
+
+    const [isFilled, setIsFilled] = useState(false);
+
+    return (
+        <span onClick={() => {setIsFilled(!isFilled)}}>
+            { isFilled
+                ? <><StarMargin>★</StarMargin>{(number+1).toString()}</>
+                : <><StarMargin>☆</StarMargin>{number.toString()}</>
+            }
+        </span>
+    )
+}
+
 function FlowFinderView(props) {
 
     const onEnterCallback = (event) => {
@@ -97,15 +120,16 @@ function FlowFinderView(props) {
                 </div>
                 <HeaderRow>
                     <TableRow>
+                        <TableColumn style={{width: 55}}><UpvoteIcon marginLeft={0}/><DownvoteIcon fill="dodgerblue"/></TableColumn>
                         <TableColumn style={{width: 600}}>Theory name<UpvoteIcon/><DownvoteIcon/></TableColumn>
                         <TableColumn style={{width: 350}}>Authors<UpvoteIcon/><DownvoteIcon/></TableColumn>
-                        <TableColumn style={{width: 200}}>Last updated<UpvoteIcon/><DownvoteIcon
-                            fill="dodgerblue"/></TableColumn>
+                        <TableColumn style={{width: 200}}>Last updated<UpvoteIcon/><DownvoteIcon/></TableColumn>
                     </TableRow>
                 </HeaderRow>
                 {data.map((item) => {
                     return (
                         <TableRow>
+                            <TableColumn style={{width: 55}}><FillableStar number={item.stars}/></TableColumn>
                             <TableColumn style={{width: 600}} className={item.name !== 'Theory name' ? "highlight" : null} onClick={onEnterCallback}>{item.name}</TableColumn>
                             <TableColumn style={{width: 350}}>{item.authors.map(author => <Highlighted>{author}</Highlighted>)}</TableColumn>
                             <TableColumn style={{width: 200}}>{item.lastUpdated}</TableColumn>

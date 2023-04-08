@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
 import FlowBuilderView from './views/FlowBuilderView.js';
+import FlowCircuitView from './views/FlowCircuitView.js'
 import FlowExplorerView from './views/FlowExplorerView.js';
 import FlowFinderView from './views/FlowFinderView.js';
 import FlowTourView from './views/FlowTourView.js';
@@ -15,31 +16,49 @@ import settingsIcon from '../assets/settings-icon.png'
 
 import '../styles/sidebar.css';
 
-const SiteLogo = styled.img`
+const MenuBar = styled.div`
   position: absolute;
-  left: 20px;
   top: 15px;
+  right: 50px;
+`
+
+const SiteLogo = styled.img`
+  position: relative;
+  top: 20px;
+  left: 20px;
   height: 50px;
 `
 
 const SettingsIcon = styled.img`
   height: 35px;
   width: 35px;
-  position: absolute;
-  right: 65px;
-  top: 20px;
+  position: relative;
+  right: 10px;
+  top: 0px;
   z-index: 1000;
+`
+
+const Explorer = styled.span`
+  position: relative;
+  right: 30px;
+  top: -12px;
+  font-family: Nunito, sans-serif;
+
+  &:hover {
+    color: dodgerblue;
+  }
 `
 
 
 function Flow() {
 
-    const defaultViewType = 'flowFinderView';
+    const defaultViewType = 'flowTourView';
 
     const [viewName, setViewName] = useState(defaultViewType);
 
     const views = {
         flowBuilderView: <FlowBuilderView/>,
+        flowCircuitView: <FlowCircuitView/>,
         flowExplorerView: <FlowExplorerView/>,
         flowFinderView: <FlowFinderView setViewName={setViewName}/>,
         flowTourView: <FlowTourView/>,
@@ -74,8 +93,16 @@ function Flow() {
                 />
                 : null
             }
-            <SettingsIcon src={settingsIcon} alt='Settings icon' className='settings-icon' onClick={() => openSettings()}/>
-            <ProfilePicture src={headshot} alt='Profile picture' onClick={() => console.log('HEHE')}/>
+            {viewName === 'flowFinderView'
+                ? (
+                    <MenuBar>
+                        <Explorer onClick={() => {setViewName('flowExplorerView');}}>Explorer</Explorer>
+                        <SettingsIcon src={settingsIcon} alt='Settings icon' className='settings-icon' onClick={() => openSettings()}/>
+                        <ProfilePicture src={headshot} alt='Profile picture' onClick={() => console.log('HEHE')}/>
+                    </MenuBar>
+                )
+                : null
+            }
             {view}
         </>
     );

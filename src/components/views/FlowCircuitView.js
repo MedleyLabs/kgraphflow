@@ -4,14 +4,14 @@ import Button from '../Button.js';
 import SidebarSection from '../SidebarSection.js';
 import extractDigits from '../../util/extractDigits.js';
 
-import {theories} from '../../data/theoriesData.js';
+import {carotidSinusReflexData} from '../../data/circuit.js';
 import ReactFlow, {Background, Controls, useEdgesState, useNodesState} from "reactflow";
 import Sidebar from "../Sidebar";
 import ChatIcon from '../../assets/chat-icon.svg'
 
 function FlowTourView() {
 
-    const [scene, setScene] = useState(theories[0]);
+    const [scene, setScene] = useState(carotidSinusReflexData);
     const [stepNumber, setStepNumber] = useState(null);
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -91,7 +91,7 @@ function FlowTourView() {
 
         setSidebarContent(
             <>
-                <div className='content-header'>♻️ Theory Tour</div>
+                <div className='content-header'>♻️ Circuit Tour</div>
                 <div className='content-body'>{scene.name}</div>
                 <div className='sidebar-body'>
                     {!stepNumber

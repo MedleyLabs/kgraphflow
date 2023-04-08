@@ -6,8 +6,6 @@ const Image = styled.img`
   height: 33px;
   width: 33px;
   border-radius: 50%;
-  right: 20px;
-  top: 21px;
   z-index: 1000;
 `
 
