@@ -36,6 +36,28 @@ function generateSubnetwork(viewData) {
         },
     };
 
+    if (viewData.children.length > 0) {
+        let containerNode = {
+            id: "0",
+            // type: 'group',
+            // name: viewData.name,
+            // data: {label: viewData.name},
+            position: { x: 50, y: 60 },
+            // connectable: true,
+            // targetPosition: 'left',
+            // sourcePosition: 'right',
+            className: "nodrag",
+            style: {
+                width: defaultNodeWidth,
+                height: viewData.children.length * (defaultNodeHeight + 5) - 15,
+                border: 0,
+                zIndex: -100
+            },
+        };
+
+        nodes.push(containerNode)
+    }
+
     nodes.push(parentNode);
     currentId++;
 

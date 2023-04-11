@@ -18,62 +18,16 @@ function FlowExplorerView(props) {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
+    const [highlightNodeId, setHighlightNodeId] = useState(null);
+
     const nodeTypes = useMemo(() => ({infoAvailableNode: InfoAvailableNode}), []);
 
     const {fitView} = useReactFlow();
 
-    const highlightNodeBorder = (nodeId) => {
-        nodeId = String(nodeId)
-
-        let nodeIdsToHighlight = new Set();
-        let edgeIdsToHighlight = new Set();
-
-        for (let edge of edges) {
-            if (edge.source === nodeId) {
-                nodeIdsToHighlight.add(edge.target);
-                edgeIdsToHighlight.add(edge.id);
-            }
-            if (edge.target === nodeId) {
-                nodeIdsToHighlight.add(edge.source);
-                edgeIdsToHighlight.add(edge.id);
-            }
-        }
-
-        nodeIdsToHighlight = Array.from(nodeIdsToHighlight);
-        edgeIdsToHighlight = Array.from(edgeIdsToHighlight);
-
-        const updatedNodes = nodes.map(node => {
-            if (viewData.children.length > 0 && (node.id === nodeId || nodeIdsToHighlight.includes(node.id))) {
-                return {...node, style: {...node.style, border: "2px solid dodgerblue"}};
-            }
-            return node;
-        });
-        setNodes(updatedNodes);
-
-        const updatedEdges = edges.map(edge => {
-            if ((viewData.children.length > 0 && edgeIdsToHighlight.includes(edge.id))) {
-                return {...edge, style: {...edge.style, stroke: 'dodgerblue', strokeWidth: 2}};
-            }
-            return edge;
-        });
-        setEdges(updatedEdges);
-    };
-
-    const unhighlightNodeBorders = () => {
-        const updatedNodes = nodes.map(node => {
-            return {...node, style: {...node.style, border: "1px solid gray"}};
-        });
-        setNodes(updatedNodes);
-
-        const updatedEdges = edges.map(edge => {
-            return {...edge, style: {...edge.style, stroke: '#b1b1b7', strokeWidth: 1}};
-        });
-        setEdges(updatedEdges);
-    };
-
     const navigateToNode = (event) => {
         let newBaseEntity = event.target.textContent;
         setBaseEntity(newBaseEntity);
+        console.log('NAVIGATE', newBaseEntity)
     }
 
     useEffect(() => {
@@ -130,41 +84,79 @@ function FlowExplorerView(props) {
 
     useEffect(() => {
 
-        console.log('BASE ENTITY', baseEntity)
-
         let currentNodes = document.querySelectorAll('.react-flow__node');
-        console.log("CURRENT NDOES", currentNodes)
-
-        const highlightNodes = (event) => {
-            unhighlightNodeBorders()
-            let nodeId = event.target.dataset.id;
-            highlightNodeBorder(nodeId)
-        };
-
-        const unhighlightNodes = (event) => {
-            unhighlightNodeBorders()
-        }
 
         for (let node of currentNodes) {
-            console.log('TEXT CONTENT', node.textContent)
-            if (node.textContent === baseEntity) {
-                node.onclick = null;
-                node.onmouseenter = null;
-                node.onmouseleave = null;
-            } else if (viewData.children.some(child => child.name === node.textContent)) {
-                node.onclick = navigateToNode;
-                node.onmouseenter = highlightNodes;
-                node.onmouseleave = unhighlightNodes;
-            } else {
-                node.onclick = navigateToNode;
-                node.onmouseenter = highlightNodes;
-                node.onmouseleave = unhighlightNodes;
-            }
+
+            if (node.textContent === "") continue;
+
+            node.onclick = navigateToNode;
+
+            node.onmouseenter = (event) => {
+                let nodeId = event.target.dataset.id;
+                setHighlightNodeId(nodeId);
+            };
+
+            node.onmouseleave = () => {
+                setHighlightNodeId(null);
+            };
         }
 
         fitView()
 
     }, [nodes])
+
+    useEffect(() => {
+
+        const unhighlightedNodes = nodes.map(node => {
+            if (node.id === "0") return node;
+            return {...node, style: {...node.style, border: "1px solid gray"}};
+        });
+
+        const unhighlightedEdges = edges.map(edge => {
+            return {...edge, style: {...edge.style, stroke: '#b1b1b7', strokeWidth: 1}};
+        });
+
+        if (!highlightNodeId || highlightNodeId === "0") {
+            setNodes(unhighlightedNodes);
+            setEdges(unhighlightedEdges);
+            return
+        };
+
+        let nodeIdsToHighlight = new Set();
+        let edgeIdsToHighlight = new Set();
+
+        for (let edge of unhighlightedEdges) {
+            if (edge.source === highlightNodeId) {
+                nodeIdsToHighlight.add(edge.target);
+                edgeIdsToHighlight.add(edge.id);
+            }
+            if (edge.target === highlightNodeId) {
+                nodeIdsToHighlight.add(edge.source);
+                edgeIdsToHighlight.add(edge.id);
+            }
+        }
+
+        nodeIdsToHighlight = Array.from(nodeIdsToHighlight);
+        edgeIdsToHighlight = Array.from(edgeIdsToHighlight);
+
+        const updatedNodes = unhighlightedNodes.map(node => {
+            if (viewData.children.length > 0 && node.id !== "0" && (node.id === highlightNodeId || nodeIdsToHighlight.includes(node.id))) {
+                return {...node, style: {...node.style, border: "2px solid dodgerblue"}};
+            }
+            return node;
+        });
+        setNodes(updatedNodes);
+
+        const updatedEdges = unhighlightedEdges.map(edge => {
+            if ((viewData.children.length > 0 && edgeIdsToHighlight.includes(edge.id))) {
+                return {...edge, style: {...edge.style, stroke: 'dodgerblue', strokeWidth: 2}};
+            }
+            return edge;
+        });
+        setEdges(updatedEdges);
+
+    }, [highlightNodeId])
 
     return (
         <div className='reactflow-wrapper'>

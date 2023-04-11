@@ -38,8 +38,6 @@ function NeuralRegionContent(props) {
         })
     }
 
-    console.log('PROPS', props.header)
-
     return (
         <>
             <div className='content-header'>🧠 Neural Region</div>
