@@ -2,23 +2,18 @@ import {Handle, Position} from 'reactflow';
 import styled from "styled-components";
 import InfoAvailableIcon from "./InfoAvailableIcon";
 
-const handleStyle = {left: 10};
-
 const Node = styled.div`
   display: flex;
-  //font-family: 'Nunito', sans-serif !important;
   font-size: 12px;
   height: 28px;
   box-shadow: none;
   padding: 5px;
-  //border: 1px solid gray;
-  //border-radius: 4px;
   background: white;
   justify-content: center;
   align-items: center;
 `
 
-function TextImageNode({data}) {
+function InfoAvailableNode({data}) {
 
     return (
         <>
@@ -32,4 +27,4 @@ function TextImageNode({data}) {
     );
 }
 
-export default TextImageNode
+export default InfoAvailableNode

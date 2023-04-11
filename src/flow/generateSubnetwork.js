@@ -1,10 +1,6 @@
-import generateNodes from './generateNodes.js';
-import generateEdges from './generateEdges.js';
-import generateNetwork from "./generateNetwork";
-import NeuralRegionContent from "../components/custom/NeuralRegionContent";
-
-
 function generateSubnetwork(viewData) {
+
+    console.log('generateSubnetwork', viewData)
 
     const defaultNodeWidth = 300;
     const defaultBaseNodeWidth = 250;
@@ -28,11 +24,14 @@ function generateSubnetwork(viewData) {
         data: {label: viewData.name},
         position: { x: 0, y: 0 },
         connectable: true,
+        targetPosition: 'left',
+        sourcePosition: 'right',
+        className: "nodrag",
         style: {
-            width: defaultNodeWidth + 100,
-            height: (defaultNodeHeight + 5) * viewData.children.length + 60,
-            borderColor: 'gray',
-            fontSize: 18,
+            width: viewData.children.length > 0 ? defaultNodeWidth + 100 : defaultNodeWidth,
+            height: viewData.children.length > 0 ? (defaultNodeHeight + 5) * viewData.children.length + 60 : defaultNodeHeight-10,
+            borderColor: viewData.children.length > 0 ? 'gray': 'gray',
+            fontSize: viewData.children.length > 0 ? 18 : 14,
             zIndex: -1000
         },
     };
@@ -45,18 +44,29 @@ function generateSubnetwork(viewData) {
 
     let edgeList = [];
 
+    viewData.receives_input_from.forEach(item => {
+        edgeList.push({source: item, destination: viewData.name, type: 'input'})
+    })
+
+    viewData.sends_output_to.forEach(item => {
+        edgeList.push({source: viewData.name, destination: item, type: 'output'})
+    })
+
+    console.log('EDGE LIST', edgeList)
+
     for (let child of viewData.children) {
 
         let childNode = {
             id: currentId.toString(),
-            type: 'textImage',
+            type: 'infoAvailableNode',
             name: child.name,
             data: {label: child.name, infoAvailable: child.children.length > 0},
             position: { x: 50, y: (60 + (defaultNodeHeight + 5) * (currentId-2)) },
             targetPosition: 'left',
             sourcePosition: 'right',
             parentNode: '1',
-            style: {width: defaultNodeWidth, borderColor: 'black'},
+            className: "nodrag",
+            style: {width: defaultNodeWidth, borderColor: 'gray'},
         };
 
         childNodes.push(childNode);
@@ -93,7 +103,8 @@ function generateSubnetwork(viewData) {
             position: { x: -defaultNodeWidth - defaultEdgeWidth, y: currentY },
             targetPosition: 'right',
             sourcePosition: 'right',
-            style: {width: defaultNodeWidth, borderColor: 'black'},
+            className: "nodrag",
+            style: {width: defaultNodeWidth, borderColor: 'gray'},
             // content: inputEntity.content,
         });
         currentId++;
@@ -115,7 +126,8 @@ function generateSubnetwork(viewData) {
             position: { x: parentNode.style.width + defaultEdgeWidth, y: currentY },
             targetPosition: 'left',
             sourcePosition: 'left',
-            style: {width: defaultNodeWidth, borderColor: 'black'},
+            className: "nodrag",
+            style: {width: defaultNodeWidth, borderColor: 'gray'},
             // content: outputEntity.content,
         });
         currentId++;
@@ -125,48 +137,6 @@ function generateSubnetwork(viewData) {
     nodes = nodes.concat(outputNodes)
 
     let edgeId = 1;
-
-    // for (let input in viewData.receives_input_from) {
-    //
-    //     let sourceId = null;
-    //
-    //     for (let node of inputNodes) {
-    //         if (input === node.name) {
-    //             sourceId = node.id
-    //         }
-    //     }
-    //
-    //     edges.push({
-    //         id: `e-${edgeId.toString()}`,
-    //         source: sourceId,
-    //         target: parentNode.id,
-    //         animated: true,
-    //         description: 'TBD',
-    //     })
-    //
-    //     edgeId++
-    // }
-    //
-    // for (let output in viewData.sends_output_to) {
-    //
-    //     let targetId = null;
-    //
-    //     for (let node of inputNodes) {
-    //         if (output === node.name) {
-    //             targetId = node.id
-    //         }
-    //     }
-    //
-    //     edges.push({
-    //         id: `e-${edgeId.toString()}`,
-    //         source: parentNode.id,
-    //         target: targetId,
-    //         animated: true,
-    //         description: 'TBD',
-    //     })
-    //
-    //     edgeId++
-    // }
 
     for (let edge of edgeList) {
 
@@ -184,6 +154,9 @@ function generateSubnetwork(viewData) {
                     targetId = node.id
                 }
             }
+            if (edge.destination === viewData.name) {
+                targetId = "1"
+            }
         } else {
             for (let node of childNodes) {
                 if (edge.source === node.name) {
@@ -194,6 +167,9 @@ function generateSubnetwork(viewData) {
                 if (edge.destination === node.name) {
                     targetId = node.id
                 }
+            }
+            if (edge.source === viewData.name) {
+                sourceId = "1"
             }
         }
 
@@ -213,103 +189,9 @@ function generateSubnetwork(viewData) {
         edgeId++
     }
 
+    console.log('EDGES', edges)
+
     return [nodes, edges];
 }
 
 export default generateSubnetwork;
-
-
-// let baseNode = {
-//     id: '1',
-//     name: baseEntity,
-//     data: {label: baseEntity},
-//     position: { x: -defaultBaseNodeWidth/2, y: 0 },
-//     targetPosition: 'left',
-//     sourcePosition: 'right',
-//     style: {width: defaultBaseNodeWidth, borderColor: 'black'},
-// };
-//
-// let sourceNodes = [];
-// let targetNodes = [];
-//
-// let currentId = 2;
-// let currentY = inputEntities.length % 2 === 0
-//     ? inputEntities.length / 2 * -defaultNodeHeight + defaultNodeHeight/2
-//     : (inputEntities.length - 1) / 2 * -defaultNodeHeight
-// ;
-//
-// for (let inputEntity of inputEntities) {
-//     sourceNodes.push({
-//         id: currentId.toString(),
-//         // entityId: inputEntity.id,
-//         name: inputEntity,
-//         data: {label: inputEntity},
-//         position: { x: -defaultBaseNodeWidth/2 - defaultNodeWidth - defaultEdgeWidth, y: currentY },
-//         targetPosition: 'right',
-//         sourcePosition: 'right',
-//         style: {width: defaultNodeWidth, borderColor: 'black'},
-//         // content: inputEntity.content,
-//     });
-//     currentId++;
-//     currentY += defaultNodeHeight;
-// }
-//
-// currentY = outputEntities.length % 2 === 0
-//     ? outputEntities.length / 2 * -defaultNodeHeight + defaultNodeHeight/2
-//     : (outputEntities.length - 1) / 2 * -defaultNodeHeight
-// ;
-//
-// for (let outputEntity of outputEntities) {
-//     targetNodes.push({
-//         id: currentId.toString(),
-//         // entityId: outputEntity.id,
-//         name: outputEntity,
-//         data: {label: outputEntity},
-//         position: { x: defaultBaseNodeWidth/2 + defaultEdgeWidth, y: currentY },
-//         targetPosition: 'left',
-//         sourcePosition: 'left',
-//         style: {width: defaultNodeWidth, borderColor: 'black'},
-//         // content: outputEntity.content,
-//     });
-//     currentId++;
-//     currentY += 50;
-// }
-//
-// let nodes = generateNodes(baseNode, sourceNodes, targetNodes);
-// let edges = generateEdges(baseNode, sourceNodes, targetNodes);
-//
-// // nodes.push({
-// //   id: '100',
-// //   entityId: 23,
-// //   name: 'NAcc Core',
-// //   data: {label: 'NAcc Core'},
-// //   parentNode: '1',
-// //   extent: 'parent',
-// //   targetPosition: 'left',
-// //   sourcePosition: 'right',
-// //   position: { x: 90, y: 50 },
-// //   style: {width: defaultNodeWidth, borderColor: 'black'},
-// //   content: '',
-// // })
-// //
-// // nodes.push({
-// //   id: '101',
-// //   entityId: 24,
-// //   name: 'NAcc Shell',
-// //   data: {label: 'NAcc Shell'},
-// //   parentNode: '1',
-// //   extent: 'parent',
-// //   targetPosition: 'left',
-// //   sourcePosition: 'right',
-// //   position: { x: 90, y: 100 },
-// //   style: {width: defaultNodeWidth, borderColor: 'black'},
-// //   content: '',
-// // })
-// //
-// // edges.push({
-// //   id: `e1-100`,
-// //   source: '1',
-// //   target: '100',
-// //   animated: true,
-// //   description: 'TBD',
-// // })

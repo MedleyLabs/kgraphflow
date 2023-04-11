@@ -12,7 +12,7 @@ function generateNetwork(baseEntity, inputEntities, outputEntities, children) {
 
   let baseNode = {
       id: '1',
-      type: 'textImage',
+      type: 'infoAvailableNode',
       name: baseEntity,
       data: {label: baseEntity, infoAvailable: children.length > 0},
       position: { x: -defaultBaseNodeWidth/2, y: 0 },

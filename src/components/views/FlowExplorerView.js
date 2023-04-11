@@ -1,42 +1,26 @@
-import {useCallback, useEffect, useMemo, useState} from 'react';
-import ReactFlow, {addEdge, Background, Controls, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
+import {useEffect, useMemo, useState} from 'react';
+import ReactFlow, {Background, Controls, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
 
-import extractDigits from "../../util/extractDigits";
-import generateNetwork from '../../flow/generateNetwork.js';
 import generateSubnetwork from "../../flow/generateSubnetwork";
-import getEdge from "../../flow/getEdge";
-import getNode from "../../flow/getNode";
 
-import TextImageNode from "../TextImageNode";
-
-import ExamineModal from "../ExamineModal";
+import InfoAvailableNode from "../InfoAvailableNode";
 import Sidebar from '../Sidebar.js';
 import NeuralRegionContent from '../custom/NeuralRegionContent';
-import NeuralPathwayContent from '../custom/NeuralPathwayContent.js';
 
 import TaxonomyWheel from "taxonomy-wheel";
 import taxonomy from "../../data/taxonomyData";
-
-const findNode = (nodes, nodeId) => {
-    if (typeof (nodeId) !== "string") {
-        nodeId = nodeId.toString();
-    }
-    return nodes.find(d => d.id === nodeId);
-};
 
 function FlowExplorerView(props) {
 
     const [baseEntity, setBaseEntity] = useState('Amygdala');
     const [viewData, setViewData] = useState(null);
+    const [sidebarContent, setSidebarContent] = useState(null);
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-    const [sidebarContent, setSidebarContent] = useState(null);
-    const [childrenActive, setChildrenActive] = useState(false);
 
-    const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
+    const nodeTypes = useMemo(() => ({infoAvailableNode: InfoAvailableNode}), []);
+
     const {fitView} = useReactFlow();
-
-    const nodeTypes = useMemo(() => ({textImage: TextImageNode}), []);
 
     const highlightNodeBorder = (nodeId) => {
         nodeId = String(nodeId)
@@ -59,7 +43,7 @@ function FlowExplorerView(props) {
         edgeIdsToHighlight = Array.from(edgeIdsToHighlight);
 
         const updatedNodes = nodes.map(node => {
-            if (!node.connectable && childrenActive && (node.id === nodeId || nodeIdsToHighlight.includes(node.id))) {
+            if (viewData.children.length > 0 && (node.id === nodeId || nodeIdsToHighlight.includes(node.id))) {
                 return {...node, style: {...node.style, border: "2px solid dodgerblue"}};
             }
             return node;
@@ -67,7 +51,7 @@ function FlowExplorerView(props) {
         setNodes(updatedNodes);
 
         const updatedEdges = edges.map(edge => {
-            if ((childrenActive && edgeIdsToHighlight.includes(edge.id))) {
+            if ((viewData.children.length > 0 && edgeIdsToHighlight.includes(edge.id))) {
                 return {...edge, style: {...edge.style, stroke: 'dodgerblue', strokeWidth: 2}};
             }
             return edge;
@@ -87,82 +71,9 @@ function FlowExplorerView(props) {
         setEdges(updatedEdges);
     };
 
-    const examineNode = (event) => {
-
-        const [initialNodes, initialEdges] = generateSubnetwork(viewData);
-
-        setNodes(initialNodes);
-        setEdges(initialEdges);
-        setChildrenActive(true);
-
-        setSidebarContent(<NeuralRegionContent
-            header={baseEntity}
-            content={{
-                'arterialSupply': viewData.arterial_supply,
-                'children': viewData.children.map(child => child.name),
-                'parents': viewData.parents,
-                'cellTypes': <TaxonomyWheel data={taxonomy} maxDepth={3} radius={150}/>
-            }}
-            setBaseEntity={setBaseEntity}
-        />);
-    }
-
-    const jumpNode = (data) => {
-
-        const [initialNodes, initialEdges] = generateSubnetwork(data);
-
-        setNodes(initialNodes);
-        setEdges(initialEdges);
-        setChildrenActive(true);
-
-        setSidebarContent(<NeuralRegionContent
-            header={data.name}
-            content={{
-                'arterialSupply': data.arterial_supply,
-                'children': data.children.map(child => child.name),
-                'parents': data.parents,
-                'cellTypes': <TaxonomyWheel data={taxonomy} maxDepth={3} radius={150}/>
-            }}
-            setBaseEntity={setBaseEntity}
-        />);
-    }
-
     const navigateToNode = (event) => {
         let newBaseEntity = event.target.textContent;
         setBaseEntity(newBaseEntity);
-        setChildrenActive(false);
-    }
-
-    const examineEdge = (event) => {
-
-        let [sourceNodeId, targetNodeId] = extractDigits(event.target.parentNode.attributes[3].nodeValue);
-
-        let sourceNode = getNode(nodes, sourceNodeId);
-        let targetNode = getNode(nodes, targetNodeId);
-        let edge = getEdge(edges, sourceNodeId, targetNodeId);
-
-        for (let node of nodes) {
-            node.style.borderColor = 'black';
-            node.style.borderWidth = '1px';
-        }
-
-        sourceNode.style.borderColor = '#4285F4';
-        sourceNode.style.borderWidth = '2px';
-        targetNode.style.borderColor = '#4285F4';
-        targetNode.style.borderWidth = '2px';
-
-        setNodes(JSON.parse(JSON.stringify(nodes)));
-
-        setSidebarContent(
-            <NeuralPathwayContent
-                sourceName='Prefrontal Cortex'
-                targetName='Amygdala'
-                description='Evidence from imaging and lesion studies to support the role of the ventromedial prefrontal cortex (vmPFC) as a moderator and inhibitor of the amygdala. <a href="">[1]</a><a href="">[2]</a>'
-                // sourceName={sourceNode.name}
-                // targetName={targetNode.name}
-                // description={edge.description}
-            />
-        );
     }
 
     useEffect(() => {
@@ -184,7 +95,7 @@ function FlowExplorerView(props) {
 
                 setViewData(data);
 
-                const [initialNodes, initialEdges] = generateNetwork(entityName, data.receives_input_from, data.sends_output_to, data.children);
+                const [initialNodes, initialEdges] = generateSubnetwork(data);
 
                 setNodes(initialNodes);
                 setEdges(initialEdges);
@@ -205,6 +116,8 @@ function FlowExplorerView(props) {
                     setBaseEntity={setBaseEntity}
                 />);
 
+                // fitView()
+
             } catch (error) {
                 console.error('Error:', error);
                 throw error;
@@ -216,7 +129,11 @@ function FlowExplorerView(props) {
     }, [baseEntity]);
 
     useEffect(() => {
+
+        console.log('BASE ENTITY', baseEntity)
+
         let currentNodes = document.querySelectorAll('.react-flow__node');
+        console.log("CURRENT NDOES", currentNodes)
 
         const highlightNodes = (event) => {
             unhighlightNodeBorders()
@@ -229,14 +146,13 @@ function FlowExplorerView(props) {
         }
 
         for (let node of currentNodes) {
+            console.log('TEXT CONTENT', node.textContent)
             if (node.textContent === baseEntity) {
-                node.onclick = examineNode;
+                node.onclick = null;
+                node.onmouseenter = null;
+                node.onmouseleave = null;
             } else if (viewData.children.some(child => child.name === node.textContent)) {
-                node.onclick = () => {
-                    let child = viewData.children.find(child => child.name === node.textContent)
-                    setViewData(child);
-                    jumpNode(child);
-                }
+                node.onclick = navigateToNode;
                 node.onmouseenter = highlightNodes;
                 node.onmouseleave = unhighlightNodes;
             } else {
@@ -246,17 +162,9 @@ function FlowExplorerView(props) {
             }
         }
 
-        fitView();
+        fitView()
+
     }, [nodes])
-
-    useEffect(() => {
-        let currentEdges = document.querySelectorAll('.react-flow__edge');
-
-        for (let edge of currentEdges) {
-            edge.onclick = examineEdge;
-        }
-    }, [edges])
-
 
     return (
         <div className='reactflow-wrapper'>
@@ -266,11 +174,13 @@ function FlowExplorerView(props) {
                 edges={edges}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
                 nodeTypes={nodeTypes}
-                fitView
+                panOnDrag={false}
+                zoomOnScroll={false}
+                zoomOnPinch={false}
+                zoomOnDoubleClick={false}
             >
-                <Controls/>
+                {/*<Controls/>*/}
                 <Background/>
             </ReactFlow>
         </div>
