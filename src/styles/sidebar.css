@@ -135,6 +135,7 @@ a {
   border: 1px solid gray;
   border-radius: 3px;
   box-shadow: none !important;
+  outline: none !important;
 }
 
 .react-flow__handle {
