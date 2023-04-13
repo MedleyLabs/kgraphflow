@@ -1,5 +1,6 @@
 import {useEffect, useMemo, useState} from 'react';
 import ReactFlow, {Background, Controls, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
+import styled from "styled-components";
 
 import generateSubnetwork from "../../flow/generateSubnetwork";
 
@@ -9,6 +10,18 @@ import NeuralRegionContent from '../custom/NeuralRegionContent';
 
 import TaxonomyWheel from "taxonomy-wheel";
 import taxonomy from "../../data/taxonomyData";
+
+import arrowLeftActive from '../../assets/arrow-left-active.svg'
+import arrowRightActive from '../../assets/arrow-right-active.svg'
+import arrowLeftInactive from '../../assets/arrow-left-inactive.svg'
+import arrowRightInactive from '../../assets/arrow-right-inactive.svg'
+
+const NavigationArrow = styled.img`
+  position: absolute;
+  top: 10px;
+  height: 20px;
+  z-index: 1000 !important;
+`
 
 function FlowExplorerView(props) {
 
@@ -20,6 +33,9 @@ function FlowExplorerView(props) {
 
     const [highlightNodeId, setHighlightNodeId] = useState(null);
 
+    const [history, setHistory] = useState(['Amygdala']);
+    const [currentHistoryIdx, setCurrentHistoryIdx] = useState(0);
+
     const nodeTypes = useMemo(() => ({infoAvailableNode: InfoAvailableNode}), []);
 
     const {fitView} = useReactFlow();
@@ -27,6 +43,22 @@ function FlowExplorerView(props) {
     const navigateToNode = (event) => {
         let newBaseEntity = event.target.attributes['aria-label'].nodeValue;
         setBaseEntity(newBaseEntity);
+
+        let newIdx = currentHistoryIdx + 1;
+        setHistory((history) => [...history.slice(0, newIdx), newBaseEntity]);
+        setCurrentHistoryIdx(newIdx);
+    }
+
+    const backButtonCallback = () => {
+        let newIdx = currentHistoryIdx - 1
+        setBaseEntity(history[newIdx]);
+        setCurrentHistoryIdx(newIdx);
+    }
+
+    const forwardButtonCallback = () => {
+        let newIdx = currentHistoryIdx + 1
+        setBaseEntity(history[newIdx])
+        setCurrentHistoryIdx(newIdx)
     }
 
     useEffect(() => {
@@ -173,6 +205,17 @@ function FlowExplorerView(props) {
             >
                 {/*<Controls/>*/}
                 <Background/>
+                <NavigationArrow
+                    src={currentHistoryIdx > 0 ? arrowLeftActive: arrowLeftInactive}
+                    alt={'Back button'}
+                    onClick={currentHistoryIdx > 0 ? backButtonCallback : null}
+                    style={{left: 17}}
+                />
+                <NavigationArrow
+                    src={currentHistoryIdx < history.length - 1 ? arrowRightActive : arrowRightInactive}
+                    alt={'Forward button'}
+                    onClick={currentHistoryIdx < history.length - 1 ? forwardButtonCallback : null}
+                    style={{left: 50}}/>
             </ReactFlow>
         </div>
     );
