@@ -1,11 +1,16 @@
 function generateSubnetwork(viewData) {
 
-    console.log('generateSubnetwork', viewData)
-
     const defaultNodeWidth = 300;
-    const defaultBaseNodeWidth = 250;
+    const defaultNodeHeight = 41;
     const defaultEdgeWidth = 150;
-    const defaultNodeHeight = 50;
+    const defaultVerticalSpacing = 8;
+    const defaultFontColor = '#404040';
+    const defaultFontSize = 14;
+    const defaultBorderColor = 'lightgray';
+    const defaultBorderWidth = 1.5;
+    const defaultStrokeColor = 'lightgray';
+    const defaultStrokeWidth = 1.5;
+    const defaultHeaderHeight = 50;
 
     let nodes = [];
     let childNodes = [];
@@ -19,38 +24,38 @@ function generateSubnetwork(viewData) {
 
     let parentNode = {
         id: currentId.toString(),
-        // type: 'group',
         name: viewData.name,
-        data: {label: viewData.name},
+        ariaLabel: viewData.name,
+        data: {label: viewData.name.length > 40 ? viewData.name.slice(0, 39) + '...' : viewData.name},
         position: { x: 0, y: 0 },
-        connectable: true,
         targetPosition: 'left',
         sourcePosition: 'right',
-        className: "nodrag",
+        className: 'nodrag',
         style: {
-            width: viewData.children.length > 0 ? defaultNodeWidth + 100 : defaultNodeWidth,
-            height: viewData.children.length > 0 ? (defaultNodeHeight + 5) * viewData.children.length + 60 : defaultNodeHeight-10,
-            borderColor: viewData.children.length > 0 ? 'lightgray': 'lightgray',
-            borderWidth: 1.5,
-            fontSize: viewData.children.length > 0 ? 18 : 14,
+            width: viewData.children.length > 0
+                ? defaultNodeWidth + 100
+                : defaultNodeWidth,
+            height: viewData.children.length > 0
+                ? (defaultNodeHeight + defaultVerticalSpacing) * viewData.children.length + defaultHeaderHeight + 10
+                : defaultNodeHeight,
+            color: defaultFontColor,
+            fontSize: viewData.children.length > 0
+                ? 18
+                : defaultFontSize,
+            borderColor: defaultBorderColor,
+            borderWidth: defaultBorderWidth,
             zIndex: -1000
         },
     };
 
     if (viewData.children.length > 0) {
         let containerNode = {
-            id: "0",
-            // type: 'group',
-            // name: viewData.name,
-            // data: {label: viewData.name},
-            position: { x: 50, y: 60 },
-            // connectable: true,
-            // targetPosition: 'left',
-            // sourcePosition: 'right',
-            className: "nodrag",
+            id: '0',
+            position: { x: 50, y: defaultHeaderHeight },
+            className: 'nodrag',
             style: {
                 width: defaultNodeWidth,
-                height: viewData.children.length * (defaultNodeHeight + 5) - 15,
+                height: viewData.children.length * (defaultNodeHeight + defaultVerticalSpacing) - 15,
                 border: 0,
                 zIndex: -100
             },
@@ -75,21 +80,30 @@ function generateSubnetwork(viewData) {
         edgeList.push({source: viewData.name, destination: item, type: 'output'})
     })
 
-    console.log('EDGE LIST', edgeList)
-
     for (let child of viewData.children) {
 
         let childNode = {
             id: currentId.toString(),
             type: 'infoAvailableNode',
             name: child.name,
-            data: {label: child.name, infoAvailable: child.children.length > 0},
-            position: { x: 50, y: (60 + (defaultNodeHeight + 5) * (currentId-2)) },
+            data: {
+                label: child.name.length > 40 ? child.name.slice(0, 39) + '...' : child.name,
+                ariaLabel: child.name,
+                infoAvailable: child.children.length > 0
+            },
+            position: { x: 50, y: (defaultHeaderHeight + (defaultNodeHeight + defaultVerticalSpacing) * (currentId-2)) },
             targetPosition: 'left',
             sourcePosition: 'right',
             parentNode: '1',
-            className: "nodrag",
-            style: {width: defaultNodeWidth, borderColor: 'lightgray', borderWidth: 1.5,},
+            className: 'nodrag',
+            style: {
+                width: defaultNodeWidth,
+                height: defaultNodeHeight,
+                color: defaultFontColor,
+                fontSize: defaultFontSize,
+                borderColor: defaultBorderColor,
+                borderWidth: defaultBorderWidth,
+            },
         };
 
         childNodes.push(childNode);
@@ -114,47 +128,61 @@ function generateSubnetwork(viewData) {
     outputNamesList.sort();
 
     let currentY = inputNamesList.length % 2 === 0
-        ? inputNamesList.length / 2 * -defaultNodeHeight + parentNode.style.height/2
-        : (inputNamesList.length - 1) / 2 * -defaultNodeHeight - defaultNodeHeight/2 + parentNode.style.height/2
+        ? parentNode.style.height/2 - inputNamesList.length/2*defaultNodeHeight - (inputNamesList.length/2 - 1)*defaultVerticalSpacing - defaultVerticalSpacing/2
+        : parentNode.style.height/2 - (inputNamesList.length - 1)/2*(defaultNodeHeight + defaultVerticalSpacing) - defaultNodeHeight/2
     ;
 
     for (let inputName of inputNamesList) {
         inputNodes.push({
             id: currentId.toString(),
             name: inputName,
-            data: {label: inputName},
+            ariaLabel: inputName,
+            data: {label: inputName.length > 40 ? inputName.slice(0, 39) + '...' : inputName},
             position: { x: -defaultNodeWidth - defaultEdgeWidth, y: currentY },
             targetPosition: 'right',
             sourcePosition: 'right',
-            className: "nodrag",
-            style: {width: defaultNodeWidth, borderColor: 'lightgray', borderWidth: 1.5,},
-            // content: inputEntity.content,
+            className: 'nodrag',
+            style: {
+                width: defaultNodeWidth,
+                height: defaultNodeHeight,
+                color: defaultFontColor,
+                fontSize: defaultFontSize,
+                borderColor: defaultBorderColor,
+                borderWidth: defaultBorderWidth,
+            },
         });
         currentId++;
-        currentY += defaultNodeHeight;
+        currentY += defaultNodeHeight + defaultVerticalSpacing;
     }
 
     nodes = nodes.concat(inputNodes);
 
     currentY = outputNamesList.length % 2 === 0
-        ? outputNamesList.length / 2 * -defaultNodeHeight + parentNode.style.height/2
-        : (outputNamesList.length - 1) / 2 * -defaultNodeHeight - defaultNodeHeight/2 + parentNode.style.height/2
+        ? parentNode.style.height/2 - outputNamesList.length/2*defaultNodeHeight - (outputNamesList.length/2 - 1)*defaultVerticalSpacing - defaultVerticalSpacing/2
+        : parentNode.style.height/2 - (outputNamesList.length - 1)/2*(defaultNodeHeight + defaultVerticalSpacing) - defaultNodeHeight/2
     ;
 
     for (let outputName of outputNamesList) {
         outputNodes.push({
             id: currentId.toString(),
             name: outputName,
-            data: {label: outputName},
+            ariaLabel: outputName,
+            data: {label: outputName.length > 40 ? outputName.slice(0, 39) + '...' : outputName},
             position: { x: parentNode.style.width + defaultEdgeWidth, y: currentY },
             targetPosition: 'left',
             sourcePosition: 'left',
-            className: "nodrag",
-            style: {width: defaultNodeWidth, borderColor: 'lightgray', borderWidth: 1.5,},
-            // content: outputEntity.content,
+            className: 'nodrag',
+            style: {
+                width: defaultNodeWidth,
+                height: defaultNodeHeight,
+                color: defaultFontColor,
+                fontSize: defaultFontSize,
+                borderColor: defaultBorderColor,
+                borderWidth: defaultBorderWidth,
+            },
         });
         currentId++;
-        currentY += defaultNodeHeight;
+        currentY += defaultNodeHeight + defaultVerticalSpacing;
     }
 
     nodes = nodes.concat(outputNodes)
@@ -196,24 +224,20 @@ function generateSubnetwork(viewData) {
             }
         }
 
-        if (sourceId && targetId) {
-        } else {
-
-        }
-
         edges.push({
           id: `e-${edgeId.toString()}`,
           source: sourceId,
           target: targetId,
           animated: true,
           description: 'TBD',
-          style: {stroke: 'lightgray', strokeWidth: 1.5}
+          style: {
+              stroke: defaultStrokeColor,
+              strokeWidth: defaultStrokeWidth
+          }
         })
 
         edgeId++
     }
-
-    console.log('EDGES', edges)
 
     return [nodes, edges];
 }

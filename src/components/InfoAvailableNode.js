@@ -4,7 +4,6 @@ import InfoAvailableIcon from "./InfoAvailableIcon";
 
 const Node = styled.div`
   display: flex;
-  font-size: 12px;
   height: 28px;
   box-shadow: none;
   padding: 5px;
@@ -16,14 +15,12 @@ const Node = styled.div`
 function InfoAvailableNode({data}) {
 
     return (
-        <>
-            <Node>
-                <Handle type="target" position={Position.Left}/>
-                {data?.label}
-                {data?.infoAvailable ? <InfoAvailableIcon /> : null}
-                <Handle type="source" position={Position.Right}/>
-            </Node>
-        </>
+        <Node aria-label={data.ariaLabel}>
+            <Handle type="target" position={Position.Left}/>
+            {data?.label}
+            {data?.infoAvailable ? <InfoAvailableIcon /> : null}
+            <Handle type="source" position={Position.Right}/>
+        </Node>
     );
 }
 

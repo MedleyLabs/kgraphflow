@@ -25,9 +25,8 @@ function FlowExplorerView(props) {
     const {fitView} = useReactFlow();
 
     const navigateToNode = (event) => {
-        let newBaseEntity = event.target.textContent;
+        let newBaseEntity = event.target.attributes['aria-label'].nodeValue;
         setBaseEntity(newBaseEntity);
-        console.log('NAVIGATE', newBaseEntity)
     }
 
     useEffect(() => {
@@ -54,7 +53,7 @@ function FlowExplorerView(props) {
                 setNodes(initialNodes);
                 setEdges(initialEdges);
                 setSidebarContent(<NeuralRegionContent
-                    header={baseEntity}
+                    header={data.name}
                     content={{
                         'arterialSupply': data.arterial_supply,
                         'children': data.children.map(child => child.name),

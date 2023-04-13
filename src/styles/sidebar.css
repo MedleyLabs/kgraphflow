@@ -12,12 +12,14 @@
   display: flex;
   flex-grow: 1;
   height: 100%;
+  color: #404040;
 }
 
 .react-flow__node {
+  color: #404040;
   font-family: 'Nunito', sans-serif;
-  font-size: 12px;
   border: 1.5px solid lightgray;
+  border-radius: 3px;
   box-shadow: none !important;
   outline: none !important;
   /*border-width: 1px !important;*/
@@ -26,7 +28,7 @@
 
 .sidebar {
   border-right: 1px solid #eee;
-  padding: 50px;
+  padding: 40px;
   font-size: 16px;
   background: #fcfcfc;
   width: 35%;
