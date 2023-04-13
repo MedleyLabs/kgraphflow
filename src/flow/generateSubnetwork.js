@@ -30,7 +30,8 @@ function generateSubnetwork(viewData) {
         style: {
             width: viewData.children.length > 0 ? defaultNodeWidth + 100 : defaultNodeWidth,
             height: viewData.children.length > 0 ? (defaultNodeHeight + 5) * viewData.children.length + 60 : defaultNodeHeight-10,
-            borderColor: viewData.children.length > 0 ? 'gray': 'gray',
+            borderColor: viewData.children.length > 0 ? 'lightgray': 'lightgray',
+            borderWidth: 1.5,
             fontSize: viewData.children.length > 0 ? 18 : 14,
             zIndex: -1000
         },
@@ -88,7 +89,7 @@ function generateSubnetwork(viewData) {
             sourcePosition: 'right',
             parentNode: '1',
             className: "nodrag",
-            style: {width: defaultNodeWidth, borderColor: 'gray'},
+            style: {width: defaultNodeWidth, borderColor: 'lightgray', borderWidth: 1.5,},
         };
 
         childNodes.push(childNode);
@@ -126,7 +127,7 @@ function generateSubnetwork(viewData) {
             targetPosition: 'right',
             sourcePosition: 'right',
             className: "nodrag",
-            style: {width: defaultNodeWidth, borderColor: 'gray'},
+            style: {width: defaultNodeWidth, borderColor: 'lightgray', borderWidth: 1.5,},
             // content: inputEntity.content,
         });
         currentId++;
@@ -149,7 +150,7 @@ function generateSubnetwork(viewData) {
             targetPosition: 'left',
             sourcePosition: 'left',
             className: "nodrag",
-            style: {width: defaultNodeWidth, borderColor: 'gray'},
+            style: {width: defaultNodeWidth, borderColor: 'lightgray', borderWidth: 1.5,},
             // content: outputEntity.content,
         });
         currentId++;
@@ -206,6 +207,7 @@ function generateSubnetwork(viewData) {
           target: targetId,
           animated: true,
           description: 'TBD',
+          style: {stroke: 'lightgray', strokeWidth: 1.5}
         })
 
         edgeId++

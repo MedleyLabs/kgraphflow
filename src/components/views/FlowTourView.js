@@ -16,6 +16,7 @@ function FlowTourView() {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
     const [sidebarContent, setSidebarContent] = useState(null);
+    const [highlightNodeId, setHighlightNodeId] = useState(null);
 
     // const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
 
@@ -54,16 +55,16 @@ function FlowTourView() {
         for (let node of allNodes) {
             let nodeId = node.attributes[2].value;
             if (!stepNumber) {
-                node.style.borderColor = 'gray';
-                node.style.borderWidth = '1px';
+                node.style.borderColor = 'lightgray';
+                node.style.borderWidth = '1.5px';
                 node.style.opacity = 1;
             } else if (currentStep.nodeIds.includes(nodeId)) {
-                node.style.borderColor = '#4285F4';
-                node.style.borderWidth = '2px';
+                node.style.borderColor = 'dodgerblue';
+                node.style.borderWidth = '1.5px';
                 node.style.opacity = 1;
             } else {
-                node.style.borderColor = 'gray';
-                node.style.borderWidth = '1px';
+                node.style.borderColor = 'lightgray';
+                node.style.borderWidth = '1.5px';
                 node.style.opacity = 0.5;
             }
         }
@@ -77,15 +78,15 @@ function FlowTourView() {
             if (!stepNumber) {
                 edge.style.opacity = 1;
                 edge.firstChild.style.stroke = 'lightgray';
-                edge.firstChild.style.strokeWidth = 1;
+                edge.firstChild.style.strokeWidth = 1.5;
             } else if (currentStep.edgeIds.includes(edgeId)) {
                 edge.style.opacity = 1;
                 edge.firstChild.style.stroke = 'dodgerblue';
-                edge.firstChild.style.strokeWidth = 2;
+                edge.firstChild.style.strokeWidth = 1.5;
             } else {
                 edge.style.opacity = 0.7;
                 edge.firstChild.style.stroke = 'lightgray';
-                edge.firstChild.style.strokeWidth = 1;
+                edge.firstChild.style.strokeWidth = 1.5;
             }
         }
 
@@ -164,6 +165,81 @@ function FlowTourView() {
         )
 
     }, [stepNumber]);
+
+    useEffect(() => {
+
+        let currentNodes = document.querySelectorAll('.react-flow__node');
+
+        for (let node of currentNodes) {
+
+            if (node.textContent === "") continue;
+
+            node.onmouseenter = (event) => {
+                let nodeId = event.target.dataset.id;
+                setHighlightNodeId(nodeId);
+            };
+
+            node.onmouseleave = () => {
+                setHighlightNodeId(null);
+            };
+        }
+
+    }, [nodes])
+
+    useEffect(() => {
+
+        const unhighlightedNodes = nodes.map(node => {
+            return {...node, style: {...node.style, border: "1.5px solid lightgray"}};
+        });
+
+        const unhighlightedEdges = edges.map(edge => {
+            return {...edge, style: {...edge.style, stroke: 'lightgray', strokeWidth: 1.5}};
+        });
+
+        if (!highlightNodeId) {
+            if (unhighlightedNodes.length > 0) {
+                setNodes(unhighlightedNodes);
+                setEdges(unhighlightedEdges);
+            }
+            return
+        };
+
+        let nodeIdsToHighlight = new Set();
+        let edgeIdsToHighlight = new Set();
+
+        nodeIdsToHighlight.add(highlightNodeId)
+
+        for (let edge of unhighlightedEdges) {
+            if (edge.source === highlightNodeId) {
+                nodeIdsToHighlight.add(edge.target);
+                edgeIdsToHighlight.add(edge.id);
+            }
+            if (edge.target === highlightNodeId) {
+                nodeIdsToHighlight.add(edge.source);
+                edgeIdsToHighlight.add(edge.id);
+            }
+        }
+
+        nodeIdsToHighlight = Array.from(nodeIdsToHighlight);
+        edgeIdsToHighlight = Array.from(edgeIdsToHighlight);
+
+        const updatedNodes = unhighlightedNodes.map(node => {
+            if (nodeIdsToHighlight.includes(node.id)) {
+                return {...node, style: {...node.style, border: "1.5px solid dodgerblue"}};
+            }
+            return node;
+        });
+        setNodes(updatedNodes);
+
+        const updatedEdges = unhighlightedEdges.map(edge => {
+            if ((edgeIdsToHighlight.includes(edge.id))) {
+                return {...edge, style: {...edge.style, stroke: 'dodgerblue', strokeWidth: 1.5}};
+            }
+            return edge;
+        });
+        setEdges(updatedEdges);
+
+    }, [nodes, highlightNodeId])
 
     return (
         <div className='reactflow-wrapper'>

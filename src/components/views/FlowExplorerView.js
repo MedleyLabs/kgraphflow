@@ -110,11 +110,11 @@ function FlowExplorerView(props) {
 
         const unhighlightedNodes = nodes.map(node => {
             if (node.id === "0") return node;
-            return {...node, style: {...node.style, border: "1px solid gray"}};
+            return {...node, style: {...node.style, border: "1.5px solid lightgray"}};
         });
 
         const unhighlightedEdges = edges.map(edge => {
-            return {...edge, style: {...edge.style, stroke: '#b1b1b7', strokeWidth: 1}};
+            return {...edge, style: {...edge.style, stroke: 'lightgray', strokeWidth: 1.5}};
         });
 
         if (!highlightNodeId || highlightNodeId === "0") {
@@ -142,7 +142,7 @@ function FlowExplorerView(props) {
 
         const updatedNodes = unhighlightedNodes.map(node => {
             if (viewData.children.length > 0 && node.id !== "0" && (node.id === highlightNodeId || nodeIdsToHighlight.includes(node.id))) {
-                return {...node, style: {...node.style, border: "2px solid dodgerblue"}};
+                return {...node, style: {...node.style, border: "1.5px solid dodgerblue"}};
             }
             return node;
         });
@@ -150,7 +150,7 @@ function FlowExplorerView(props) {
 
         const updatedEdges = unhighlightedEdges.map(edge => {
             if ((viewData.children.length > 0 && edgeIdsToHighlight.includes(edge.id))) {
-                return {...edge, style: {...edge.style, stroke: 'dodgerblue', strokeWidth: 2}};
+                return {...edge, style: {...edge.style, stroke: 'dodgerblue', strokeWidth: 1.5}};
             }
             return edge;
         });
