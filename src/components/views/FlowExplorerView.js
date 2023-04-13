@@ -18,8 +18,8 @@ import arrowRightInactive from '../../assets/arrow-right-inactive.svg'
 
 const NavigationArrow = styled.img`
   position: absolute;
-  top: 30px;
-  height: 20px;
+  top: 32px;
+  height: 1.7em;
   z-index: 1000 !important;
 `
 
@@ -49,14 +49,14 @@ function FlowExplorerView(props) {
         setCurrentHistoryIdx(newIdx);
     }
 
-    const backButtonCallback = () => {
-        let newIdx = currentHistoryIdx - 1
+    const handleBackButton = () => {
+        let newIdx = currentHistoryIdx - 1;
         setBaseEntity(history[newIdx]);
         setCurrentHistoryIdx(newIdx);
     }
 
-    const forwardButtonCallback = () => {
-        let newIdx = currentHistoryIdx + 1
+    const handleForwardButton = () => {
+        let newIdx = currentHistoryIdx + 1;
         setBaseEntity(history[newIdx])
         setCurrentHistoryIdx(newIdx)
     }
@@ -208,14 +208,14 @@ function FlowExplorerView(props) {
                 <NavigationArrow
                     src={currentHistoryIdx > 0 ? arrowLeftActive: arrowLeftInactive}
                     alt={'Back button'}
-                    onClick={currentHistoryIdx > 0 ? backButtonCallback : null}
-                    style={{left: 17}}
+                    onClick={currentHistoryIdx > 0 ? handleBackButton : null}
+                    style={{left: 20}}
                 />
                 <NavigationArrow
                     src={currentHistoryIdx < history.length - 1 ? arrowRightActive : arrowRightInactive}
                     alt={'Forward button'}
-                    onClick={currentHistoryIdx < history.length - 1 ? forwardButtonCallback : null}
-                    style={{left: 50}}/>
+                    onClick={currentHistoryIdx < history.length - 1 ? handleForwardButton : null}
+                    style={{left: 55}}/>
             </ReactFlow>
         </div>
     );
