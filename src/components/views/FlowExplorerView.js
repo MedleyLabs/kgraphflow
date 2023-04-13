@@ -18,7 +18,7 @@ import arrowRightInactive from '../../assets/arrow-right-inactive.svg'
 
 const NavigationArrow = styled.img`
   position: absolute;
-  top: 10px;
+  top: 30px;
   height: 20px;
   z-index: 1000 !important;
 `
