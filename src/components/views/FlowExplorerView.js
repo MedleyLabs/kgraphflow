@@ -11,9 +11,9 @@ import NeuralRegionContent from '../custom/NeuralRegionContent';
 import TaxonomyWheel from "taxonomy-wheel";
 import taxonomy from "../../data/taxonomyData";
 
-import HomeIcon from '../../components/HomeIcon.js'
-import ArrowLeft from '../../components/ArrowLeft.js'
-import ArrowRight from '../../components/ArrowRight.js'
+import HomeIcon from '../svg/HomeIcon.js'
+import ArrowLeftIcon from '../svg/ArrowLeftIcon.js'
+import ArrowRightIcon from '../svg/ArrowRightIcon.js'
 
 const SidebarHeader = styled.div`
   -webkit-user-select: none; /* Disable text selection for Safari */
@@ -213,12 +213,12 @@ function FlowExplorerView(props) {
             <Sidebar content={sidebarContent}/>
             <SidebarHeader>
                 <HomeIcon onClick={() => {}} />
-                <ArrowLeft
+                <ArrowLeftIcon
                     isActive={currentHistoryIdx > 0}
                     onClick={handleBackButton}
                     style={{...arrowStyles, left: 67}}
                 />
-                <ArrowRight
+                <ArrowRightIcon
                     isActive={currentHistoryIdx < history.length - 1}
                     onClick={handleForwardButton}
                     style={{...arrowStyles, left: 102}}

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-function ArrowLeft(props) {
+function ArrowLeftIcon(props) {
 
     return (
         <svg
@@ -18,4 +18,4 @@ function ArrowLeft(props) {
     );
 }
 
-export default ArrowLeft;
+export default ArrowLeftIcon;

@@ -1,4 +1,4 @@
-function ArrowRight(props) {
+function ArrowRightIcon(props) {
 
     return (
         <svg
@@ -16,4 +16,4 @@ function ArrowRight(props) {
     );
 }
 
-export default ArrowRight;
+export default ArrowRightIcon;

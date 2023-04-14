@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import {theories} from "../../data/theoriesData";
 import searchIcon from "../../assets/search-icon.png";
-import UpvoteIcon from "../UpvoteIcon";
-import DownvoteIcon from '../DownvoteIcon';
+import UpvoteIcon from "../svg/UpvoteIcon";
+import DownvoteIcon from '../svg/DownvoteIcon';
 
 const Table = styled.div`
   font-family: 'Nunito', sans-serif;

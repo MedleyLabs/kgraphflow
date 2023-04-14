@@ -2,10 +2,8 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 
 import InfoAvailableIcon from './InfoAvailableIcon.js';
-
-import rightTriangleIcon from '../assets/triange-right-sharp.png';
-import downTriangleIcon from '../assets/triangle-down-sharp.png';
-
+import TriangleDownIcon from './svg/TriangleDownIcon.js';
+import TriangleRightIcon from './svg/TriangleRightIcon.js';
 
 const Section = styled.div`
   display: flex;
@@ -22,13 +20,6 @@ const SectionHeader = styled.div`
 
 const SectionColumn = styled.div`
   flex: 1;
-`
-
-const ToggleIcon = styled.img`
-  height: 14px;
-  width: 14px;
-  margin-right: 5px;
-  transform: translateY(1px);
 `
 
 const SectionTitle = styled.span`
@@ -53,11 +44,21 @@ function SidebarSection(props) {
 
     if (!props.description) return null;
 
+    const toggleStyles = {
+        height: 14,
+        width: 14,
+        marginRight: 5,
+        transform: 'translateY(1px)',
+    }
+
     return (
         <Section style={isOpen ? props.style : {}}>
             <SectionHeader>
                 <SectionColumn style={{flex: "0 0 auto"}}>
-                    <ToggleIcon src={isOpen ? downTriangleIcon : rightTriangleIcon} onClick={toggleCallback}/>
+                    {isOpen
+                        ? <TriangleDownIcon styles={toggleStyles} onClick={toggleCallback}/>
+                        : <TriangleRightIcon styles={toggleStyles} onClick={toggleCallback}/>
+                    }
                 </SectionColumn>
                 <SectionColumn style={{}}>
                     <SectionTitle>{props.title}</SectionTitle>
