@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   border-right: 1px solid #eee;
-  padding: 20px 30px;
+  padding: 20px 0 20px 30px;
   font-size: 16px;
   background: #fcfcfc;
   width: 35%;
@@ -14,7 +14,7 @@ const Container = styled.div`
 const Scrollable = styled.aside`
   height: 100%;
   overflow-y: scroll;
-  scrollbar-width: none;
+  padding-right: 30px;
 `
 
 function Sidebar(props) {
