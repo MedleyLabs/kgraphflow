@@ -14,6 +14,7 @@ const Container = styled.div`
 const Scrollable = styled.aside`
   height: 100%;
   overflow-y: scroll;
+  scrollbar-width: none;
 `
 
 function Sidebar(props) {
