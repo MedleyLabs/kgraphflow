@@ -15,7 +15,8 @@ import HomeIcon from '../svg/HomeIcon.js'
 import ArrowLeftIcon from '../svg/ArrowLeftIcon.js'
 import ArrowRightIcon from '../svg/ArrowRightIcon.js'
 
-const SidebarHeader = styled.div`
+const SidebarHeaderContainer = styled.div`
+  height: 60px;
   -webkit-user-select: none; /* Disable text selection for Safari */
   -moz-user-select: none; /* Disable text selection for Firefox */
   -ms-user-select: none; /* Disable text selection for Internet Explorer/Edge */
@@ -29,7 +30,7 @@ const TutorialLink = styled.a`
   color: #404040;
   font-family: Nunito, sans-serif;
   font-size: 18px;
-  
+
   :hover {
     color: dodgerblue;
   }
@@ -37,7 +38,7 @@ const TutorialLink = styled.a`
 
 function FlowExplorerView(props) {
 
-    const [baseEntity, setBaseEntity] = useState('Amygdala');
+    const [baseEntity, setBaseEntity] = useState('Primary motor cortex');
     const [viewData, setViewData] = useState(null);
     const [sidebarContent, setSidebarContent] = useState(null);
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -104,9 +105,14 @@ function FlowExplorerView(props) {
                         'parents': data.parents,
                         'cellTypes': (
                             <>
-                                Source: <a href="https://knowledge.brain-map.org/celltypes/CCN201912131" target="_blank">BICCN Human Primary Motor Cortex Mini-Atlas</a>
-                                <br/><br/>
-                                <TaxonomyWheel data={taxonomy} maxDepth={4} radius={150}/>
+                                <div style={{height: 640}}>
+                                    <div>In the human primary motor cortex, key cell types comprise glutamatergic (excitatory), GABAergic (inhibitory), and non-neuronal (predominantly glial) cells. The innermost ring in the accompanying diagram depicts these major types, while the middle and outer rings display the subtypes expressing distinct proteins.</div>
+                                    <br/><br/>
+                                    <div style={{height: 300, display: 'static'}}>
+                                        <TaxonomyWheel data={taxonomy} maxDepth={4} radius={150} style={{display: 'none'}}/>
+                                    </div>
+                                    <div style={{marginTop: 30}}>Source: <a href="https://knowledge.brain-map.org/celltypes/CCN201912131" target="_blank">BICCN Human Primary Motor Cortex Mini-Atlas</a></div>
+                                </div>
                             </>
                         ),
                     }}
@@ -165,7 +171,8 @@ function FlowExplorerView(props) {
             setNodes(unhighlightedNodes);
             setEdges(unhighlightedEdges);
             return
-        };
+        }
+        ;
 
         let nodeIdsToHighlight = new Set();
         let edgeIdsToHighlight = new Set();
@@ -209,23 +216,26 @@ function FlowExplorerView(props) {
         zIndex: '1000 !important',
     }
 
+    const SidebarHeader = () => (
+        <SidebarHeaderContainer>
+            <a href={process.env.REACT_APP_ROOT_URL}><HomeIcon/></a>
+            <ArrowLeftIcon
+                isActive={currentHistoryIdx > 0}
+                onClick={handleBackButton}
+                style={{...arrowStyles, left: 67}}
+            />
+            <ArrowRightIcon
+                isActive={currentHistoryIdx < history.length - 1}
+                onClick={handleForwardButton}
+                style={{...arrowStyles, left: 102}}
+            />
+            <TutorialLink href="https://youtube.com" target="_blank">Tutorial</TutorialLink>
+        </SidebarHeaderContainer>
+    )
+
     return (
         <div className='reactflow-wrapper'>
-            <Sidebar content={sidebarContent}/>
-            <SidebarHeader>
-                <a href={process.env.REACT_APP_ROOT_URL}><HomeIcon/></a>
-                <ArrowLeftIcon
-                    isActive={currentHistoryIdx > 0}
-                    onClick={handleBackButton}
-                    style={{...arrowStyles, left: 67}}
-                />
-                <ArrowRightIcon
-                    isActive={currentHistoryIdx < history.length - 1}
-                    onClick={handleForwardButton}
-                    style={{...arrowStyles, left: 102}}
-                />
-                <TutorialLink href="https://youtube.com" target="_blank">Tutorial</TutorialLink>
-            </SidebarHeader>
+            <Sidebar header={<SidebarHeader/>} content={sidebarContent}/>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
