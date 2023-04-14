@@ -11,16 +11,28 @@ import NeuralRegionContent from '../custom/NeuralRegionContent';
 import TaxonomyWheel from "taxonomy-wheel";
 import taxonomy from "../../data/taxonomyData";
 
-import arrowLeftActive from '../../assets/arrow-left-active.svg'
-import arrowRightActive from '../../assets/arrow-right-active.svg'
-import arrowLeftInactive from '../../assets/arrow-left-inactive.svg'
-import arrowRightInactive from '../../assets/arrow-right-inactive.svg'
+import HomeIcon from '../../components/HomeIcon.js'
+import ArrowLeft from '../../components/ArrowLeft.js'
+import ArrowRight from '../../components/ArrowRight.js'
 
-const NavigationArrow = styled.img`
+const SidebarHeader = styled.div`
+  -webkit-user-select: none; /* Disable text selection for Safari */
+  -moz-user-select: none; /* Disable text selection for Firefox */
+  -ms-user-select: none; /* Disable text selection for Internet Explorer/Edge */
+  user-select: none; /* Disable text selection for other browsers */
+`
+
+const TutorialLink = styled.a`
   position: absolute;
-  top: 32px;
-  height: 1.7em;
-  z-index: 1000 !important;
+  top: 18.5px;
+  left: 141px;
+  color: #404040;
+  font-family: Nunito, sans-serif;
+  font-size: 18px;
+  
+  :hover {
+    color: dodgerblue;
+  }
 `
 
 function FlowExplorerView(props) {
@@ -189,9 +201,30 @@ function FlowExplorerView(props) {
 
     }, [highlightNodeId])
 
+    const arrowStyles = {
+        position: 'absolute',
+        top: 20,
+        height: 22,
+        zIndex: '1000 !important',
+    }
+
     return (
         <div className='reactflow-wrapper'>
             <Sidebar content={sidebarContent}/>
+            <SidebarHeader>
+                <HomeIcon onClick={() => {}} />
+                <ArrowLeft
+                    isActive={currentHistoryIdx > 0}
+                    onClick={handleBackButton}
+                    style={{...arrowStyles, left: 67}}
+                />
+                <ArrowRight
+                    isActive={currentHistoryIdx < history.length - 1}
+                    onClick={handleForwardButton}
+                    style={{...arrowStyles, left: 102}}
+                />
+                <TutorialLink href="https://youtube.com" target="_blank">Tutorial</TutorialLink>
+            </SidebarHeader>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -205,17 +238,6 @@ function FlowExplorerView(props) {
             >
                 {/*<Controls/>*/}
                 <Background/>
-                <NavigationArrow
-                    src={currentHistoryIdx > 0 ? arrowLeftActive: arrowLeftInactive}
-                    alt={'Back button'}
-                    onClick={currentHistoryIdx > 0 ? handleBackButton : null}
-                    style={{left: 20}}
-                />
-                <NavigationArrow
-                    src={currentHistoryIdx < history.length - 1 ? arrowRightActive : arrowRightInactive}
-                    alt={'Forward button'}
-                    onClick={currentHistoryIdx < history.length - 1 ? handleForwardButton : null}
-                    style={{left: 55}}/>
             </ReactFlow>
         </div>
     );
