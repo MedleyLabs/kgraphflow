@@ -8,9 +8,9 @@ import TriangleRightIcon from './svg/TriangleRightIcon.js';
 const Section = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 18px;
+  margin-bottom: 21px;
   border-bottom: 1px solid lightgray;
-  padding-bottom: 6px;
+  padding-bottom: 20px;
 `
 
 const SectionHeader = styled.div`

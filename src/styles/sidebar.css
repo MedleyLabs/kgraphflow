@@ -43,15 +43,16 @@
   margin-top: 60px;
 }
 
-.content-h2 {
-  font-size: 1.3em;
-  margin-bottom: 20px;
-}
-
 .content-body {
   font-size: 1.1em;
   font-style: italic;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
+}
+
+
+.content-h2 {
+  font-size: 1.3em;
+  margin-bottom: 20px;
 }
 
 a {
