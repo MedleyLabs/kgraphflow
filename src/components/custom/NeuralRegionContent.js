@@ -23,15 +23,11 @@ const List = ({ items, onItemClick }) => (
 
 function NeuralRegionContent(props) {
 
-    const clickCallback = (event) => {
-        props.setBaseEntity(event.target.textContent)
-    }
-
     const mapToLinks = (items) => {
         return items.map((item) => {
             return (
                 <>
-                    <span className="sidebar-link" onClick={clickCallback}>{item}</span>
+                    <span className="sidebar-link" onClick={props.navigateToNode} aria-label={item}>{item}</span>
                     <br/>
                 </>
             );

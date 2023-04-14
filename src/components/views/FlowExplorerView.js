@@ -110,6 +110,7 @@ function FlowExplorerView(props) {
                             </>
                         ),
                     }}
+                    navigateToNode={navigateToNode}
                     setBaseEntity={setBaseEntity}
                 />);
 
