@@ -78,7 +78,7 @@ function FlowExplorerView(props) {
         const updateNodes = async (entityName) => {
 
             try {
-                const response = await fetch('http://localhost:5000/fma/get_data', {
+                const response = await fetch(`${process.env.REACT_APP_FLASK_URL}/fma/get_data`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -212,7 +212,7 @@ function FlowExplorerView(props) {
         <div className='reactflow-wrapper'>
             <Sidebar content={sidebarContent}/>
             <SidebarHeader>
-                <HomeIcon onClick={() => {}} />
+                <a href={process.env.REACT_APP_ROOT_URL}><HomeIcon/></a>
                 <ArrowLeftIcon
                     isActive={currentHistoryIdx > 0}
                     onClick={handleBackButton}
