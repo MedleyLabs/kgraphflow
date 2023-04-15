@@ -11,7 +11,7 @@ function generateSubnetwork(viewData) {
     const defaultStrokeColor = 'lightgray';
     const defaultStrokeWidth = 1.5;
     const defaultHeaderHeight = 46;
-    const defaultParentSpacer = 100;
+    const defaultParentSpacer = 80g;
 
     let nodes = [];
     let childNodes = [];
