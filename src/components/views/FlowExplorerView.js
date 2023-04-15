@@ -105,7 +105,7 @@ function FlowExplorerView(props) {
                                 <div style={{height: 640}}>
                                     <div>In the human primary motor cortex, key cell types comprise glutamatergic (excitatory), GABAergic (inhibitory), and non-neuronal (predominantly glial) cells. The innermost ring in the accompanying diagram depicts these major types, while the middle and outer rings display the subtypes expressing distinct proteins.</div>
                                     <br/><br/>
-                                    <div style={{height: 300, display: 'static'}}>
+                                    <div style={{height: 300, display: 'static', marginTop: -14}}>
                                         <TaxonomyWheel data={taxonomy} maxDepth={4} radius={150} style={{display: 'none'}}/>
                                     </div>
                                     <div style={{marginTop: 30}}>Source: <a href="https://knowledge.brain-map.org/celltypes/CCN201912131" target="_blank">BICCN Human Primary Motor Cortex Mini-Atlas</a></div>
