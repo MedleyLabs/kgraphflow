@@ -11,6 +11,7 @@ function generateSubnetwork(viewData) {
     const defaultStrokeColor = 'lightgray';
     const defaultStrokeWidth = 1.5;
     const defaultHeaderHeight = 46;
+    const defaultParentSpacer = 100;
 
     let nodes = [];
     let childNodes = [];
@@ -33,7 +34,7 @@ function generateSubnetwork(viewData) {
         className: 'nodrag',
         style: {
             width: viewData.children.length > 0
-                ? defaultNodeWidth + 100
+                ? defaultNodeWidth + defaultParentSpacer
                 : defaultNodeWidth,
             height: viewData.children.length > 0
                 ? (defaultNodeHeight + defaultVerticalSpacing) * viewData.children.length + defaultHeaderHeight + 10
@@ -51,7 +52,7 @@ function generateSubnetwork(viewData) {
     if (viewData.children.length > 0) {
         let containerNode = {
             id: '0',
-            position: { x: 50, y: defaultHeaderHeight },
+            position: { x: defaultParentSpacer/2, y: defaultHeaderHeight },
             className: 'nodrag',
             style: {
                 width: defaultNodeWidth,
@@ -91,7 +92,7 @@ function generateSubnetwork(viewData) {
                 ariaLabel: child.name,
                 infoAvailable: child.children.length > 0
             },
-            position: { x: 50, y: (defaultHeaderHeight + (defaultNodeHeight + defaultVerticalSpacing) * (currentId-2)) },
+            position: { x: defaultParentSpacer/2, y: (defaultHeaderHeight + (defaultNodeHeight + defaultVerticalSpacing) * (currentId-2)) },
             targetPosition: 'left',
             sourcePosition: 'right',
             parentNode: '1',
