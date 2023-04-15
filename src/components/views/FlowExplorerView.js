@@ -192,7 +192,7 @@ function FlowExplorerView(props) {
         edgeIdsToHighlight = Array.from(edgeIdsToHighlight);
 
         const updatedNodes = unhighlightedNodes.map(node => {
-            if (viewData.children.length > 0 && node.id !== "0" && (node.id === highlightNodeId || nodeIdsToHighlight.includes(node.id))) {
+            if (node.id !== "0" && (node.id === highlightNodeId || nodeIdsToHighlight.includes(node.id))) {
                 return {...node, style: {...node.style, border: "1.5px solid dodgerblue"}};
             }
             return node;
@@ -200,7 +200,7 @@ function FlowExplorerView(props) {
         setNodes(updatedNodes);
 
         const updatedEdges = unhighlightedEdges.map(edge => {
-            if ((viewData.children.length > 0 && edgeIdsToHighlight.includes(edge.id))) {
+            if ((edgeIdsToHighlight.includes(edge.id))) {
                 return {...edge, style: {...edge.style, stroke: 'dodgerblue', strokeWidth: 1.5}};
             }
             return edge;
