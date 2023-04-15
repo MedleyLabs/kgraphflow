@@ -39,7 +39,6 @@ const TutorialLink = styled.a`
 function FlowExplorerView(props) {
 
     const [baseEntity, setBaseEntity] = useState('Amygdala');
-    const [viewData, setViewData] = useState(null);
     const [sidebarContent, setSidebarContent] = useState(null);
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -90,8 +89,6 @@ function FlowExplorerView(props) {
                 });
 
                 const data = await response.json();
-
-                setViewData(data);
 
                 const [initialNodes, initialEdges] = generateSubnetwork(data);
 
