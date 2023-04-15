@@ -3,10 +3,10 @@ function HomeIcon(props) {
     const styles = {
         fill: '#404040',
         position: 'absolute',
-        height: 20,
-        width: 20,
+        height: 19,
+        width: 19,
         left: 30,
-        top: 21,
+        top: 22,
     }
 
     return (
