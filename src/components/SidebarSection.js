@@ -24,7 +24,7 @@ const SectionColumn = styled.div`
 
 const SectionTitle = styled.span`
   font-family: 'Montserrat', sans-serif;
-  font-size: 1em;
+  font-size: 17px;
   font-weight: bold;
 `
 
@@ -45,10 +45,10 @@ function SidebarSection(props) {
     if (!props.description) return null;
 
     const toggleStyles = {
-        height: 14,
-        width: 14,
+        height: 15,
+        width: 15,
         marginRight: 5,
-        transform: 'translateY(1px)',
+        transform: 'translateY(1.5px)',
     }
 
     return (
