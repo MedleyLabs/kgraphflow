@@ -5,9 +5,10 @@ import ViewFactory from './components/ViewFactory.js';
 function App() {
 
     const defaultViewType = 'flowExplorerView';
+    const defaultViewProps = {};
 
     const [viewType, setViewType] = useState(defaultViewType);
-    const [viewProps, setViewProps] = useState({});
+    const [viewProps, setViewProps] = useState(defaultViewProps);
 
     return (
         <ViewFactory
