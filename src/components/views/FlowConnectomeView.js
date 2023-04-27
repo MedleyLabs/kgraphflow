@@ -22,7 +22,7 @@ const SidebarHeaderContainer = styled.div`
 
 const TutorialLink = styled.a`
   position: absolute;
-  top: 19px;
+  top: 18.5px;
   left: 70px;
   color: #404040;
   font-family: Nunito, sans-serif;
