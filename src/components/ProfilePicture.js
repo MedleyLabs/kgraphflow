@@ -12,7 +12,7 @@ const Image = styled.img`
 const ProfilePicture = ({src, alt, style}) => {
 
     const openProfile = () => {
-        console.log('OPEN SESAME')
+
     };
 
     return (

@@ -50,8 +50,6 @@ function FlowVisualizerView(props) {
             flowEdges.concat(c.edges)
         }
 
-        console.log('flowNodes', flowNodes)
-
         setNodes(flowNodes);
         setEdges(flowEdges);
 

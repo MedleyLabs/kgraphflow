@@ -103,7 +103,6 @@ function FlowBuilderView(props) {
         let handles = document.querySelectorAll('.react-flow__handle');
 
         for (let handle of handles) {
-            console.log('HANDLE', handle)
             handle.onclick = handleCallback;
         }
 

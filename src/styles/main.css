@@ -23,8 +23,6 @@
   border-radius: 3px;
   box-shadow: none !important;
   outline: none !important;
-  /*border-width: 1px !important;*/
-  /*border-color: #8a8a8b !important;*/
 }
 
 .content-header {
@@ -39,7 +37,6 @@
   margin-bottom: 35px;
 }
 
-
 .content-h2 {
   font-size: 1.3em;
   margin-bottom: 20px;
@@ -52,7 +49,6 @@ a {
 
 .autocomplete {
   width: 100%;
-  /*padding: 12px;*/
 }
 
 .autocomplete-searchbar {
@@ -63,7 +59,6 @@ a {
 
 .autocomplete-input {
   font-family: 'Nunito', sans-serif;
-  /*font-size: 14px;*/
   height: 30px;
   width: 100%;
   padding: 2px 12px 2px 12px;
@@ -73,7 +68,6 @@ a {
 
 .autocomplete-input:focus {
   border: 1px solid dodgerblue;
-  /*border-radius: 5px 5px 0 0;*/
   outline: 1px solid dodgerblue;
 }
 
@@ -94,7 +88,6 @@ a {
   width: calc(100%);
   margin-top: 0;
   padding: 6.5px;
-  /*padding-left: 0px;*/
   border: 1px solid gray;
   border-top: none;
   border-radius: 0 0 5px 5px;
@@ -108,25 +101,13 @@ a {
 .suggestion-active {
   list-style: none;
   padding: 2px;
-  /*text-decoration-line: underline;*/
-  /*text-decoration-color: dodgerblue;*/
-  /*text-decoration-thickness: 2px;*/
 }
 
 .suggestion-active span {
   list-style: none;
   border-bottom: 2px solid dodgerblue;
   text-decoration: none;
-  /*background: #e0e0e0;*/
 }
-
-/*.parent-name {*/
-/*  font-family: 'Montserrat', sans-serif;*/
-/*  font-size: 12px;*/
-/*  position: absolute;*/
-/*  top: 285px;*/
-/*  left: 1000px;*/
-/*}*/
 
 .react-flow__handle {
   opacity: 0;
