@@ -53,7 +53,18 @@ function FlowExplorerView(props) {
     const {fitView} = useReactFlow();
 
     const navigateToNode = (event) => {
+
         let newBaseEntity = event.target.attributes['aria-label'].nodeValue;
+
+        if (newBaseEntity === 'Anxiety') {
+            props.setViewType('flowConnectomeView-0');
+            return;
+        }
+        if (newBaseEntity === 'Chronic orofacial pain') {
+            props.setViewType('flowConnectomeView-1');
+            return;
+        }
+
         setBaseEntity(newBaseEntity);
 
         let newIdx = currentHistoryIdx + 1;
@@ -125,8 +136,6 @@ function FlowExplorerView(props) {
                     setBaseEntity={setBaseEntity}
                 />);
 
-                // fitView()
-
             } catch (error) {
                 console.error('Error:', error);
                 throw error;
@@ -177,7 +186,6 @@ function FlowExplorerView(props) {
             setEdges(unhighlightedEdges);
             return
         }
-        ;
 
         let nodeIdsToHighlight = new Set();
         let edgeIdsToHighlight = new Set();
