@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import ReactFlow, {Background, Controls, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
+import ReactFlow, {Background, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
 import styled from 'styled-components';
 
 import generateConnectomeWheel from '../../flow/generateConnectomeWheel.js'
@@ -258,8 +258,11 @@ function FlowConnectomeView(props) {
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 nodeTypes={nodeTypes}
+                panOnDrag={false}
+                zoomOnScroll={false}
+                zoomOnPinch={false}
+                zoomOnDoubleClick={false}
             >
-                <Controls/>
                 <Background/>
             </ReactFlow>
         </div>

@@ -1,5 +1,5 @@
 import {useEffect, useMemo, useState} from 'react';
-import ReactFlow, {Background, Controls, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
+import ReactFlow, {Background, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
 import styled from "styled-components";
 
 import generateSubnetwork from "../../flow/generateSubnetwork";
@@ -275,7 +275,6 @@ function FlowExplorerView(props) {
                 zoomOnPinch={false}
                 zoomOnDoubleClick={false}
             >
-                {/*<Controls/>*/}
                 <Background/>
             </ReactFlow>
         </div>
