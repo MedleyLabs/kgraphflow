@@ -1,13 +1,21 @@
-import {ReactFlowProvider} from 'reactflow';
-import 'reactflow/dist/style.css';
+import React, {useState} from 'react';
 
-import Flow from './components/Flow.js';
+import ViewFactory from './components/ViewFactory.js';
 
-function App(props) {
+function App() {
+
+    const defaultViewType = 'flowExplorerView';
+
+    const [viewType, setViewType] = useState(defaultViewType);
+    const [viewProps, setViewProps] = useState({});
+
     return (
-        <ReactFlowProvider className='react-flow-with-provider'>
-            <Flow {...props} />
-        </ReactFlowProvider>
+        <ViewFactory
+            viewType={viewType}
+            setViewType={setViewType}
+            viewProps={viewProps}
+            setViewProps={setViewProps}
+        />
     );
 }
 
