@@ -1,13 +1,11 @@
 import {ReactFlowProvider} from 'reactflow';
-import Flow from './Flow.js';
+import 'reactflow/dist/style.css';
 
-function FlowWithProvider(props) {
+function FlowWithProvider({ flow }) {
   return (
-    <div className='react-flow-with-provider'>
-      <ReactFlowProvider>
-          <Flow {...props} />
+      <ReactFlowProvider className='react-flow-with-provider'>
+          { flow }
       </ReactFlowProvider>
-    </div>
   );
 }
 
