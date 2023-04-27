@@ -5,6 +5,7 @@ import {theories} from "../../data/theoriesData";
 import searchIcon from "../../assets/search-icon.png";
 import UpvoteIcon from "../svg/UpvoteIcon";
 import DownvoteIcon from '../svg/DownvoteIcon';
+import logo from "../../assets/molecular-human-logo.png";
 
 const Table = styled.div`
   font-family: 'Nunito', sans-serif;
@@ -60,13 +61,16 @@ const SearchBar = styled.input`
   color: #6a7072;
 `
 
-const Padding = styled.div`
-  padding: 10px; 
-`
-
 const StarMargin = styled.span`
   position: relative;
   top: -1px;
+`
+
+const SiteLogo = styled.img`
+  position: relative;
+  top: 20px;
+  left: 20px;
+  height: 50px;
 `
 
 const FillableStar = ({number}) => {
@@ -87,7 +91,7 @@ function FlowFinderView(props) {
 
     const onEnterCallback = (event) => {
         // let scene = theories.find(item => event === item.name);
-        props.setViewName('flowVisualizerView');
+        props.setViewType('flowVisualizerView');
     }
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -107,6 +111,7 @@ function FlowFinderView(props) {
 
     return (
         <>
+            <SiteLogo src={logo} alt='Composition logo'/>
             {/*<SearchBar>*/}
             {/*    <AutoComplete data={theories.map(item => item.name)} onEnterCallback={onEnterCallback} placeholder='Search for theories'/>*/}
             {/*</SearchBar>*/}
