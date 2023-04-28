@@ -76,6 +76,11 @@ function FlowConnectomeView(props) {
 
     useEffect(() => {
 
+        if (activeNetworks.length === 1 && activeNetworks[0] === 'reset') {
+            setActiveNetworks([]);
+            return;
+        }
+
         const unhighlightedNodes = nodes.map(node => {
             return {
                 ...node,

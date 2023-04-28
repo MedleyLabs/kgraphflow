@@ -42,7 +42,6 @@ const NetworkMultiSelector = ({ networks, setNetworks, activeNetworks, setActive
                 <label htmlFor="subscribeNews"/>
                 <span
                     className="sidebar-link"
-                    onClick={() => {}}
                     aria-label={network.name}
                     style={{marginLeft: 5}}
                 >{network.name}</span>
@@ -59,7 +58,10 @@ const NetworkMultiSelector = ({ networks, setNetworks, activeNetworks, setActive
             })}
             <AddNew
                 onClick={ networks.length === 1
-                    ? () => {setNetworks(networkData);}
+                    ? () => {
+                        setNetworks(networkData);
+                        setActiveNetworks(['reset']);
+                    }
                     : null
                 }
                 onMouseEnter={() => setHover(true)}
