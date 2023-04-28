@@ -1,16 +1,16 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import ReactFlow, {Background, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
+import {useReactFlow, useNodesState, useEdgesState} from 'reactflow';
 import styled from 'styled-components';
 
 import generateConnectomeWheel from '../../flow/generateConnectomeWheel.js'
 
-import Sidebar from '../Sidebar.js';
 import ConditionContent from '../custom/NetworkContent.js';
 import RotatableNode from '../RotatableNode.js';
 
 import HomeIcon from '../svg/HomeIcon.js'
 
 import {networkData} from '../../data/networkData.js';
+import FlowWithSidebar from '../FlowWithSidebar.js';
 
 const SidebarHeaderContainer = styled.div`
   height: 60px;
@@ -270,22 +270,15 @@ function FlowConnectomeView(props) {
     }
 
     return (
-        <div className='reactflow-wrapper'>
-            <Sidebar header={<SidebarHeader/>} content={sidebarContent}/>
-            <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                nodeTypes={nodeTypes}
-                panOnDrag={false}
-                zoomOnScroll={false}
-                zoomOnPinch={false}
-                zoomOnDoubleClick={false}
-            >
-                <Background/>
-            </ReactFlow>
-        </div>
+        <FlowWithSidebar
+            sidebarHeader={<SidebarHeader/>}
+            sidebarContent={sidebarContent}
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            nodeTypes={nodeTypes}
+        />
     );
 }
 

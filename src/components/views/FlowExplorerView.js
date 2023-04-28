@@ -1,19 +1,19 @@
-import {useEffect, useMemo, useState} from 'react';
-import ReactFlow, {Background, useEdgesState, useNodesState, useReactFlow} from 'reactflow';
-import styled from "styled-components";
+import React, {useEffect, useMemo, useState} from 'react';
+import {useEdgesState, useNodesState, useReactFlow} from 'reactflow';
+import styled from 'styled-components';
+import TaxonomyWheel from 'taxonomy-wheel';
 
-import generateSubnetwork from "../../flow/generateSubnetwork";
+import FlowWithSidebar from '../FlowWithSidebar.js';
+import generateSubnetwork from '../../flow/generateSubnetwork.js';
 
-import InfoAvailableNode from "../InfoAvailableNode";
-import Sidebar from '../Sidebar.js';
-import NeuralRegionContent from '../custom/NeuralRegionContent';
+import InfoAvailableNode from '../InfoAvailableNode.js';
+import NeuralRegionContent from '../custom/NeuralRegionContent.js';
 
-import TaxonomyWheel from "taxonomy-wheel";
-import taxonomy from "../../data/taxonomyData";
+import taxonomy from '../../data/taxonomyData';
 
-import HomeIcon from '../svg/HomeIcon.js'
-import ArrowLeftIcon from '../svg/ArrowLeftIcon.js'
-import ArrowRightIcon from '../svg/ArrowRightIcon.js'
+import HomeIcon from '../svg/HomeIcon.js';
+import ArrowLeftIcon from '../svg/ArrowLeftIcon.js';
+import ArrowRightIcon from '../svg/ArrowRightIcon.js';
 
 const SidebarHeaderContainer = styled.div`
   height: 60px;
@@ -152,7 +152,7 @@ function FlowExplorerView(props) {
 
         for (let node of currentNodes) {
 
-            if (node.textContent === "") continue;
+            if (node.textContent === '') continue;
 
             node.onclick = navigateToNode;
 
@@ -173,15 +173,15 @@ function FlowExplorerView(props) {
     useEffect(() => {
 
         const unhighlightedNodes = nodes.map(node => {
-            if (node.id === "0") return node;
-            return {...node, style: {...node.style, border: "1.5px solid lightgray"}};
+            if (node.id === '0') return node;
+            return {...node, style: {...node.style, border: '1.5px solid lightgray'}};
         });
 
         const unhighlightedEdges = edges.map(edge => {
             return {...edge, style: {...edge.style, stroke: 'lightgray', strokeWidth: 1.5}};
         });
 
-        if (!highlightNodeId || highlightNodeId === "0") {
+        if (!highlightNodeId || highlightNodeId === '0') {
             setNodes(unhighlightedNodes);
             setEdges(unhighlightedEdges);
             return
@@ -205,8 +205,8 @@ function FlowExplorerView(props) {
         edgeIdsToHighlight = Array.from(edgeIdsToHighlight);
 
         const updatedNodes = unhighlightedNodes.map(node => {
-            if (node.id !== "0" && (node.id === highlightNodeId || nodeIdsToHighlight.includes(node.id))) {
-                return {...node, style: {...node.style, border: "1.5px solid dodgerblue"}};
+            if (node.id !== '0' && (node.id === highlightNodeId || nodeIdsToHighlight.includes(node.id))) {
+                return {...node, style: {...node.style, border: '1.5px solid dodgerblue'}};
             }
             return node;
         });
@@ -262,22 +262,15 @@ function FlowExplorerView(props) {
     }
 
     return (
-        <div className='reactflow-wrapper'>
-            <Sidebar header={<SidebarHeader/>} content={sidebarContent}/>
-            <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                nodeTypes={nodeTypes}
-                panOnDrag={false}
-                zoomOnScroll={false}
-                zoomOnPinch={false}
-                zoomOnDoubleClick={false}
-            >
-                <Background/>
-            </ReactFlow>
-        </div>
+        <FlowWithSidebar
+            sidebarHeader={<SidebarHeader/>}
+            sidebarContent={sidebarContent}
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            nodeTypes={nodeTypes}
+        />
     );
 }
 
