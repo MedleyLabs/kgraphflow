@@ -33,7 +33,18 @@ function generateConnectomeWheel(networks) {
         }
     }
 
-    uniqueNodes = uniqueNodes.sort((a, b) => a.abbreviation.toLowerCase() > b.abbreviation.toLowerCase());
+    uniqueNodes = uniqueNodes.sort((a, b) => {
+        const aAbbr = a.abbreviation.toLowerCase();
+        const bAbbr = b.abbreviation.toLowerCase();
+
+        if (aAbbr > bAbbr) {
+            return 1;
+        } else if (aAbbr < bAbbr) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
 
     let radius = 8 * uniqueNodes.length;
 
