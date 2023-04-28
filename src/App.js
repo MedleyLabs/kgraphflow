@@ -2,13 +2,17 @@ import React, {useState} from 'react';
 
 import ViewFactory from './components/ViewFactory.js';
 
-function App() {
+const App = () => {
 
     const defaultViewType = 'flowExplorerView';
-    const defaultViewProps = {};
+
+    const defaultViewProps = {
+        flowExplorerView: {baseEntity: 'Amygdala'},
+        flowConnectomeView: {initialIdx: 0},
+    };
 
     const [viewType, setViewType] = useState(defaultViewType);
-    const [viewProps, setViewProps] = useState(defaultViewProps);
+    const [viewProps, setViewProps] = useState(defaultViewProps[defaultViewType]);
 
     return (
         <ViewFactory

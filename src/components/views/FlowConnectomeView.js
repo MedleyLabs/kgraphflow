@@ -35,7 +35,7 @@ const TutorialLink = styled.a`
 
 function FlowConnectomeView(props) {
 
-    const [networks, setNetworks] = useState([networkData[props.initialIdx || 0]]);
+    const [networks, setNetworks] = useState([networkData[props.initialIdx]]);
     const [activeNetworks, setActiveNetworks] = useState([]);
     const [sidebarContent, setSidebarContent] = useState(null);
     const [nodes, setNodes, onNodesChange] = useNodesState([]);

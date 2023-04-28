@@ -14,13 +14,14 @@ import '../styles/main.css';
 
 const ViewFactory = ({ viewType, setViewType, viewProps, setViewProps }) => {
 
-    function wrapWithProvider(Flow, props) {
+    const wrapWithProvider = (Flow, props) => {
 
         props = {
             viewType: viewType,
             setViewType: setViewType,
             viewProps: viewProps,
             setViewProps: setViewProps,
+            ...viewProps,
             ...props
         };
 
@@ -32,10 +33,8 @@ const ViewFactory = ({ viewType, setViewType, viewProps, setViewProps }) => {
             return wrapWithProvider(FlowBuilderView);
         case 'flowCircuitView':
             return wrapWithProvider(FlowCircuitView);
-        case 'flowConnectomeView-0':
-            return wrapWithProvider(FlowConnectomeView, {initialIdx: 0});
-        case 'flowConnectomeView-1':
-            return wrapWithProvider(FlowConnectomeView, {initialIdx: 1});
+        case 'flowConnectomeView':
+            return wrapWithProvider(FlowConnectomeView);
         case 'flowExplorerView':
             return wrapWithProvider(FlowExplorerView);
         case 'flowFinderView':

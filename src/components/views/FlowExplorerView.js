@@ -38,14 +38,14 @@ const TutorialLink = styled.a`
 
 function FlowExplorerView(props) {
 
-    const [baseEntity, setBaseEntity] = useState('Amygdala');
+    const [baseEntity, setBaseEntity] = useState(props.baseEntity);
     const [sidebarContent, setSidebarContent] = useState(null);
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
     const [highlightNodeId, setHighlightNodeId] = useState(null);
 
-    const [history, setHistory] = useState(['Amygdala']);
+    const [history, setHistory] = useState([props.baseEntity]);
     const [currentHistoryIdx, setCurrentHistoryIdx] = useState(0);
 
     const nodeTypes = useMemo(() => ({infoAvailableNode: InfoAvailableNode}), []);
@@ -57,11 +57,13 @@ function FlowExplorerView(props) {
         let newBaseEntity = event.target.attributes['aria-label'].nodeValue;
 
         if (newBaseEntity === 'Anxiety') {
-            props.setViewType('flowConnectomeView-0');
+            props.setViewType('flowConnectomeView');
+            props.setViewProps({...props.viewProps, initialIdx: 0});
             return;
         }
         if (newBaseEntity === 'Chronic orofacial pain') {
-            props.setViewType('flowConnectomeView-1');
+            props.setViewType('flowConnectomeView');
+            props.setViewProps({...props.viewProps, initialIdx: 1});
             return;
         }
 
