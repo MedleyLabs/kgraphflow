@@ -43,7 +43,7 @@ function generateConnectomeWheel(networks) {
         let degrees = 360 * nodeId / uniqueNodes.length - 90 ;
         let radians = Math.PI * degrees / 180;
 
-        let handlesPosition = degrees < 90 ? 'left' : 'right'
+        let alignDirection = degrees < 90 ? 'left' : 'right'
         let justifyDirection = degrees < 90 ? 'flex-start' : 'flex-end'
 
         let newNode = {
@@ -52,8 +52,8 @@ function generateConnectomeWheel(networks) {
             className: 'nodrag',
             ariaLabel: node.name,
             position: { x: radius * Math.cos(radians), y: radius * Math.sin(radians) },
-            sourcePosition: handlesPosition,
-            targetPosition: handlesPosition,
+            sourcePosition: alignDirection,
+            targetPosition: alignDirection,
             style: {
                 ...node.style,
                 border: 0,
@@ -62,8 +62,7 @@ function generateConnectomeWheel(networks) {
                 fontSize: uniqueNodes.length < 30 ? 18 : 20,
                 width: defaultNodeWidth,
                 justifyContent: justifyDirection,
-                textAlign: justifyDirection,
-                alignItems: justifyDirection,
+                textAlign: alignDirection,
                 WebkitJustifyContent: justifyDirection,
             },
             data: {
@@ -71,8 +70,8 @@ function generateConnectomeWheel(networks) {
                 id: node.id,
                 ariaLabel: node.name,
                 label: node.abbreviation,
-                sourcePosition: handlesPosition,
-                targetPosition: handlesPosition,
+                sourcePosition: alignDirection,
+                targetPosition: alignDirection,
                 style: {
                     ...node.data?.style,
                     borderStyle: 'solid',
@@ -80,8 +79,7 @@ function generateConnectomeWheel(networks) {
                     backgroundColor: 'transparent',
                     borderWidth: `0 ${degrees < 90 ? 0 : '2px'} 0 ${degrees < 90 ? '2px' : 0}`,
                     justifyContent: justifyDirection,
-                    textAlign: justifyDirection,
-                    alignItems: justifyDirection,
+                    textAlign: alignDirection,
                     WebkitJustifyContent: justifyDirection,
                     transform: `translateX(${radius * Math.cos(radians)}px) translateY(${radius * Math.sin(radians)}px) rotate(${degrees >= 90 ? degrees + 180 : degrees}deg)`,
                 },
