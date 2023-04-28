@@ -22,9 +22,9 @@ function RotatableNode({data}) {
 
     return (
         <Node aria-label={data?.label} style={data?.style}>
-            <Handle type="target" position={data?.targetPosition}/>
+            <Handle type="target" position={data?.targetPosition} isConnectable={false} />
             {data?.label}
-            <Handle type="source" position={data?.sourcePosition}/>
+            <Handle type="source" position={data?.sourcePosition} isConnectable={false} />
         </Node>
     );
 }

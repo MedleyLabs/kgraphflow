@@ -16,10 +16,10 @@ function InfoAvailableNode({data}) {
 
     return (
         <Node aria-label={data.ariaLabel}>
-            <Handle type="target" position={Position.Left}/>
+            <Handle type="target" position={Position.Left} isConnectable={false} />
             {data?.label}
             {data?.infoAvailable ? <InfoAvailableIcon /> : null}
-            <Handle type="source" position={Position.Right}/>
+            <Handle type="source" position={Position.Right} isConnectable={false} />
         </Node>
     );
 }

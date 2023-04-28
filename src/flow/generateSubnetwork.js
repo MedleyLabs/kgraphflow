@@ -18,8 +18,6 @@ function generateSubnetwork(viewData) {
     let inputNodes = [];
     let outputNodes = [];
     let edges = [];
-    let inputEdges = [];
-    let outputEdges = [];
 
     let currentId = 1;
 
@@ -27,11 +25,16 @@ function generateSubnetwork(viewData) {
         id: currentId.toString(),
         name: viewData.name,
         ariaLabel: viewData.name,
-        data: {label: viewData.name.length > 40 ? viewData.name.slice(0, 39) + '...' : viewData.name},
+        data: {
+            label: viewData.name.length > 40 ? viewData.name.slice(0, 39) + '...' : viewData.name,
+            ariaLabel: viewData.name,
+            infoAvailable: false
+        },
         position: { x: 0, y: 0 },
         targetPosition: 'left',
         sourcePosition: 'right',
         className: 'nodrag',
+        type: 'infoAvailableNode',
         style: {
             width: viewData.children.length > 0
                 ? defaultNodeWidth + defaultParentSpacer
@@ -44,6 +47,7 @@ function generateSubnetwork(viewData) {
                 ? 18
                 : defaultFontSize,
             borderColor: defaultBorderColor,
+            backgroundColor: 'white',
             borderWidth: defaultBorderWidth,
             zIndex: -1000
         },
@@ -138,11 +142,16 @@ function generateSubnetwork(viewData) {
             id: currentId.toString(),
             name: inputName,
             ariaLabel: inputName,
-            data: {label: inputName.length > 40 ? inputName.slice(0, 39) + '...' : inputName},
+            data: {
+                label: inputName.length > 40 ? inputName.slice(0, 39) + '...' : inputName,
+                ariaLabel: inputName,
+                infoAvailable: false
+            },
             position: { x: -defaultNodeWidth - defaultEdgeWidth, y: currentY },
             targetPosition: 'right',
             sourcePosition: 'right',
             className: 'nodrag',
+            type: 'infoAvailableNode',
             style: {
                 width: defaultNodeWidth,
                 height: defaultNodeHeight,
@@ -168,11 +177,16 @@ function generateSubnetwork(viewData) {
             id: currentId.toString(),
             name: outputName,
             ariaLabel: outputName,
-            data: {label: outputName.length > 40 ? outputName.slice(0, 39) + '...' : outputName},
+            data: {
+                label: outputName.length > 40 ? outputName.slice(0, 39) + '...' : outputName,
+                ariaLabel: outputName,
+                infoAvailable: false
+            },
             position: { x: parentNode.style.width + defaultEdgeWidth, y: currentY },
             targetPosition: 'left',
             sourcePosition: 'left',
             className: 'nodrag',
+            type: 'infoAvailableNode',
             style: {
                 width: defaultNodeWidth,
                 height: defaultNodeHeight,
