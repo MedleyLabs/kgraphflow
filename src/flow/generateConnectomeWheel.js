@@ -43,14 +43,17 @@ function generateConnectomeWheel(networks) {
         let degrees = 360 * nodeId / uniqueNodes.length - 90 ;
         let radians = Math.PI * degrees / 180;
 
+        let handlesPosition = degrees < 90 ? 'left' : 'right'
+        let justifyDirection = degrees < 90 ? 'flex-start' : 'flex-end'
+
         let newNode = {
             ...node,
             type: 'rotatableNode',
             className: 'nodrag',
             ariaLabel: node.name,
             position: { x: radius * Math.cos(radians), y: radius * Math.sin(radians) },
-            sourcePosition: degrees < 90 ? 'left' : 'right',
-            targetPosition: degrees < 90 ? 'left' : 'right',
+            sourcePosition: handlesPosition,
+            targetPosition: handlesPosition,
             style: {
                 ...node.style,
                 border: 0,
@@ -58,24 +61,28 @@ function generateConnectomeWheel(networks) {
                 backgroundColor: 'transparent',
                 fontSize: uniqueNodes.length < 30 ? 18 : 20,
                 width: defaultNodeWidth,
-                justifyContent: degrees < 90 ? 'left' : 'right',
-                textAlign: degrees < 90 ? 'left' : 'right',
+                justifyContent: justifyDirection,
+                textAlign: justifyDirection,
+                alignItems: justifyDirection,
+                WebkitJustifyContent: justifyDirection,
             },
             data: {
                 ...node.data,
                 id: node.id,
                 ariaLabel: node.name,
                 label: node.abbreviation,
-                sourcePosition: degrees < 90 ? 'left' : 'right',
-                targetPosition: degrees < 90 ? 'left' : 'right',
+                sourcePosition: handlesPosition,
+                targetPosition: handlesPosition,
                 style: {
                     ...node.data?.style,
                     borderStyle: 'solid',
                     borderColor: 'lightgray',
                     backgroundColor: 'transparent',
                     borderWidth: `0 ${degrees < 90 ? 0 : '2px'} 0 ${degrees < 90 ? '2px' : 0}`,
-                    justifyContent: degrees < 90 ? 'left' : 'right',
-                    textAlign: degrees < 90 ? 'left' : 'right',
+                    justifyContent: justifyDirection,
+                    textAlign: justifyDirection,
+                    alignItems: justifyDirection,
+                    WebkitJustifyContent: justifyDirection,
                     transform: `translateX(${radius * Math.cos(radians)}px) translateY(${radius * Math.sin(radians)}px) rotate(${degrees >= 90 ? degrees + 180 : degrees}deg)`,
                 },
             },
