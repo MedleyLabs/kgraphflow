@@ -8,14 +8,6 @@
   width: 65%;
 }
 
-.reactflow-wrapper {
-  display: flex;
-  flex-grow: 1;
-  height: 100%;
-  color: #404040;
-  overflow-y: hidden;
-}
-
 .react-flow__node {
   color: #404040;
   font-family: 'Nunito', sans-serif;
