@@ -247,12 +247,27 @@ function FlowConnectomeView(props) {
 
     }, [highlightNodeId])
 
-    const SidebarHeader = () => (
-        <SidebarHeaderContainer>
-            <a href={process.env.REACT_APP_ROOT_URL}><HomeIcon/></a>
-            <TutorialLink href="https://youtube.com" target="_blank">Tutorial</TutorialLink>
-        </SidebarHeaderContainer>
-    )
+    const SidebarHeader = () => {
+
+        const [hovered, setHovered] = useState(false);
+
+        return (
+            <SidebarHeaderContainer>
+                <a href={process.env.REACT_APP_ROOT_URL}><HomeIcon/></a>
+                <TutorialLink
+                    href=""
+                    target="_blank"
+                    onMouseEnter={() => {
+                        setHovered(true);
+                    }}
+                    onMouseLeave={() => {
+                        setHovered(false);
+                    }}
+                >{hovered ? 'Coming soon!' : 'Tutorial'}
+                </TutorialLink>
+            </SidebarHeaderContainer>
+        )
+    }
 
     return (
         <div className='reactflow-wrapper'>
