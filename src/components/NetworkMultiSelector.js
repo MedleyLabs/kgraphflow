@@ -13,7 +13,7 @@ const AddNew = styled.div`
   }
 `
 
-const NetworkMultiSelector = ({ networks, setNetworks, activeNetworks, setActiveNetworks }) => {
+const NetworkMultiSelector = ({ setView, networks, activeNetworks, setActiveNetworks }) => {
 
     const [hover, setHover] = useState(false);
 
@@ -59,7 +59,7 @@ const NetworkMultiSelector = ({ networks, setNetworks, activeNetworks, setActive
             <AddNew
                 onClick={ networks.length === 1
                     ? () => {
-                        setNetworks(networkData);
+                        setView('flowConnectomeView', {networkIndices: [0, 1]});
                         setActiveNetworks(['reset']);
                     }
                     : null

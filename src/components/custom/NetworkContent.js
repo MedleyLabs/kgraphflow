@@ -2,7 +2,7 @@ import React from 'react';
 
 import NetworkMultiSelector from '../NetworkMultiSelector.js';
 
-function NetworkContent({ networks, setNetworks, activeNetworks, setActiveNetworks, updateNetworks}) {
+function NetworkContent({ setView, networks, activeNetworks, setActiveNetworks }) {
 
     return (
         <>
@@ -15,11 +15,10 @@ function NetworkContent({ networks, setNetworks, activeNetworks, setActiveNetwor
             <div className='content-body'/>
             <div className='sidebar-body'>
                 <NetworkMultiSelector
+                    setView={setView}
                     networks={networks}
-                    setNetworks={setNetworks}
                     activeNetworks={activeNetworks}
                     setActiveNetworks={setActiveNetworks}
-                    updateNetworks={updateNetworks}
                 />
             </div>
         </>

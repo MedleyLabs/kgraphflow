@@ -91,7 +91,7 @@ function FlowFinderView(props) {
 
     const onEnterCallback = (event) => {
         // let scene = theories.find(item => event === item.name);
-        props.setViewType('flowVisualizerView');
+        props.setView('flowVisualizerView', {});
     }
 
     const [searchQuery, setSearchQuery] = useState('');

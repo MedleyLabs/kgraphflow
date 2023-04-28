@@ -10,25 +10,24 @@ import FlowFinderView from './views/FlowFinderView.js';
 import FlowTourView from './views/FlowTourView.js';
 import FlowVisualizerView from './views/FlowVisualizerView.js';
 
-import '../styles/main.css';
+const ViewFactory = ({ view, setView, isBackActive, goBack, isForwardActive, goForward }) => {
 
-const ViewFactory = ({ viewType, setViewType, viewProps, setViewProps }) => {
+    const wrapWithProvider = (Flow) => {
 
-    const wrapWithProvider = (Flow, props) => {
-
-        props = {
-            viewType: viewType,
-            setViewType: setViewType,
-            viewProps: viewProps,
-            setViewProps: setViewProps,
-            ...viewProps,
-            ...props
+        const props = {
+            view: view,
+            setView: setView,
+            isBackActive: isBackActive,
+            goBack: goBack,
+            isForwardActive: isForwardActive,
+            goForward: goForward,
+            ...view.props,
         };
 
         return <FlowWithProvider flow={React.createElement(Flow, props)} />;
     }
 
-    switch (viewType) {
+    switch (view.type) {
         case 'flowBuilderView':
             return wrapWithProvider(FlowBuilderView);
         case 'flowCircuitView':

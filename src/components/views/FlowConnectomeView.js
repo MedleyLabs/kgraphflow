@@ -1,41 +1,18 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {useReactFlow, useNodesState, useEdgesState} from 'reactflow';
-import styled from 'styled-components';
+
+import FlowWithSidebar from '../FlowWithSidebar.js';
+import SidebarHeader from '../SidebarHeader.js';
+import RotatableNode from '../RotatableNode.js';
+import ConditionContent from '../custom/NetworkContent.js';
 
 import generateConnectomeWheel from '../../flow/generateConnectomeWheel.js'
 
-import ConditionContent from '../custom/NetworkContent.js';
-import RotatableNode from '../RotatableNode.js';
-
-import HomeIcon from '../svg/HomeIcon.js'
-
 import {networkData} from '../../data/networkData.js';
-import FlowWithSidebar from '../FlowWithSidebar.js';
-
-const SidebarHeaderContainer = styled.div`
-  height: 60px;
-  -webkit-user-select: none; /* Disable text selection for Safari */
-  -moz-user-select: none; /* Disable text selection for Firefox */
-  -ms-user-select: none; /* Disable text selection for Internet Explorer/Edge */
-  user-select: none; /* Disable text selection for other browsers */
-`
-
-const TutorialLink = styled.a`
-  position: absolute;
-  top: 18.5px;
-  left: 70px;
-  color: #404040;
-  font-family: Nunito, sans-serif;
-  font-size: 19px;
-
-  :hover {
-    color: dodgerblue;
-  }
-`
 
 function FlowConnectomeView(props) {
 
-    const [networks, setNetworks] = useState([networkData[props.initialIdx]]);
+    const networks = props.networkIndices.map(idx => networkData[idx]);
     const [activeNetworks, setActiveNetworks] = useState([]);
     const [sidebarContent, setSidebarContent] = useState(null);
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -49,29 +26,28 @@ function FlowConnectomeView(props) {
 
     useEffect(() => {
 
-        let network = generateConnectomeWheel(networks.length === 1 ? networks : networkData);
-        setNodes(network.nodes);
-        setEdges(network.edges);
+        let mergedNetwork = generateConnectomeWheel(networks);
+        setNodes(mergedNetwork.nodes);
+        setEdges(mergedNetwork.edges);
 
         setSidebarContent(<ConditionContent
+            setView={props.setView}
             networks={networks}
-            setNetworks={setNetworks}
             activeNetworks={activeNetworks}
             setActiveNetworks={setActiveNetworks}
-            content={{}}
         />);
 
-    }, [networks])
+    }, [props.networkIndices])
 
     useEffect(() => {
 
         setSidebarContent(<ConditionContent
+            setView={props.setView}
             networks={networks}
-            setNetworks={setNetworks}
             activeNetworks={activeNetworks}
             setActiveNetworks={setActiveNetworks}
-            content={{}}
         />);
+
     }, [activeNetworks])
 
     useEffect(() => {
@@ -247,31 +223,16 @@ function FlowConnectomeView(props) {
 
     }, [highlightNodeId])
 
-    const SidebarHeader = () => {
-
-        const [hovered, setHovered] = useState(false);
-
-        return (
-            <SidebarHeaderContainer>
-                <a href={process.env.REACT_APP_ROOT_URL}><HomeIcon/></a>
-                <TutorialLink
-                    href=""
-                    target="_blank"
-                    onMouseEnter={() => {
-                        setHovered(true);
-                    }}
-                    onMouseLeave={() => {
-                        setHovered(false);
-                    }}
-                >{hovered ? 'Coming soon!' : 'Tutorial'}
-                </TutorialLink>
-            </SidebarHeaderContainer>
-        )
-    }
+    const sidebarHeader = <SidebarHeader
+        isBackActive={props.isBackActive}
+        goBack={props.goBack}
+        isForwardActive={props.isForwardActive}
+        goForward={props.goForward}
+    />
 
     return (
         <FlowWithSidebar
-            sidebarHeader={<SidebarHeader/>}
+            sidebarHeader={sidebarHeader}
             sidebarContent={sidebarContent}
             nodes={nodes}
             edges={edges}

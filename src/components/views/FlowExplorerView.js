@@ -1,52 +1,22 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {useEdgesState, useNodesState, useReactFlow} from 'reactflow';
-import styled from 'styled-components';
 import TaxonomyWheel from 'taxonomy-wheel';
 
 import FlowWithSidebar from '../FlowWithSidebar.js';
-import generateSubnetwork from '../../flow/generateSubnetwork.js';
-
+import SidebarHeader from '../SidebarHeader.js';
 import InfoAvailableNode from '../InfoAvailableNode.js';
 import NeuralRegionContent from '../custom/NeuralRegionContent.js';
 
+import generateSubnetwork from '../../flow/generateSubnetwork.js';
+
 import taxonomy from '../../data/taxonomyData';
-
-import HomeIcon from '../svg/HomeIcon.js';
-import ArrowLeftIcon from '../svg/ArrowLeftIcon.js';
-import ArrowRightIcon from '../svg/ArrowRightIcon.js';
-
-const SidebarHeaderContainer = styled.div`
-  height: 60px;
-  -webkit-user-select: none; /* Disable text selection for Safari */
-  -moz-user-select: none; /* Disable text selection for Firefox */
-  -ms-user-select: none; /* Disable text selection for Internet Explorer/Edge */
-  user-select: none; /* Disable text selection for other browsers */
-`
-
-const TutorialLink = styled.a`
-  position: absolute;
-  top: 18.5px;
-  left: 141px;
-  color: #404040;
-  font-family: Nunito, sans-serif;
-  font-size: 18px;
-
-  :hover {
-    color: dodgerblue;
-  }
-`
 
 function FlowExplorerView(props) {
 
-    const [baseEntity, setBaseEntity] = useState(props.baseEntity);
     const [sidebarContent, setSidebarContent] = useState(null);
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-
     const [highlightNodeId, setHighlightNodeId] = useState(null);
-
-    const [history, setHistory] = useState([props.baseEntity]);
-    const [currentHistoryIdx, setCurrentHistoryIdx] = useState(0);
 
     const nodeTypes = useMemo(() => ({infoAvailableNode: InfoAvailableNode}), []);
 
@@ -57,33 +27,15 @@ function FlowExplorerView(props) {
         let newBaseEntity = event.target.attributes['aria-label'].nodeValue;
 
         if (newBaseEntity === 'Anxiety') {
-            props.setViewType('flowConnectomeView');
-            props.setViewProps({...props.viewProps, initialIdx: 0});
+            props.setView('flowConnectomeView', {networkIndices: [0]});
             return;
         }
         if (newBaseEntity === 'Chronic orofacial pain') {
-            props.setViewType('flowConnectomeView');
-            props.setViewProps({...props.viewProps, initialIdx: 1});
+            props.setView('flowConnectomeView', {networkIndices: [1]});
             return;
         }
 
-        setBaseEntity(newBaseEntity);
-
-        let newIdx = currentHistoryIdx + 1;
-        setHistory((history) => [...history.slice(0, newIdx), newBaseEntity]);
-        setCurrentHistoryIdx(newIdx);
-    }
-
-    const handleBackButton = () => {
-        let newIdx = currentHistoryIdx - 1;
-        setBaseEntity(history[newIdx]);
-        setCurrentHistoryIdx(newIdx);
-    }
-
-    const handleForwardButton = () => {
-        let newIdx = currentHistoryIdx + 1;
-        setBaseEntity(history[newIdx])
-        setCurrentHistoryIdx(newIdx)
+        props.setView('flowExplorerView', {baseEntity: newBaseEntity});
     }
 
     useEffect(() => {
@@ -135,7 +87,6 @@ function FlowExplorerView(props) {
                         ),
                     }}
                     navigateToNode={navigateToNode}
-                    setBaseEntity={setBaseEntity}
                 />);
 
             } catch (error) {
@@ -144,9 +95,9 @@ function FlowExplorerView(props) {
             }
         }
 
-        updateNodes(baseEntity)
+        updateNodes(props.baseEntity)
 
-    }, [baseEntity]);
+    }, [props.baseEntity]);
 
     useEffect(() => {
 
@@ -224,48 +175,16 @@ function FlowExplorerView(props) {
 
     }, [highlightNodeId])
 
-    const arrowStyles = {
-        position: 'absolute',
-        top: 20,
-        height: 22,
-        zIndex: '1000 !important',
-    }
-
-    const SidebarHeader = () => {
-
-        const [hovered, setHovered] = useState(false);
-
-        return (
-            <SidebarHeaderContainer>
-                <a href={process.env.REACT_APP_ROOT_URL}><HomeIcon/></a>
-                <ArrowLeftIcon
-                    isActive={currentHistoryIdx > 0}
-                    onClick={handleBackButton}
-                    style={{...arrowStyles, left: 67}}
-                />
-                <ArrowRightIcon
-                    isActive={currentHistoryIdx < history.length - 1}
-                    onClick={handleForwardButton}
-                    style={{...arrowStyles, left: 102}}
-                />
-                <TutorialLink
-                    href=""
-                    target=""
-                    onMouseEnter={() => {
-                        setHovered(true);
-                    }}
-                    onMouseLeave={() => {
-                        setHovered(false);
-                    }}
-                >{hovered ? 'Coming soon!' : 'Tutorial'}
-                </TutorialLink>
-            </SidebarHeaderContainer>
-        )
-    }
+    const sidebarHeader = <SidebarHeader
+        isBackActive={props.isBackActive}
+        goBack={props.goBack}
+        isForwardActive={props.isForwardActive}
+        goForward={props.goForward}
+    />
 
     return (
         <FlowWithSidebar
-            sidebarHeader={<SidebarHeader/>}
+            sidebarHeader={sidebarHeader}
             sidebarContent={sidebarContent}
             nodes={nodes}
             edges={edges}

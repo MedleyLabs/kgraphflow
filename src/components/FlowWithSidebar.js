@@ -7,6 +7,7 @@ const ReactFlowWrapper = styled.div`
   display: flex;
   flex-grow: 1;
   height: 100%;
+  width: 100%;
   color: #404040;
   overflow-y: hidden;
 `
