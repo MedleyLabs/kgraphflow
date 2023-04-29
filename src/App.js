@@ -5,7 +5,7 @@ import './styles/main.css';
 
 const App = () => {
 
-    const defaultViewType = 'flowExplorerView';
+    const defaultViewType = 'flowConnectomeView';
 
     const defaultViewProps = {
         flowExplorerView: {baseEntity: 'Amygdala'},
