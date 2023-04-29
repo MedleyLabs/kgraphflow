@@ -27,6 +27,7 @@ function FlowConnectomeView(props) {
     useEffect(() => {
 
         let mergedNetwork = generateConnectomeWheel(networks);
+
         setNodes(mergedNetwork.nodes);
         setEdges(mergedNetwork.edges);
 
@@ -139,6 +140,10 @@ function FlowConnectomeView(props) {
         for (let node of currentNodes) {
 
             let child = node.childNodes[0];
+
+            child.onclick = (event) => {
+                props.setView('flowExplorerView', {baseEntity: event.target.parentNode.innerText})
+            };
 
             child.onmouseenter = (event) => {
                 if (activeNetworks.length > 0) return;
