@@ -141,8 +141,8 @@ function FlowConnectomeView(props) {
 
             let child = node.childNodes[0];
 
-            child.onclick = (event) => {
-                props.setView('flowExplorerView', {baseEntity: event.target.parentNode.innerText})
+            child.onclick = (event) =>  {
+                props.setView('flowExplorerView', {baseEntity: event.target.parentNode.attributes['aria-label'].nodeValue});
             };
 
             child.onmouseenter = (event) => {
