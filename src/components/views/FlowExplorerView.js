@@ -107,7 +107,9 @@ function FlowExplorerView(props) {
 
             if (node.textContent === '') continue;
 
-            node.onclick = navigateToNode;
+            if (node.textContent !== props.baseEntity) {
+                node.onclick = navigateToNode;
+            }
 
             node.onmouseenter = (event) => {
                 let nodeId = event.target.dataset.id;
