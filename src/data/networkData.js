@@ -41,7 +41,7 @@ const networkData = [
             {
                 id: '201',
                 name: 'Nucleus of stria terminalis',
-                abbreviation: 'NST',
+                abbreviation: 'BNST',
             },
             {
                 id: '202',
