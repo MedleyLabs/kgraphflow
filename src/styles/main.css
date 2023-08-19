@@ -18,15 +18,15 @@
 }
 
 .content-header {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 22px;
 }
 
 .content-body {
   font-size: 1.1em;
   font-style: italic;
-  margin-bottom: 35px;
+  margin-bottom: 20px;
 }
 
 .content-h2 {
@@ -51,27 +51,25 @@ a {
 
 .autocomplete-input {
   font-family: 'Nunito', sans-serif;
-  height: 30px;
   width: 100%;
-  padding: 2px 12px 2px 12px;
-  border: 1px solid gray;
-  border-radius: 5px;
+  height: 100%;
+  padding: 0;
+  border: 0;
 }
 
 .autocomplete-input:focus {
-  border: 1px solid dodgerblue;
-  outline: 1px solid dodgerblue;
+  border: 0;
+  outline: 0;
 }
 
 .autocomplete-img {
-  padding-top: 8px;
   width: 18px;
   height: 18px;
   object-fit: cover;
   background: transparent;
   border: none;
   outline: none;
-  margin-left: -33px;
+  margin-left: -20px;
 }
 
 .suggestions {
@@ -107,16 +105,4 @@ a {
 
 .react-flow__handle-bottom {
   opacity: 0;
-}
-
-.sidebar-link:hover {
-  color: dodgerblue;
-}
-
-.highlight:hover {
-  color: dodgerblue;
-}
-
-.hoverable:hover {
-  fill: dodgerblue !important;
 }

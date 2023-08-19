@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Handle, useUpdateNodeInternals} from 'reactflow';
+import React, { useEffect } from 'react';
+import { Handle, useUpdateNodeInternals } from 'reactflow';
 import styled from 'styled-components';
 
 const Node = styled.div`
@@ -10,9 +10,9 @@ const Node = styled.div`
   background: white;
   justify-content: left;
   align-items: center;
-`
+`;
 
-function RotatableNode({data}) {
+const RotatableNode = ({ data, includeCheckbox=false }) => {
 
     const updateNodeInternals = useUpdateNodeInternals();
 
@@ -21,12 +21,25 @@ function RotatableNode({data}) {
     }, [data.id, data.style.transform]);
 
     return (
-        <Node aria-label={data?.label} style={data?.style}>
-            <Handle type="target" position={data?.targetPosition} isConnectable={false} />
-            {data?.label}
-            <Handle type="source" position={data?.sourcePosition} isConnectable={false} />
+        <Node aria-label={data?.label} style={data.style}>
+            <Handle type="target" position={data.targetPosition} isConnectable={false} />
+            {data.targetPosition === 'right' ? data.label : null}
+            {includeCheckbox
+                ? (
+                    <input
+                        type="checkbox"
+                        name="select-node"
+                        style={ data.targetPosition === 'right'
+                            ? {marginLeft: 12}
+                            : {marginRight: 12}
+                        }
+                    />
+                ) : null
+            }
+            {data.targetPosition === 'right' ? null : data.label}
+            <Handle type="source" position={data.sourcePosition} isConnectable={false} />
         </Node>
     );
-}
+};
 
-export default RotatableNode
+export default RotatableNode;

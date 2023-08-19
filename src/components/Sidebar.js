@@ -3,23 +3,23 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   border-right: 1px solid lightgray;
-  padding: 20px 0 20px 30px;
+  padding: 10px 0 10px 20px;
   background: #fcfcfc;
-  width: 35%;
+  width: 25%;
   font-family: 'Nunito', sans-serif;
-`
+`;
 
 const Scrollable = styled.aside`
   height: 100%;
   overflow-y: scroll;
-  padding-right: 30px; // Positions the scrollbar to the right edge of Container
-`
+  padding-right: 20px; // Positions the scrollbar to the right edge of Container
+`;
 
-const Sidebar = (props) => {
+const Sidebar = ({ header, content}) => {
     return (
         <Container>
-            {props.header}
-            <Scrollable>{props.content}</Scrollable>
+            {header}
+            <Scrollable>{content}</Scrollable>
         </Container>
     );
 };

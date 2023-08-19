@@ -1,12 +1,8 @@
-import {useCallback, useEffect, useState} from 'react';
-import ReactFlow, {Background, Controls, addEdge, useEdgesState, useNodesState, useReactFlow} from "reactflow";
+import React, { useCallback, useEffect, useState } from 'react';
+import ReactFlow, { Background, Controls, addEdge, useEdgesState, useNodesState, useReactFlow } from "reactflow";
 
-
-import Button from '../Button.js';
-import SidebarSection from '../SidebarSection.js';
-import extractDigits from '../../util/extractDigits.js';
 import Sidebar from '../Sidebar.js';
-import AutoComplete from "../Autocomplete";
+import AutoComplete from '../Autocomplete.js';
 
 const autocompleteData = [
     'Amygdala',
@@ -106,7 +102,7 @@ function FlowBuilderView(props) {
             handle.onclick = handleCallback;
         }
 
-    }, [nodes])
+    }, [nodes]);
 
     return (
         <div className='reactflow-wrapper'>
@@ -123,7 +119,6 @@ function FlowBuilderView(props) {
             </ReactFlow>
         </div>
     );
-
-}
+};
 
 export default FlowBuilderView;

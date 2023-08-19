@@ -1,4 +1,4 @@
-import {Handle, Position} from 'reactflow';
+import { Handle, Position } from 'reactflow';
 import styled from "styled-components";
 import InfoAvailableIcon from "./InfoAvailableIcon";
 

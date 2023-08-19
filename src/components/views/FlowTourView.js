@@ -1,11 +1,11 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
 import Button from '../Button.js';
 import SidebarSection from '../SidebarSection.js';
 import extractDigits from '../../util/extractDigits.js';
 
-import {theories} from '../../data/theoriesData.js';
-import ReactFlow, {Background, Controls, useEdgesState, useNodesState} from "reactflow";
+import { theories } from '../../data/theoriesData.js';
+import ReactFlow, { Background, Controls, useEdgesState, useNodesState } from "reactflow";
 import Sidebar from "../Sidebar";
 import ChatIcon from '../../assets/chat-icon.svg'
 

@@ -1,5 +1,5 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {useEdgesState, useNodesState, useReactFlow} from 'reactflow';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useEdgesState, useNodesState, useReactFlow } from 'reactflow';
 import TaxonomyWheel from 'taxonomy-wheel';
 
 import FlowWithSidebar from '../FlowWithSidebar.js';
@@ -11,7 +11,7 @@ import generateSubnetwork from '../../flow/generateSubnetwork.js';
 
 import taxonomy from '../../data/taxonomyData';
 
-function FlowExplorerView(props) {
+const FlowExplorerView = (props) => {
 
     const [sidebarContent, setSidebarContent] = useState(null);
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -178,9 +178,9 @@ function FlowExplorerView(props) {
     }, [highlightNodeId])
 
     const sidebarHeader = <SidebarHeader
-        isBackActive={props.isBackActive}
+        isBackActive={props.canGoBack}
         goBack={props.goBack}
-        isForwardActive={props.isForwardActive}
+        isForwardActive={props.canGoForward}
         goForward={props.goForward}
     />
 

@@ -2,6 +2,8 @@ import ReactFlow, { Background, Controls } from 'reactflow';
 import styled from 'styled-components';
 
 import Sidebar from './Sidebar.js';
+import SelectOption from "./SelectOption";
+import ModalitySettings from "./ModalitySettings";
 
 const ReactFlowWrapper = styled.div`
   display: flex;
@@ -10,7 +12,7 @@ const ReactFlowWrapper = styled.div`
   width: 100%;
   color: #404040;
   overflow-y: hidden;
-`
+`;
 
 const MobileNotSupported = styled.div`
   position: absolute;
@@ -27,9 +29,17 @@ const MobileNotSupported = styled.div`
   background-color: white;
   z-index: 1000;
   text-align: center;
-`
+`;
+
+const ModalitiesContainer = styled.div`
+  position: absolute;
+  top: 34px;
+  right: 10px;
+`;
 
 const FlowWithSidebar = ({
+    view,
+    setView,
     sidebarHeader,
     sidebarContent,
     nodes,
@@ -62,6 +72,13 @@ const FlowWithSidebar = ({
                         {enableControls ? <Controls/> : null}
                         {enableBackground ? <Background/> : null}
                     </ReactFlow>
+                    <ModalitiesContainer>
+                        <ModalitySettings
+                            view={view}
+                            setView={setView}
+                            settingsCallback={() => {console.log('settings callback')}}
+                        />
+                    </ModalitiesContainer>
                 </ReactFlowWrapper>
             )
             :
@@ -73,28 +90,7 @@ const FlowWithSidebar = ({
                 </MobileNotSupported>
                 <Background/>
             </>
-    // <ReactFlowWrapper>
-    //     <SidebarWrapper isSidebarVisible={isSidebarVisible}>
-    //         <Sidebar header={sidebarHeader} content={sidebarContent}/>
-    //     </SidebarWrapper>
-    //     <PaneWrapper isSidebarVisible={isSidebarVisible}>
-    //         <ReactFlow
-    //             nodes={nodes}
-    //             edges={edges}
-    //             onNodesChange={onNodesChange}
-    //             onEdgesChange={onEdgesChange}
-    //             nodeTypes={nodeTypes}
-    //             panOnDrag={enableControls}
-    //             zoomOnScroll={enableControls}
-    //             zoomOnPinch={enableControls}
-    //             zoomOnDoubleClick={enableControls}
-    //         >
-    //             {enableControls ? <Controls/> : null}
-    //             {enableBackground ? <Background/> : null}
-    //         </ReactFlow>
-    //     </PaneWrapper>
-    // </ReactFlowWrapper>
     );
-}
+};
 
 export default FlowWithSidebar;

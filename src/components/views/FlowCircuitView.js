@@ -1,10 +1,10 @@
-import {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Button from '../Button.js';
 import SidebarSection from '../SidebarSection.js';
 import extractDigits from '../../util/extractDigits.js';
 
-import {carotidSinusReflexData} from '../../data/circuit.js';
+import { carotidSinusReflexData } from '../../data/circuit.js';
 import ReactFlow, {Background, Controls, useEdgesState, useNodesState} from "reactflow";
 import Sidebar from "../Sidebar";
 import ChatIcon from '../../assets/chat-icon.svg'

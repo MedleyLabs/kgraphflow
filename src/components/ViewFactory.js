@@ -9,23 +9,24 @@ import FlowExplorerView from './views/FlowExplorerView.js';
 import FlowFinderView from './views/FlowFinderView.js';
 import FlowTourView from './views/FlowTourView.js';
 import FlowVisualizerView from './views/FlowVisualizerView.js';
+import FlowExtractView from './views/FlowExtractView.js';
+import SearchView from './views/SearchView.js';
 
-const ViewFactory = ({ view, setView, isBackActive, goBack, isForwardActive, goForward }) => {
+const ViewFactory = ({ view, setView, canGoBack, goBack, canGoForward, goForward }) => {
+
+    const props = {
+        view: view,
+        setView: setView,
+        canGoBack: canGoBack,
+        goBack: goBack,
+        canGoForward: canGoForward,
+        goForward: goForward,
+        ...view.props,
+    };
 
     const wrapWithProvider = (Flow) => {
-
-        const props = {
-            view: view,
-            setView: setView,
-            isBackActive: isBackActive,
-            goBack: goBack,
-            isForwardActive: isForwardActive,
-            goForward: goForward,
-            ...view.props,
-        };
-
         return <FlowWithProvider flow={React.createElement(Flow, props)} />;
-    }
+    };
 
     switch (view.type) {
         case 'flowBuilderView':
@@ -36,14 +37,18 @@ const ViewFactory = ({ view, setView, isBackActive, goBack, isForwardActive, goF
             return wrapWithProvider(FlowConnectomeView);
         case 'flowExplorerView':
             return wrapWithProvider(FlowExplorerView);
+        case 'flowExtractView':
+            return wrapWithProvider(FlowExtractView);
         case 'flowFinderView':
             return wrapWithProvider(FlowFinderView);
         case 'flowTourView':
             return wrapWithProvider(FlowTourView);
         case 'flowVisualizerView':
             return wrapWithProvider(FlowVisualizerView);
+        case 'searchView':
+            return React.createElement(SearchView, props);
         default:
-            return <div>Error: Invalid view type</div>;
+            return <div>Error: Invalid view type "{view.type}"</div>;
     }
 }
 

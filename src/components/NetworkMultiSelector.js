@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import {networkData} from '../data/networkData.js';
+import SidebarSection from "./SidebarSection";
 
 const AddNew = styled.div`
   margin-top: 20px;
@@ -11,13 +11,13 @@ const AddNew = styled.div`
   &:hover {
     color: dodgerblue;
   }
-`
+`;
 
-const NetworkMultiSelector = ({ setView, networks, activeNetworks, setActiveNetworks }) => {
+const NetworkMultiSelector = ({setView, networks, activeNetworks, setActiveNetworks}) => {
 
     const [hover, setHover] = useState(false);
 
-    const Row = ({ network }) => {
+    const Row = ({network}) => {
 
         const isActive = activeNetworks.includes(network.id);
 
@@ -30,7 +30,9 @@ const NetworkMultiSelector = ({ setView, networks, activeNetworks, setActiveNetw
         };
 
         return (
-            <div onClick={() => {toggleActive()}}>
+            <div onClick={() => {
+                toggleActive()
+            }}>
                 <input
                     type="checkbox"
                     id="item"
@@ -50,25 +52,21 @@ const NetworkMultiSelector = ({ setView, networks, activeNetworks, setActiveNetw
         );
     };
 
+    const mapToLinks = (networks) => {
+        {networks.map((network) => {
+            return <Row network={network} key={network.id} />
+        })}
+    }
+
+    console.log('NETWORKS', networks)
+
     return (
-        <>
-            <h3>Active</h3>
-            {networks.map((network) => {
-                return <Row network={network} key={network.id} />
-            })}
-            <AddNew
-                onClick={ networks.length === 1
-                    ? () => {
-                        setView('flowConnectomeView', {networkIndices: [0, 1]});
-                        setActiveNetworks(['reset']);
-                    }
-                    : null
-                }
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
-            >{(!hover || networks?.length === 1) ? '+ Add New' : "That's all for now!"}
-            </AddNew>
-        </>
+        <SidebarSection
+            title='Networks'
+            description={networks.length > 0 ? mapToLinks(networks) : 'None specified'}
+            defaultIsOpen={true}
+            style={{paddingTop: 12, borderTop: '1px solid lightgray'}}
+        />
     );
 
 };

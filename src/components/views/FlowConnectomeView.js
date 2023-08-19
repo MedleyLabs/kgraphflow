@@ -1,24 +1,20 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {useReactFlow, useNodesState, useEdgesState} from 'reactflow';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useReactFlow, useNodesState, useEdgesState } from 'reactflow';
 
 import FlowWithSidebar from '../FlowWithSidebar.js';
-import SidebarHeader from '../SidebarHeader.js';
+import NetworkContent from '../custom/NetworkContent.js';
 import RotatableNode from '../RotatableNode.js';
-import ConditionContent from '../custom/NetworkContent.js';
 
 import generateConnectomeWheel from '../../flow/generateConnectomeWheel.js'
 
-import {networkData} from '../../data/networkData.js';
+const FlowConnectomeView = ({ view, setView, networks, regions, coordinates }) => {
 
-function FlowConnectomeView(props) {
+    console.log('FlowConnectomeView:', view, networks, regions, coordinates)
 
-    const networks = props.networkIndices.map(idx => networkData[idx]);
-    const [activeNetworks, setActiveNetworks] = useState([]);
-    const [sidebarContent, setSidebarContent] = useState(null);
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-
-    const [highlightNodeId, setHighlightNodeId] = useState(null);
+    const [hoveredNodeId, setHoveredNodeId] = useState(null);
+    const [sidebarContent, setSidebarContent] = useState(null);
 
     const nodeTypes = useMemo(() => ({rotatableNode: RotatableNode}), []);
 
@@ -26,39 +22,22 @@ function FlowConnectomeView(props) {
 
     useEffect(() => {
 
+        console.log('NETWORKS', networks)
+
         let mergedNetwork = generateConnectomeWheel(networks);
 
         setNodes(mergedNetwork.nodes);
         setEdges(mergedNetwork.edges);
 
-        setSidebarContent(<ConditionContent
-            setView={props.setView}
+        setSidebarContent(<NetworkContent
+            view={view}
+            setView={setView}
             networks={networks}
-            activeNetworks={activeNetworks}
-            setActiveNetworks={setActiveNetworks}
+            regions={regions}
+            coordinates={coordinates}
         />);
 
-    }, [props.networkIndices])
-
-    useEffect(() => {
-
-        setSidebarContent(<ConditionContent
-            setView={props.setView}
-            networks={networks}
-            activeNetworks={activeNetworks}
-            setActiveNetworks={setActiveNetworks}
-        />);
-
-    }, [activeNetworks])
-
-    useEffect(() => {
-
-        if (activeNetworks.length === 1 && activeNetworks[0] === 'reset') {
-            setActiveNetworks([]);
-            return;
-        }
-
-        const unhighlightedNodes = nodes.map(node => {
+        const unhighlightedNodes = mergedNetwork.nodes.map(node => {
             return {
                 ...node,
                 style: {...node.style, color: '#404040'},
@@ -66,8 +45,11 @@ function FlowConnectomeView(props) {
             };
         });
 
-        const unhighlightedEdges = edges.map(edge => {
-            return {...edge, style: {...edge.style, stroke: 'lightgray'}};
+        const unhighlightedEdges = mergedNetwork.edges.map(edge => {
+            return {
+                ...edge,
+                style: {...edge.style, stroke: 'lightgray'}
+            };
         });
 
         if (nodes.length > 0) {
@@ -75,65 +57,57 @@ function FlowConnectomeView(props) {
             setEdges(unhighlightedEdges);
         }
 
-        for (let network of networks) {
+        const activeNetworks = networks.filter(network => network.isActive);
 
-            if (activeNetworks.includes(network.id)) {
+        let sharedNodes = [];
+        let sharedEdges = [];
 
-                let nodeIds = [];
-                let edgeIds = [];
+        if (activeNetworks.length > 0) {
+            sharedNodes = [...activeNetworks[0].nodes];
+            sharedEdges = [...activeNetworks[0].edges];
+        } else return;
 
-                if (activeNetworks.length === 2) {
-                    let sharedNodes = networks[0].nodes.filter(nodeA => networks[1].nodes.some(nodeB => nodeA.id === nodeB.id))
-                    nodeIds = sharedNodes.map(n => n.id)
+        for (let i = 1; i < activeNetworks.length; i++) {
+            const network = activeNetworks[i];
 
-                    let sharedEdges = networks[0].edges.filter(edgeA => networks[1].edges.some(edgeB => (edgeA.source === edgeB.source && edgeA.target === edgeB.target)))
-
-                    for (let sharedEdge of sharedEdges) {
-                        for (let e of unhighlightedEdges) {
-                            if (sharedEdge.source === e.source && sharedEdge.target === e.target) {
-                                edgeIds.push({source: e.source, target: e.target})
-                            }
-                        }
-                    }
-                } else {
-                    nodeIds = network.nodes.map(n => n.id)
-                    edgeIds = network.edges.map(e => ({source: e.source, target: e.target}))
-                }
-
-                const highlightedNodes = unhighlightedNodes.map(node => {
-                    if (!nodeIds.includes(node.id)) return {
-                        ...node,
-                        style: {...node.style, color: '#404040'},
-                        data: {
-                            ...node.data,
-                            label: node.abbreviation,
-                            style: {...node.data.style, borderColor: 'lightgray'}
-                        }
-                    };
-
-                    return {
-                        ...node,
-                        style: {...node.style, color: 'dodgerblue'},
-                        data: {...node.data, label: node.name, style: {...node.data.style, borderColor: 'dodgerblue'}}
-                    };
-                });
-
-                const highlightedEdges = unhighlightedEdges.map(edge => {
-                    if (!edgeIds.some((edgeId) => edgeId.source === edge.source && edgeId.target === edge.target)) return {
-                        ...edge,
-                        style: {...edge.style, stroke: 'lightgray'}
-                    };
-                    return {...edge, style: {...edge.style, stroke: 'dodgerblue'}};
-                });
-
-                setNodes(highlightedNodes);
-                setEdges(highlightedEdges);
-            }
+            sharedNodes = sharedNodes.filter(nodeA => network.nodes.some(nodeB => nodeA.id === nodeB.id));
+            sharedEdges = sharedEdges.filter(edgeA => network.edges.some(edgeB => edgeA.source === edgeB.source && edgeA.target === edgeB.target));
         }
 
-    }, [activeNetworks]);
+        const highlightedNodes = unhighlightedNodes.map(nodeA => {
+            if (!sharedNodes.some(nodeB => nodeA.id === nodeB.id)) return {
+                ...nodeA,
+                style: {...nodeA.style, color: '#404040'},
+                data: {
+                    ...nodeA.data,
+                    label: nodeA.abbreviation,
+                    style: {...nodeA.data.style, borderColor: 'lightgray'}
+                }
+            };
+
+            return {
+                ...nodeA,
+                style: {...nodeA.style, color: 'dodgerblue'},
+                data: {...nodeA.data, label: nodeA.name, style: {...nodeA.data.style, borderColor: 'dodgerblue'}}
+            };
+        });
+
+        const highlightedEdges = unhighlightedEdges.map(edgeA => {
+            if (sharedEdges.some(edgeB => edgeA.source === edgeB.source && edgeA.target === edgeB.target)) return {
+                ...edgeA,
+                style: {...edgeA.style, stroke: 'dodgerblue'}
+            };
+            return {...edgeA, style: {...edgeA.style, stroke: 'lightgray'}};
+        });
+
+        setNodes(highlightedNodes);
+        setEdges(highlightedEdges);
+
+    }, [networks, regions, coordinates]);
 
     useEffect(() => {
+
+        console.log("NODES")
 
         let currentNodes = document.querySelectorAll('.react-flow__node');
 
@@ -141,19 +115,22 @@ function FlowConnectomeView(props) {
 
             let child = node.childNodes[0];
 
-            child.onclick = (event) =>  {
-                props.setView('flowExplorerView', {baseEntity: event.target.parentNode.attributes['aria-label'].nodeValue});
+            child.onclick = (event) => {
+                let nodeName = event.target.parentNode.attributes['aria-label'].nodeValue
+                setView('flowExplorerView', {baseEntity: nodeName});
             };
+
+            const activeNetworks = networks.filter(network => network.isActive);
 
             child.onmouseenter = (event) => {
                 if (activeNetworks.length > 0) return;
                 let nodeId = event.target.parentNode.dataset.id;
-                setHighlightNodeId(nodeId);
+                setHoveredNodeId(nodeId);
             };
 
             child.onmouseleave = () => {
                 if (activeNetworks.length > 0) return;
-                setHighlightNodeId(null);
+                setHoveredNodeId(null);
             };
         }
 
@@ -167,6 +144,8 @@ function FlowConnectomeView(props) {
 
     useEffect(() => {
 
+        console.log('HOVER ID')
+
         const unhighlightedNodes = nodes.map(node => {
             return {
                 ...node,
@@ -176,10 +155,13 @@ function FlowConnectomeView(props) {
         });
 
         const unhighlightedEdges = edges.map(edge => {
-            return {...edge, style: {...edge.style, stroke: 'lightgray'}};
+            return {
+                ...edge,
+                style: {...edge.style, stroke: 'lightgray'}
+            };
         });
 
-        if (!highlightNodeId) {
+        if (!hoveredNodeId) {
             if (nodes.length > 0) {
                 setNodes(unhighlightedNodes);
                 setEdges(unhighlightedEdges);
@@ -190,14 +172,14 @@ function FlowConnectomeView(props) {
         let nodeIdsToHighlight = new Set();
         let edgeIdsToHighlight = new Set();
 
-        nodeIdsToHighlight.add(highlightNodeId)
+        nodeIdsToHighlight.add(hoveredNodeId);
 
         for (let edge of unhighlightedEdges) {
-            if (edge.source === highlightNodeId) {
+            if (edge.source === hoveredNodeId) {
                 nodeIdsToHighlight.add(edge.target);
                 edgeIdsToHighlight.add(edge.id);
             }
-            if (edge.target === highlightNodeId) {
+            if (edge.target === hoveredNodeId) {
                 nodeIdsToHighlight.add(edge.source);
                 edgeIdsToHighlight.add(edge.id);
             }
@@ -226,26 +208,21 @@ function FlowConnectomeView(props) {
         });
         setEdges(updatedEdges);
 
-    }, [highlightNodeId])
-
-    const sidebarHeader = <SidebarHeader
-        isBackActive={props.isBackActive}
-        goBack={props.goBack}
-        isForwardActive={props.isForwardActive}
-        goForward={props.goForward}
-    />
+    }, [hoveredNodeId]);
 
     return (
         <FlowWithSidebar
-            sidebarHeader={sidebarHeader}
+            view={view}
+            setView={setView}
             sidebarContent={sidebarContent}
             nodes={nodes}
             edges={edges}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             nodeTypes={nodeTypes}
+            enableBackground={true}
         />
     );
-}
+};
 
 export default FlowConnectomeView;

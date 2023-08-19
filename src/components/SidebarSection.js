@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import InfoAvailableIcon from './InfoAvailableIcon.js';
 import TriangleDownIcon from './svg/TriangleDownIcon.js';
 import TriangleRightIcon from './svg/TriangleRightIcon.js';
 
@@ -10,74 +9,78 @@ const Section = styled.div`
   flex-direction: column;
   border-bottom: 1px solid lightgray;
   height: 100%;
+  width: 100%;
   box-sizing: border-box;
-  padding: 18px 0 19px 0;
-`
+  padding: 0 0 8px 0;
+  margin-top: 12px;
+`;
 
 const SectionHeader = styled.div`
   display: flex;
   flex-direction: row;
-`
+`;
+
+const SectionBody = styled.div`
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  padding: 18px 0 0 20px;
+`;
 
 const SectionColumn = styled.div`
   flex: 0 0 auto;
-`
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: #555;
+`;
 
-const SectionTitle = styled.span`
-  font-family: 'Montserrat', sans-serif;
-  font-size: 17px;
-  font-weight: bold;
-`
+const SectionTitle = styled.span``;
 
-const SectionBody = styled.div`
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.95em;
-  padding: 18px 0 0 20px;
-`
+const AddButton = styled.div`
+  
+  margin-left: 2px;
+  
+  &:hover {
+    color: dodgerblue;
+    font-weight: 400;
+  }
+`;
 
+const SidebarSection = ({ title, description, addNewCallback, style, defaultIsOpen=true }) => {
 
-function SidebarSection(props) {
-
-    const [isOpen, setIsOpen] = useState(props.defaultIsOpen);
+    const [isOpen, setIsOpen] = useState(defaultIsOpen);
 
     const toggleCallback = () => {
-        setIsOpen(!isOpen)
-    }
-
-    if (!props.description) return null;
-
-    const toggleStyles = {
-        height: 15,
-        width: 15,
-        marginRight: 5,
-        transform: 'translateY(1.5px)',
-    }
+        setIsOpen(!isOpen);
+    };
 
     return (
-        <Section style={props.style}>
+        <Section style={style}>
             <SectionHeader>
                 <SectionColumn>
                     {isOpen
-                        ? <TriangleDownIcon styles={toggleStyles} onClick={toggleCallback}/>
-                        : <TriangleRightIcon styles={toggleStyles} onClick={toggleCallback}/>
+                        ? <TriangleDownIcon onClick={toggleCallback} />
+                        : <TriangleRightIcon onClick={toggleCallback} />
                     }
                 </SectionColumn>
-                <SectionColumn>
-                    <SectionTitle>{props.title}</SectionTitle>
-                    {!isOpen && props.description !== 'TBD' && props.description !== 'None specified' && !props.suppressIcon
-                        ? <InfoAvailableIcon style={{transform: "translate(0, 1px)"}}/>
-                        : null
-                    }
+                <SectionColumn style={{width: 365}}>
+                    <SectionTitle>{title.toUpperCase()}</SectionTitle>
+                </SectionColumn>
+                <SectionColumn style={{fontSize: 24, marginTop: -5}}>
+                    <AddButton onClick={addNewCallback}>+</AddButton>
                 </SectionColumn>
             </SectionHeader>
-            {isOpen
-                ? typeof(props.description) === "string"
-                    ? <SectionBody dangerouslySetInnerHTML={{__html: props.description.replaceAll("\\n", "<br/>")}}/>
-                    : <SectionBody>{props.description}</SectionBody>
+            {isOpen && description
+                ? (
+                    typeof (description) === "string"
+                        ? <SectionBody dangerouslySetInnerHTML={{__html: description.replaceAll("\\n", "<br/>")}}/>
+                        : <SectionBody>{description}</SectionBody>
+                )
                 : null
             }
         </Section>
     );
-}
+};
 
 export default SidebarSection;

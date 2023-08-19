@@ -1,11 +1,11 @@
-import {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 
 import Button from '../Button.js';
 import SidebarSection from '../SidebarSection.js';
 import extractDigits from '../../util/extractDigits.js';
 
-import {theories} from '../../data/theoriesData.js';
+import { theories } from '../../data/theoriesData.js';
 import ReactFlow, {Background, Controls, useEdgesState, useNodesState, useReactFlow} from "reactflow";
 import Sidebar from "../Sidebar";
 import Comment from "../Comment";

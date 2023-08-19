@@ -1,17 +1,17 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import HomeIcon from './svg/HomeIcon.js';
 import ArrowLeftIcon from "./svg/ArrowLeftIcon";
 import ArrowRightIcon from "./svg/ArrowRightIcon";
 
-const SidebarHeaderContainer = styled.div`
+const Container = styled.div`
   height: 60px;
   -webkit-user-select: none; /* Disable text selection for Safari */
   -moz-user-select: none; /* Disable text selection for Firefox */
   -ms-user-select: none; /* Disable text selection for Internet Explorer/Edge */
   user-select: none; /* Disable text selection for other browsers */
-`
+`;
 
 const TutorialLink = styled.a`
   position: absolute;
@@ -24,7 +24,7 @@ const TutorialLink = styled.a`
   :hover {
     color: dodgerblue;
   }
-`
+`;
 
 const arrowStyles = {
     position: 'absolute',
@@ -34,26 +34,26 @@ const arrowStyles = {
 }
 
 const SidebarHeader = ({
-    isBackActive,
+    canGoBack,
     goBack,
-    isForwardActive,
+    canGoForward,
     goForward
 }) => {
 
     const [hovered, setHovered] = useState(false);
 
     return (
-        <SidebarHeaderContainer>
+        <Container>
             <a href={process.env.REACT_APP_ROOT_URL}><HomeIcon/></a>
             <ArrowLeftIcon
-                isActive={isBackActive}
+                isActive={canGoBack}
                 onClick={goBack}
-                style={{...arrowStyles, left: 67}}
+                style={{...arrowStyles, left: 57}}
             />
             <ArrowRightIcon
-                isActive={isForwardActive}
+                isActive={canGoForward}
                 onClick={goForward}
-                style={{...arrowStyles, left: 102}}
+                style={{...arrowStyles, left: 92}}
             />
             <TutorialLink
                 href=""
@@ -66,7 +66,7 @@ const SidebarHeader = ({
                 }}
             >{hovered ? 'Coming soon!' : 'Tutorial'}
             </TutorialLink>
-        </SidebarHeaderContainer>
+        </Container>
     )
 }
 

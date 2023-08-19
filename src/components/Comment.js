@@ -1,12 +1,11 @@
-import React from 'react';
-import styled from "styled-components";
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
 import upvoteIcon from '../assets/arrow-up.svg';
 import downvoteIcon from '../assets/arrow-down.svg'
 import replyIcon from '../assets/reply-icon.svg'
-import {useState} from "react";
-import downTriangleIcon from "../assets/triangle-down-sharp.png";
-import rightTriangleIcon from "../assets/triange-right-sharp.png";
+import downTriangleIcon from '../assets/triangle-down-sharp.png';
+import rightTriangleIcon from '../assets/triange-right-sharp.png';
 
 const ToggleIcon = styled.img`
   height: 14px;
@@ -25,9 +24,7 @@ const Column = styled.div`
   flex: 1;
 `
 
-const CommentContainer = styled.div`
-
-`
+const CommentContainer = styled.div``
 
 const CommentHeader = styled.div`
   position: relative;
@@ -42,10 +39,6 @@ const CommentFooter = styled.div`
   position: relative;
   border-bottom: 1px solid lightgray;
   padding-bottom: 5px;
-`
-
-const Username = styled.strong`
-
 `
 
 const PostedTime = styled.i`
