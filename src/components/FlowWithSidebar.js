@@ -2,7 +2,6 @@ import ReactFlow, { Background, Controls } from 'reactflow';
 import styled from 'styled-components';
 
 import Sidebar from './Sidebar.js';
-import SelectOption from "./SelectOption";
 import ModalitySettings from "./ModalitySettings";
 
 const ReactFlowWrapper = styled.div`
@@ -84,7 +83,7 @@ const FlowWithSidebar = ({
             :
             <>
                 <MobileNotSupported>
-                    The Molecular Human app is currently unsupported on mobile.
+                    The Neurometa app is currently unsupported on mobile.
                     <br/><br/>
                     Please view on desktop!
                 </MobileNotSupported>
